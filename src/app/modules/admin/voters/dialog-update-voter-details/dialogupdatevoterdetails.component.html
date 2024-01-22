@@ -1,0 +1,143 @@
+<div class="relative flex flex-col w-full h-full">
+    <button mat-icon-button class="close-button mat-icon-close-button" (click)="closeDialog()">
+        <mat-icon class="close-icon" matPrefix [svgIcon]="'heroicons_solid:x'">X</mat-icon>
+    </button>
+
+    <h2 mat-dialog-title class="text-4xl urdu text-center pt-1 font-bold text-primary-500">ووٹر کی ترمیم</h2>
+
+    <div id="div-message" #messageDiv></div>
+
+    <div class="dailog-body px-6 pt-4 dir-rtl" id="form-container" #formContainer>
+
+        <form [formGroup]="form" class="w-full">
+            
+            <div class="grid gap-x-4 gap-y-1 sm:grid-cols-4 w-full">
+                <div class="sm:col-span-2">
+                    <div class="flex items-center mb-2">
+                        <div class="w-1/3">
+                            <mat-label class="urdu text-lg font-bold text-secondary pr-1">نام</mat-label>
+                        </div>              
+                        <div class="w-2/3 font-semibold">
+                            <ng-container *ngIf="(model.vtr_nameUrdu != false);else noname_image">
+                                <p class="urdu text-xl font-bold">{{model.vtr_nameUrdu}}</p>
+                            </ng-container>
+                            <ng-template #noname_image>
+                                <ng-container *ngIf="(model.vtr_nameUrl != false); else noname_alt">
+                                    <img src="{{storageUrl}}{{model.vtr_nameUrl}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                                </ng-container>
+                            </ng-template>
+                            <ng-template #noname_alt>
+                                <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + model.vtr_nameBlob}}" />
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <div class="flex items-center mb-2">
+                        <div class="w-1/3">
+                            <mat-label class="urdu text-lg font-bold text-secondary pr-1">والد/ شوہر کا نام</mat-label>
+                        </div>              
+                        <div class="w-2/3">
+                            <ng-container *ngIf="(model.vtr_fatherUrdu != false);else nofather_image">
+                                <p class="urdu text-xl font-bold">{{model.vtr_fatherUrdu}}</p>
+                            </ng-container>
+                            <ng-template #nofather_image>
+                                <ng-container *ngIf="(model.vtr_fatherUrl != false); else nofather_alt">
+                                    <img src="{{storageUrl}}{{model.vtr_fatherUrl}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                                </ng-container>
+                            </ng-template>
+                            <ng-template #nofather_alt>
+                                <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + model.vtr_fatherBlob}}" />
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="hidden sm:inline-block sm:col-span-2">
+                    <div class="flex items-center mb-2">
+                        <div class="w-1/3">
+                            <mat-label class="urdu text-lg font-bold text-secondary pr-1">عمر</mat-label>
+                        </div>
+                        <div class="w-2/3">
+                            <ng-container *ngIf="(model.vtr_ageUrl);else noage_image">
+                                <img src="{{storageUrl}}{{model.vtr_ageUrl}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                            </ng-container>
+                            <ng-template #noage_image>
+                                <p>{{model.vtr_age}} <span class="urdu text-lg font-bold">سال</span></p>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hidden sm:inline-block sm:col-span-2">
+                    <div class="flex items-center mb-2">
+                        <div class="w-1/3">
+                            <mat-label class="urdu text-lg font-bold text-secondary pr-1">جنس</mat-label>
+                        </div>
+                        <div class="w-2/3">
+                            <p class="urdu text-xl">
+                                <ng-template [ngIf]="model.vtr_gender == 'M'">مرد</ng-template>
+                                <ng-template [ngIf]="model.vtr_gender == 'F'">عورت</ng-template>
+                                <ng-template [ngIf]="model.vtr_gender != 'M' && model.vtr_gender != 'F'">دیگر</ng-template>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hidden sm:inline-block sm:col-span-4">
+                    <div class="flex items-center mb-2">
+                        <div class="w-1/6">
+                            <mat-label class="urdu text-lg font-bold text-secondary pr-1">گھر کا پتہ</mat-label>
+                        </div>
+                        <div class="w-5/6">
+                            <ng-container *ngIf="(model.vtr_addressUrdu != false);else noaddress_image">
+                                <p class="urdu text-xl font-bold">{{model.vtr_addressUrdu}}</p>
+                            </ng-container>
+                            <ng-template #noaddress_image>
+                                <ng-container *ngIf="(model.vtr_addressUrl != false); else noaddress_alt">
+                                    <img src="{{storageUrl}}{{model.vtr_addressUrl}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                                </ng-container>
+                            </ng-template>
+                            <ng-template #noaddress_alt>
+                                <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + model.vtr_addressBlob}}" />
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="sm:col-span-4 w-full pb-3"><mat-divider class="mt-4 mb-4 px-4"></mat-divider></div>
+
+            <div class="md:flex md:items-center mb-3">
+                <div class="md:w-1/6 pb-1">
+                    <mat-label class="urdu text-lg font-bold pr-1">موبائل نمبر</mat-label>
+                </div>              
+                <div class="md:w-5/6">
+                    <mat-form-field class="flex-auto col-span-1 text-sm gt-xs:pr-3 text-left w-full md:w-40 ml-3">
+                        <input matInput formControlName="mobileNumber1" mask='0000-0000000' autocomplete="off">
+                    </mat-form-field>
+                    <mat-form-field class="flex-auto col-span-1 text-sm gt-xs:pr-3 text-left w-full md:w-40">
+                        <input matInput formControlName="mobileNumber2" mask='0000-0000000' autocomplete="off">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="md:flex md:items-center mb-3">
+                <div class="md:w-1/6 pb-1">
+                    <mat-label class="urdu text-lg font-bold pr-1">واٹس ایپ نمبر</mat-label>
+                </div>              
+                <div class="md:w-5/6">
+                    <mat-form-field class="flex-auto col-span-1 text-sm gt-xs:pr-3 text-left w-full md:w-40">
+                        <input matInput formControlName="whatsAppNumber" mask='0000-0000000' autocomplete="off">
+                    </mat-form-field>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<div mat-dialog-actions class="flex items-right mb-1 px-4 space-x-2 ng-star-inserted">
+    <button mat-flat-button class="bg-primary-400 text-white text-md" (click)="onSubmit()">Update Details</button>
+</div>

@@ -1,0 +1,208 @@
+<div class="relative flex flex-col w-full h-full">
+    <button mat-icon-button class="close-button mat-icon-close-button" (click)="closeDialog()">
+        <mat-icon class="close-icon" matPrefix [svgIcon]="'heroicons_solid:x'">X</mat-icon>
+    </button>
+
+    <h2 mat-dialog-title class="text-4xl text-center urdu mt-2 font-bold text-blue-500">ووٹر کی تفصیل</h2>
+    <div class="dailog-body py-1 px-6">
+        <div class="grid md:grid-cols-10 t-xs:flex-row dir-rtl">
+            <div class="flex-auto md:col-span-6">
+
+                <div class="grid gap-x-4 gap-y-1 sm:grid-cols-4 w-full">
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center mb-1">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">شناختی کارڈ نمبر</mat-label>
+                            </div>              
+                            <div class="w-2/3 font-semibold">{{model.vtr_cnic | cnic}}</div>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center mb-1">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">بلاک کوڈ نمبر</mat-label>
+                            </div>              
+                            <div class="w-2/3 font-semibold">{{model.vtr_blockCode}}</div>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center mb-1">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">ووٹر کا نام</mat-label>
+                            </div>              
+                            <div class="w-2/3">
+                                <ng-container *ngIf="(model.vtr_nameUrdu);else noname_image">
+                                    <p class="urdu text-xl font-bold">{{model.vtr_nameUrdu}}</p>
+                                </ng-container>
+                                <ng-template #noname_image>
+                                    <ng-container *ngIf="(model.vtr_nameUrl); else noname_alt">
+                                        <img src="{{storageUrl}}{{model.vtr_nameUrl}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                                    </ng-container>
+                                </ng-template>
+                                <ng-template #noname_alt>
+                                    <img onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + model.vtr_nameBlob}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center mb-1">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">والد/ شوہر کا نام</mat-label>
+                            </div>              
+                            <div class="w-2/3">
+                                <ng-container *ngIf="(model.vtr_fatherUrdu);else nofather_image">
+                                    <p class="urdu text-xl font-bold">{{model.vtr_fatherUrdu}}</p>
+                                </ng-container>
+                                <ng-template #nofather_image>
+                                    <ng-container *ngIf="(model.vtr_fatherUrl); else nofather_alt">
+                                        <img src="{{storageUrl}}{{model.vtr_fatherUrl}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                                    </ng-container>
+                                </ng-template>
+                                <ng-template #nofather_alt>
+                                    <img onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + model.vtr_fatherBlob}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center leading-7 mb-1">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">عمر</mat-label>
+                            </div>              
+                            <div class="w-2/3">
+                                <ng-container *ngIf="(model.vtr_ageUrl);else noage_image">
+                                    <img src="{{storageUrl}}{{model.vtr_ageUrl}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                                </ng-container>
+                                <ng-template #noage_image>
+                                    <p>{{model.vtr_age}} <span class="urdu text-lg font-bold">سال</span></p>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2 hidden sm:inline-block">
+                        <div class="flex items-center leading-7 mb-1">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">جنس</mat-label>
+                            </div>              
+                            <div class="w-2/3 font-semibold">
+                                <p class="urdu text-lg">
+                                    <ng-template [ngIf]="model.vtr_gender == 'M'">مرد</ng-template>
+                                    <ng-template [ngIf]="model.vtr_gender == 'F'">عورت</ng-template>
+                                    <ng-template [ngIf]="model.vtr_gender != 'M' && model.vtr_gender != 'F'">دیگر</ng-template>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sm:col-span-4 hidden sm:inline-block">
+                        <div class="flex items-center leading-7 mb-1">
+                            <div class="w-1/3 md:w-1/6">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">گھر کا پتہ</mat-label>
+                            </div>              
+                            <div class="w-2/3 md:w-5/6">
+                                <ng-container *ngIf="(model.vtr_addressUrdu);else noaddress_image">
+                                    <p class="urdu text-xl font-bold">{{model.vtr_addressUrdu}}</p>
+                                </ng-container>
+                                <ng-template #noaddress_image>
+                                    <ng-container *ngIf="(model.vtr_addressUrl); else noaddress_alt">
+                                        <img src="{{storageUrl}}{{model.vtr_addressUrl}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                                    </ng-container>
+                                </ng-template>
+                                <ng-template #noaddress_alt>
+                                    <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + model.vtr_addressBlob}}" />
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-4 hidden sm:inline-block">
+                        <div class="flex items-center leading-7 mb-1">
+                            <div class="w-1/3 md:w-1/6">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">موبائل نمبر</mat-label>
+                            </div>              
+                            <div class="w-2/3 md:w-5/6 font-semibold py-2">
+                                <ng-container *ngIf="((model.vtr_mobile && model.vtr_mobile != '') || (model.vtr_mobile2 && model.vtr_mobile2 != '') || (model.vtr_mobile3 && model.vtr_mobile3 != ''));else nophone_message">
+                                    {{(model.vtr_mobile | mobile)}} &nbsp; {{(model.vtr_mobile2 | mobile)}} &nbsp; {{(model.vtr_mobile3 | mobile)}}
+                                </ng-container>
+                                <ng-template #nophone_message>---</ng-template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-4 hidden sm:inline-block">
+                        <div class="flex items-center leading-7 mb-1">
+                            <div class="w-1/3 md:w-1/6">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">واٹس ایپ نمبر</mat-label>
+                            </div>              
+                            <div class="w-2/3 md:w-5/6 font-semibold py-2">
+                                <ng-container *ngIf="(model.vtr_whatsApp && model.vtr_whatsApp != '');else nowhatsapp_message">
+                                    {{model.vtr_whatsApp | mobile}}
+                                </ng-container>
+                                <ng-template #nowhatsapp_message>---</ng-template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center leading-7 mb-1">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">سلسلہ نمبر</mat-label>
+                            </div>              
+                            <div class="w-2/3 font-semibold">
+                                <ng-container *ngIf="(model.vtr_silsilaUrl);else nosilsila_image">
+                                    <img src="{{storageUrl}}{{model.vtr_silsilaUrl}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                                </ng-container>
+                                <ng-template #nosilsila_image>
+                                    <p>{{model.vtr_silsila}}</p>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center leading-7 mb-1">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">گھرانہ نمبر</mat-label>
+                            </div>              
+                            <div class="w-2/3 font-semibold">
+                                <ng-container *ngIf="(model.vtr_giranaUrl);else nogirana_image">
+                                    <img src="{{storageUrl}}{{model.vtr_giranaUrl}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                                </ng-container>
+                                <ng-template #nogirana_image>
+                                    <p>{{model.vtr_girana}}</p>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sm:col-span-4 hidden sm:inline-block">
+                        <div class="flex items-center leading-7 mb-1">
+                            <div class="w-1/3 md:w-1/6">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">پولنگ اسٹیشن</mat-label>
+                            </div>              
+                            <div class="w-2/3 md:w-5/6">
+                                <p class="urdu text-lg font-semibold leading-5">{{model.vtr_pollingStation}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="flex-auto md:col-span-4 pt-1 hidden md:inline-block">
+                <div class="loc-container w-full">
+                    <ng-container *ngIf="(lat && lng);else noloc_message">
+                        <iframe class="w-full" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" id="gmap_canvas" [src]='secureUrl'></iframe><script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=63dc609237ea4eac295db70898fd702268efb054'></script>
+                    </ng-container>
+                    <ng-template #noloc_message>location not taken</ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions class="flex items-center justify-center mt-2 mb-2 px-4 space-x-2 ng-star-inserted">
+    <button mat-flat-button class="bg-blue-400 text-white text-md ml-1 hidden md:inline-block" (click)="closeDialog()">Send Details by WhatsApp</button>
+    <button mat-flat-button class="bg-blue-400 text-white text-md ml-1 hidden md:inline-block" (click)="closeDialog()">Send Details by SMS</button>
+    <button mat-flat-button class="bg-blue-400 text-white text-md ml-1" (click)="downloadVoterParchi()">Download Slip</button>
+</div>

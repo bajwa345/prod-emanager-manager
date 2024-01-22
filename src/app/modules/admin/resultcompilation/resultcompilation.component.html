@@ -1,0 +1,153 @@
+<div class="relative flex flex-col flex-auto min-w-0 overflow-hidden">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pt-6 pb-1 sm:px-12 dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
+                    Result Compilation <span class="text-blue-600 ml-3 text-3xl">{{user.constituency}}</span>
+                    <div class="top-button-container" style="display: block; float: right;">
+                        <button class="hidden sm:inline-flex" mat-stroked-button
+                            (click)="newResultDetails(null, null)">
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus'"></mat-icon>
+                            <span class="ml-2">New Result</span>
+                        </button>
+                        <button
+                        class="hidden sm:inline-flex ml-3"
+                        mat-stroked-button>
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'heroicons_solid:view-boards'"></mat-icon>
+                        <span class="ml-2">List Results</span>
+                        </button>
+                    </div>
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="grid px-6 py-4 grid-cols-9 gap-5">
+
+        <div class="flex-1 col-span-3 bg-card shadow border-gray-300 rounded-xl px-1">
+            <div style="max-height: calc(100vh - 252px)" fuseScrollbar [fuseScrollbarOptions]="{wheelPropagation: false, suppressScrollX: true}" class="flex flex-row my-4 px-4">
+                <div class="flex flex-col w-full divide-y" style="margin-top: -14px;">
+
+                    <ng-container *ngFor="let rs of pollingStationResults;">
+                    <div class="flex flex-col sm:flex-row sm:items-center py-2 sm:mt-1 space-y-2 sm:space-y-0 sm:space-x-3 dir-rtl">
+                        <div class="flex items-center w-80">
+                            <div class="ml-1 mr-1 text-secondary font-semibold"
+                            [class.text-md]="this._sharedService.isEnglishString(rs.name)"
+                            [class.leading-5]="this._sharedService.isEnglishString(rs.name)"
+                            [class.urdu]="this._sharedService.isEnglishString(rs.name) == false"
+                            [class.leading-7]="this._sharedService.isEnglishString(rs.name) == false"
+                            [class.text-lg]="this._sharedService.isEnglishString(rs.name) == false">{{rs.name}}</div>
+                        </div>
+                        <div class="flex items-center pr-2">
+                            <mat-icon
+                                class="icon-size-4"
+                                [class.text-green-500]="rs.position == 1"
+                                [class.text-red-500]="rs.position != 1"
+                                [svgIcon]="'heroicons_solid:arrow-circle-up'"></mat-icon>
+                            <div class="mr-1 text-md font-medium"
+                                [class.text-green-600]="rs.position == 1"
+                                [class.text-red-600]="rs.position != 1">{{rs.increase}}</div>
+                        </div>
+                    </div>
+                    </ng-container>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-auto col-span-6">
+
+            <div class="grid grid-cols-3 col-span-2 gap-3 w-full">
+
+                <div class="flex-auto bg-card shadow rounded-xl overflow-hidden">
+                    <div class="items-center justify-center py-6 px-1 bg-blue-500 text-white dark:bg-white dark:bg-opacity-5">
+                        <div class="text-5xl font-semibold leading-none text-center tracking-tight">{{processedPollingStations}}/{{totalPollingStations}}</div>
+                        <div class="mt-1 text-md font-medium text-center">Polling Stations</div>
+                    </div>
+                </div>
+
+                <div class="flex-auto bg-card shadow rounded-xl overflow-hidden">
+                    <div class="items-center justify-center py-6 px-1 bg-primary-500 text-white dark:bg-white dark:bg-opacity-5">
+                        <div class="text-5xl font-semibold leading-none text-center tracking-tight">{{resultPercentage}}%</div>
+                        <div class="mt-1 text-md font-medium text-center">Result</div>
+                    </div>
+                </div>
+
+                <div class="flex-auto bg-card shadow rounded-xl overflow-hidden">
+                    <div class="items-center justify-center py-6 px-1 text-white dark:bg-white dark:bg-opacity-5"
+                        [class.bg-green-700]="voteLead >= 0"
+                        [class.bg-red-500]="voteLead < 0">
+                        <div class="text-5xl font-semibold leading-none text-center tracking-tight">{{voteLead.toLocaleString()}}</div>
+                        <div class="mt-1 text-md font-medium text-center">Vote Lead</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="flex-auto grid gap-4 mt-5 grid-cols-2">
+
+                <div class="flex-auto col-span-1 bg-card shadow border-gray-300 rounded-xl px-1">
+                    <div style="max-height: calc(100vh - 380px)" fuseScrollbar [fuseScrollbarOptions]="{wheelPropagation: false, suppressScrollX: true}" class="flex flex-row my-4 px-4">
+                        <div class="flex flex-col w-full divide-y" style="margin-top: -8px;">
+
+                            <ng-container *ngFor="let ea of electoralAreas;">
+                            <div class="flex flex-col sm:flex-row sm:items-center pb-1.5 pt-2 space-y-2 sm:space-y-0 sm:space-x-3 dir-rtl">
+                                <div class="flex items-center w-80">
+                                    <div class="mr-1.5 text-secondary font-semibold"
+                                        [class.text-md]="this._sharedService.isEnglishString(ea.name)"
+                                        [class.urdu]="this._sharedService.isEnglishString(ea.name) == false"
+                                        [class.text-lg]="this._sharedService.isEnglishString(ea.name) == false"
+                                        [class.text-primary]="ea.processedPS == ea.totalPS">{{ea.name}}</div>
+                                </div>
+                                <div class="flex items-center mr-4">
+                                    <div class="mr-1.5 text-md font-semibold text-primary">{{ea.processedPS.toString().padStart(2, '0')}}/{{ea.totalPS.toString().padStart(2, '0')}}</div>
+                                </div>
+                            </div>
+                            </ng-container>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-auto col-span-1 bg-card shadow border-gray-300 rounded-xl px-1">
+                    <div style="max-height: calc(100vh - 380px)" fuseScrollbar [fuseScrollbarOptions]="{wheelPropagation: false, suppressScrollX: true}" class="flex flex-row my-4 px-4">
+                        <div class="flex flex-col w-full divide-y" style="margin-top: -8px;">
+
+                            <ng-container *ngFor="let cnt of contestors;">
+                            <div class="flex flex-col sm:flex-row sm:items-center py-2.5 sm:mt-1 space-y-2 sm:space-y-0 sm:space-x-3 dir-rtl">
+                                <div class="flex items-center text-xl font-bold w-18 ml-3">
+                                    <img alt="{{cnt.party.toUpperCase()}}" onerror='this.style.display = "none"' class="w-full h-full object-cover ng-star-inserted" src="assets/images/party-symbols/{{cnt.symbol}}.png">
+                                </div>
+                                <div class="flex items-center w-60">
+                                    <div class="mr-1.5 font-bold"
+                                        [class.text-md]="this._sharedService.isEnglishString(cnt.name)"
+                                        [class.urdu]="this._sharedService.isEnglishString(cnt.name) == false"
+                                        [class.text-2xl]="this._sharedService.isEnglishString(cnt.name) == false"
+                                        [class.text-green-800]="cnt.cn_id > 0"
+                                        [class.text-amber-800]="cnt.cn_id == 0">{{cnt.name}}</div>
+                                </div>
+                                <div class="flex items-center text-xl font-bold w-22"
+                                    [class.text-green-800]="cnt.cn_id > 0"
+                                    [class.text-amber-800]="cnt.cn_id == 0">
+                                    {{cnt.votes.toLocaleString()}}
+                                </div>
+                            </div>
+                            </ng-container>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,252 @@
+<div class="relative flex flex-col flex-auto min-w-0 overflow-hidden">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pt-6 pb-1 sm:px-12 dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
+                    Electoral Voters
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Body -->
+    <div class="relative pt-4 pb-12 sm:pt-4 sm:pb-16 px-2 sm:px-10 overflow-hidden">
+
+        <form class="flex flex-col mt-4 pb-4 overflow-hidden">
+            <div class="grid md:grid-cols-8 lg:grid-cols-9 t-xs:flex-row dir-rtl">
+                <mat-form-field class="flex-auto hidden md:block col-span-4 lg:col-span-3 gt-xs:pr-3 text-sm mr-2 ml-2">
+                    <mat-select class="urdu text-lg" [formControl]="pollingLocation" [panelClass]="'w-88 min-w-54 max-w-88 h-auto max-h-100'" (selectionChange)="populateBlockcodeDD()" [placeholder]="'پولنگ لوکیشن'">
+                        <mat-option class="text-right">------</mat-option>
+                        <mat-option class="fulltext text-right urdu text-lg" *ngFor="let dd of ddPollingLocations" [value]="dd.id">{{dd.description}}</mat-option>
+                    </mat-select>
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:office-building'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto col-span-9 md:col-span-4 lg:col-span-2 gt-xs:pr-3 text-sm mr-2 ml-2">
+                    <mat-select class="urdu text-lg" [formControl]="blockCode" [panelClass]="'w-54 min-w-54 max-w-88 h-auto max-h-100'" [placeholder]="'بلاک کوڈ نمبر'">
+                        <mat-option class="text-right">------</mat-option>
+                        <mat-option class="text-md" *ngFor="let dd of ddBlockCodes" [value]="dd.id">{{dd.description}}</mat-option>
+                    </mat-select>
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:clipboard-list'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto col-span-9 md:col-span-4 lg:col-span-2 text-sm gt-xs:pr-3 mr-2 ml-2 text-right">
+                    <!--<input matInput [formControl]="cnicNumber" class="dir-ltr" mask='99999-9999999-9' [placeholder]="'شناختی کارڈ نمبر'">-->
+                    <input matInput class="urdu text-lg dir-ltr" [formControl]="cnicNumber" maxlength="13" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [placeholder]="'شناختی کارڈ نمبر'">
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:identification'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto hidden lg:block lg:col-span-2 gt-xs:pr-3 text-sm mr-2 ml-2">
+                    <mat-select class="urdu text-lg" [formControl]="gender" [panelClass]="'w-54 min-w-54 max-w-88 h-auto max-h-100'" [placeholder]="'جنس'">
+                        <mat-option class="text-right">------</mat-option>
+                        <mat-option value="M" class="text-right urdu text-lg">مرد</mat-option>
+                        <mat-option value="F" class="text-right urdu text-lg">عورت</mat-option>
+                        <mat-option value="O" class="text-right urdu text-lg">دیگر</mat-option>
+                    </mat-select>
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:emoji-happy'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto hidden md:block md:col-span-4 lg:col-span-2 text-sm gt-xs:pr-3 mr-2 ml-2 text-right">
+                    <input class="urdu text-lg dir-ltr" matInput [formControl]="familyNumber" maxlength="6" [placeholder]="'گھرانہ نمبر'">
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:user-group'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto hidden md:block md:col-span-4 lg:col-span-2 text-sm gt-xs:pr-3 mr-2 ml-2 text-right">
+                    <input class="urdu text-lg dir-ltr" matInput [formControl]="serialNumber" mask="9999" [placeholder]="'سلسلہ نمبر'">
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:ticket'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto col-span-9 md:col-span-4 lg:col-span-2 text-sm gt-xs:pr-3 mr-2 ml-2 text-right">
+                    <input class="urdu text-lg dir-ltr" matInput [formControl]="mobileNumber" mask='0000-0000000' [placeholder]="'رابطہ نمبر'">
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:phone'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto hidden lg:block lg:col-span-3 text-sm gt-xs:pr-3 mr-2 ml-2 text-right">
+                    <mat-select class="urdu text-lg" [formControl]="searchType" [panelClass]="'w-88 min-w-54 max-w-88 h-auto max-h-none'" disableOptionCentering [placeholder]="'خصوصیات'">
+                        <mat-option class="text-right">------</mat-option>
+                        <mat-option value="1" class="text-left text-md">With Mobile Number</mat-option>
+                        <mat-option value="2" class="text-left text-md">Without Any Mobile Number</mat-option>
+                        <mat-option value="3" class="text-left text-md">With Location</mat-option>
+                        <mat-option value="4" class="text-left text-md">Without any Location</mat-option>
+                        <mat-option value="5" class="text-left text-md">With Mobile Number and Location</mat-option>
+                        <!--<mat-option value="6" class="text-left">With Mobile of any Family Member</mat-option>
+                        <mat-option value="7" class="text-left">No Mobile of any Family Member</mat-option>
+                        <mat-option value="8" class="text-left">With Location of any Family Member</mat-option>
+                        <mat-option value="9" class="text-left">No Location of any Family Member</mat-option>-->
+                    </mat-select>
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:star'"></mat-icon>
+                </mat-form-field>
+                <div class="flex col-span-9 mr-1 justify-end">
+                    <button class="px-8 mr-2 ml-2"
+                        mat-flat-button
+                        name="btn-clear" ngDefaultControl
+                        (click)="clear()"
+                        [color]="'accent'" type="button">
+                        Clear
+                    </button>
+                    <button class="px-8 mr-2 ml-2"
+                        mat-flat-button
+                        name="btn-search" ngDefaultControl
+                        [formControl]="searchBtn"
+                        (click)="search()"
+                        [color]="'primary'" type="button">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <mat-divider class="mt-2 mb-12 mx-2"></mat-divider>
+
+        <div class="sm:col-span-6 flex flex-col mx-2 mt-4 flex-auto bg-card shadow rounded-2xl overflow-hidden">
+
+            <div class="flex flex-col flex-auto overflow-x-auto">
+                <table dir="rtl"
+                    class="min-w-240 min-h-30 overflow-y-visible"
+                    mat-table [dataSource]="dataSource" matSort matSortActive=""
+                    matSortDisableClear matSortDirection="asc">
+
+                    <ng-container matColumnDef="rownumber">
+                        <th mat-header-cell *matHeaderCellDef class="text-center">#</th>
+                        <td mat-cell *matCellDef="let element; let i = index" class="text-center">
+                            {{this.paginator.pageIndex == 0 ? i + 1 : 1 + i + this.paginator.pageIndex * this.paginator.pageSize}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="vtr_cnic">
+                        <th mat-header-cell *matHeaderCellDef class="urdu text-lg text-center">شناختی کارڈ نمبر</th>
+                        <td mat-cell class="text-center" *matCellDef="let row">
+                            <div #listItem>
+                                <a class="text-blue-500 font-medium" href="javascript:void(0)" (click)="viewVoterDetails(row, listItem)">{{row.vtr_cnic | cnic}}</a>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="vtr_name">
+                        <th mat-header-cell *matHeaderCellDef class="urdu text-lg pr-2">نام</th>
+                        <td class="image-cell" mat-cell *matCellDef="let row">
+                            <ng-container *ngIf="(row.vtr_nameUrdu);else noname_image">
+                                <p class="urdu text-xl font-bold">{{row.vtr_nameUrdu}}</p>
+                            </ng-container>
+                            <ng-template #noname_image>
+                                <ng-container *ngIf="(row.vtr_nameUrl); else noname_alt">
+                                    <img class="row_urdu_blob" src="{{storageUrl}}{{row.vtr_nameUrl}}"/>
+                                </ng-container>
+                            </ng-template>
+                            <ng-template #noname_alt>
+                                <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + row.vtr_nameBlob}}"/>
+                            </ng-template>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="vtr_fhname">
+                        <th mat-header-cell *matHeaderCellDef class="urdu text-lg pr-2">والد/ شوہر کا نام</th>
+                        <td class="image-cell" mat-cell *matCellDef="let row">
+                            <ng-container *ngIf="(row.vtr_fatherUrdu);else nofather_image">
+                                <p class="urdu text-xl font-bold">{{row.vtr_fatherUrdu}}</p>
+                            </ng-container>
+                            <ng-template #nofather_image>
+                                <ng-container *ngIf="(row.vtr_fatherUrl); else nofather_alt">
+                                    <img class="row_urdu_blob" src="{{storageUrl}}{{row.vtr_fatherUrl}}"/>
+                                </ng-container>
+                            </ng-template>
+                            <ng-template #nofather_alt>
+                                <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + row.vtr_fatherBlob}}"/>
+                            </ng-template>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="vtr_age">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="urdu text-lg">عمر</th>
+                        <td class="image-cell" mat-cell *matCellDef="let row">
+                            <ng-container *ngIf="(row.vtr_ageUrl);else noage_image">
+                                <img class="row_urdu_blob" src="{{storageUrl}}{{row.vtr_ageUrl}}"/>
+                            </ng-container>
+                            <ng-template #noage_image>
+                                <p>{{row.vtr_age}} <span class="urdu text-lg font-bold">سال</span></p>
+                            </ng-template>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="vtr_gender">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear class="urdu text-lg">جنس</th>
+                        <td mat-cell *matCellDef="let row" class="urdu text-xl font-bold">
+                            <ng-template [ngIf]="row.vtr_gender == 'M'">مرد</ng-template>
+                            <ng-template [ngIf]="row.vtr_gender == 'F'">عورت</ng-template>
+                            <ng-template [ngIf]="row.vtr_gender != 'M' && row.vtr_gender != 'F'">دیگر</ng-template>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="vtr_silsila">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="urdu text-lg">سلسلہ نمبر</th>
+                        <td class="image-cell" mat-cell *matCellDef="let row">
+                            <ng-container *ngIf="(row.vtr_silsilaUrl);else noname_image">
+                                <img class="row_urdu_blob" src="{{storageUrl}}{{row.vtr_silsilaUrl}}"/>
+                            </ng-container>
+                            <ng-template #noname_image>
+                                <p>{{row.vtr_silsila}}</p>
+                            </ng-template>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="vtr_girana">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="urdu text-lg">گھرانہ نمبر</th>
+                        <td class="image-cell" mat-cell *matCellDef="let row">
+                            <ng-container *ngIf="(row.vtr_giranaUrl);else noname_image">
+                                <img class="row_urdu_blob" src="{{storageUrl}}{{row.vtr_giranaUrl}}"/>
+                            </ng-container>
+                            <ng-template #noname_image>
+                                <p>{{row.vtr_girana}}</p>
+                            </ng-template>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="vtr_blockCode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="urdu text-lg pr-2">بلاک کوڈ نمبر</th>
+                        <td mat-cell *matCellDef="let row"><a class="text-blue-500 font-medium" (click)="viewBlockCodeDetails(row)" href="javascript:void(0)">{{row.vtr_blockCode}}</a></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="vtr_pollingStation">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="urdu text-lg pr-2">پولنگ اسٹیشن</th>
+                        <td mat-cell *matCellDef="let row" class="urdu text-lg">{{row.vtr_pollingStation}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef disableClear></th>
+                        <td mat-cell style="min-width: 210px;" *matCellDef="let row">
+                            <div #listItem>
+                                <button class="px-1 py-3 mx-0.5 text-sm text-amber-800 bg-amber-100 dark:text-amber-50 dark:bg-amber-500 list-btn"
+                                    mat-flat-button (click)="viewVoterDetails(row, listItem)">Details</button>
+                                <button class="px-1 py-3 mx-0.5 text-sm text-amber-800 bg-red-100 dark:text-red-50 dark:bg-red-500 list-btn"
+                                    mat-flat-button (click)="updateVoterDetails(row, listItem)">Update</button>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="noData">
+                        <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length" class="text-center text-md p-8 dir-ltr">
+                          No records found.
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="loading">
+                        <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length" class="text-center text-md p-8 dir-ltr">
+                          Loading, please wait...
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr mat-footer-row *matFooterRowDef="['loading']" [hidden]="isLoading == false && dataSource !== undefined"></tr>
+                    <tr mat-footer-row *matFooterRowDef="['noData']" [hidden]="isLoading == true || (dataSource && dataSource.data.length > 0)"></tr>
+                </table>
+
+                <div *ngIf="isLoading" class="py-14"
+                    style="display: block; position: absolute; width: 100%; padding-left: 43% !important; margin-top: 16px !important;">
+                    <mat-progress-spinner
+                        diameter="60"
+                        mode="indeterminate">
+                    </mat-progress-spinner>
+                </div>
+
+            </div>
+            <mat-paginator [length]="resultsLength" [pageSize]="50" aria-label="Select page of search results">
+            </mat-paginator>
+        </div>
+
+    </div>
+</div>

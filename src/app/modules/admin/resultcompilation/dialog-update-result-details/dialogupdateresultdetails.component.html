@@ -1,0 +1,72 @@
+<div class="relative flex flex-col w-full h-full">
+    <button mat-icon-button class="close-button mat-icon-close-button" (click)="closeDialog()">
+        <mat-icon class="close-icon" matPrefix [svgIcon]="'heroicons_solid:x'">X</mat-icon>
+    </button>
+
+    <h2 mat-dialog-title class="text-4xl urdu text-center pt-3 font-bold text-primary-500">ووٹر کی ترمیم</h2>
+
+    <div id="div-message" #messageDiv></div>
+
+    <div class="dailog-body px-6 pt-3 pb-2 dir-rtl" id="form-container" #formContainer>
+
+        <form [formGroup]="form">
+            <table class="details-inner-tbl">
+                <tr><td class="urdu text-lg font-bold" style="width: 17%;">نام</td>
+                    <td style="width: 33%;">
+                        <p class="urdu text-lg">{{model.vtr_nameUrdu}}</p>
+                        <div *ngIf="!model.vtr_nameUrdu">
+                            <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + model.vtr_nameBlob}}" />
+                        </div>
+                    </td>
+                    <td class="urdu text-lg font-bold" style="width: 17%;">والد/ شوہر کا نام</td>
+                    <td style="width: 33%;">
+                        <p class="urdu text-lg">{{model.vtr_fatherUrdu}}</p>
+                        <div *ngIf="!model.vtr_fatherUrdu">
+                            <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + model.vtr_fatherBlob}}" />
+                        </div>
+                    </td>
+                </tr>
+                <tr><td class="urdu text-lg font-bold">عمر</td>
+                    <td>67</td>
+                    <td class="urdu text-lg font-bold">جنس</td>
+                    <td class="urdu text-lg">
+                        <ng-template [ngIf]="model.vtr_gender == 'M'">مرد</ng-template>
+                        <ng-template [ngIf]="model.vtr_gender == 'F'">عورت</ng-template>
+                        <ng-template [ngIf]="model.vtr_gender != 'M' && model.vtr_gender != 'F'">دیگر</ng-template>
+                    </td>
+                </tr>
+                <tr><td class="urdu text-lg font-bold">گھر کا پتہ</td>
+                    <td colspan="3">
+                        <p class="urdu text-lg">{{model.vtr_addressUrdu}}</p>
+                        <div *ngIf="!model.vtr_addressUrdu">
+                            <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + model.vtr_addressBlob}}" />
+                        </div>
+                    </td>
+                </tr>
+                <tr><td colspan="4">
+                    <mat-divider class="mt-6 mb-8 px-4"></mat-divider>
+                </td></tr>
+                <tr><td class="urdu text-lg font-bold">موبائل نمبر</td>
+                    <td colspan="3" class="grid-cols-2">
+                        <mat-form-field class="flex-auto col-span-1 text-sm gt-xs:pr-3 text-right" style="width: 140px;">
+                            <input matInput formControlName="mobileNumber1" mask='0000-0000000' autocomplete="off" class="dir-ltr">
+                        </mat-form-field>
+                        <mat-form-field class="flex-auto col-span-1 text-sm gt-xs:pr-3 mr-2 text-right" style="width: 140px;">
+                            <input matInput formControlName="mobileNumber2" mask='0000-0000000' autocomplete="off" class="dir-ltr">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr><td class="urdu text-lg font-bold">واٹس ایپ نمبر</td>
+                    <td colspan="3" class="grid-cols-2">
+                        <mat-form-field class="flex-auto col-span-1 text-sm gt-xs:pr-3 text-right" style="width: 140px;">
+                            <input matInput formControlName="whatsAppNumber" mask='0000-0000000' autocomplete="off" class="dir-ltr">
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<div mat-dialog-actions class="flex items-right mb-1 px-4 space-x-2 ng-star-inserted">
+    <button mat-flat-button class="bg-primary-400 text-white text-md" (click)="onSubmit()">Update Details</button>
+</div>

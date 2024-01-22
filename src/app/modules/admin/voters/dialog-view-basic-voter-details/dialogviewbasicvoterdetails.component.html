@@ -1,0 +1,107 @@
+<div class="relative flex flex-col w-full h-full">
+    <button mat-icon-button class="close-button mat-icon-close-button" (click)="closeDialog()">
+        <mat-icon class="close-icon" matPrefix [svgIcon]="'heroicons_solid:x'">X</mat-icon>
+    </button>
+
+    <h2 mat-dialog-title class="text-4xl text-center urdu mt-2 font-bold text-blue-500">بنیادی تفصیل</h2>
+    <div class="dailog-body px-6 pb-4 pt-3 dir-rtl">
+
+        <div class="grid gap-x-6 gap-y-1 sm:grid-cols-4 w-full">
+            <div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">نام</mat-label>
+                    </div>              
+                    <div class="w-2/3">
+                        <ng-container *ngIf="(model.vtr_nameUrdu);else noname_image">
+                            <p class="urdu text-xl font-bold">{{model.vtr_nameUrdu}}</p>
+                        </ng-container>
+                        <ng-template #noname_image>
+                            <ng-container *ngIf="(model.vtr_nameUrl); else noname_alt">
+                                <img src="{{storageUrl}}{{model.vtr_nameUrl}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                            </ng-container>
+                        </ng-template>
+                        <ng-template #noname_alt>
+                            <img onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + model.vtr_nameBlob}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+            <div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">والد/ شوہر کا نام</mat-label>
+                    </div>              
+                    <div class="w-2/3">
+                        <ng-container *ngIf="(model.vtr_fatherUrdu);else nofather_image">
+                            <p class="urdu text-xl font-bold">{{model.vtr_fatherUrdu}}</p>
+                        </ng-container>
+                        <ng-template #nofather_image>
+                            <ng-container *ngIf="(model.vtr_fatherUrl); else nofather_alt">
+                                <img src="{{storageUrl}}{{model.vtr_fatherUrl}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                            </ng-container>
+                        </ng-template>
+                        <ng-template #nofather_alt>
+                            <img onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + model.vtr_fatherBlob}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">شناختی کارڈ نمبر</mat-label>
+                    </div>              
+                    <div class="w-2/3 font-semibold">{{model.vtr_cnic | cnic}}</div>
+                </div>
+            </div>
+            <div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">جنس</mat-label>
+                    </div>              
+                    <div class="w-2/3">
+                        <p class="urdu text-lg">{{model.vtr_genderUrdu}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sm:col-span-4 hidden sm:inline-block">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3 md:w-1/6">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">گھر کا پتہ</mat-label>
+                    </div>              
+                    <div class="w-2/3 md:w-5/6">
+                        <ng-container *ngIf="(model.vtr_addressUrdu);else noaddress_image">
+                            <p class="urdu text-xl font-bold">{{model.vtr_addressUrdu}}</p>
+                        </ng-container>
+                        <ng-template #noaddress_image>
+                            <ng-container *ngIf="(model.vtr_addressUrl); else noaddress_alt">
+                                <img src="{{storageUrl}}{{model.vtr_addressUrl}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                            </ng-container>
+                        </ng-template>
+                        <ng-template #noaddress_alt>
+                            <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + model.vtr_addressBlob}}" />
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sm:col-span-4">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3 md:w-1/6">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">موبائل نمبر</mat-label>
+                    </div>              
+                    <div class="w-2/3 md:w-5/6 font-semibold py-2">
+                        <ng-container *ngIf="((model.vtr_mobile && model.vtr_mobile != '') || (model.vtr_mobile2 && model.vtr_mobile2 != '') || (model.vtr_mobile3 && model.vtr_mobile3 != ''));else nophone_message">
+                            {{(model.vtr_mobile | mobile)}} &nbsp; {{(model.vtr_mobile2 | mobile)}} &nbsp; {{(model.vtr_mobile3 | mobile)}}
+                        </ng-container>
+                        <ng-template #nophone_message>---</ng-template>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

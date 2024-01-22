@@ -1,0 +1,189 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div class="relative pt-8 pb-28 px-4 sm:pt-20 sm:pb-44 sm:px-8 overflow-hidden bg-gray-800 dark:bg-gray-900 dark">
+        <!-- Background - @formatter:off -->
+        <!-- Rings -->
+        <svg class="absolute inset-0 pointer-events-none"
+             viewBox="0 0 960 540" width="100%" height="100%" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+            <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
+                <circle r="234" cx="196" cy="23"></circle>
+                <circle r="234" cx="790" cy="491"></circle>
+            </g>
+        </svg>
+
+        <!-- @formatter:on -->
+        <div class="z-10 relative flex flex-col items-center px-2">
+            <div class="top-button-container mr-8 float-right" style="position: absolute; right: 0;">
+                <button *ngIf="votersList && votersList.length > 0"
+                class="hidden sm:inline-flex ml-3"
+                (click)="downloadVoterParchi()"
+                mat-stroked-button>
+                <mat-icon
+                    class="icon-size-5"
+                    [svgIcon]="'heroicons_solid:download'"></mat-icon>
+                    <span class="ml-2">Download</span>
+                </button>
+            </div>
+            <h2 class="text-3xl font-semibold">SEARCH VOTER</h2>
+            <div class="mt-3 sm:text-xl text-center tracking-tight text-secondary">
+                Search family details against any CNIC/Mobile number
+            </div>
+            <mat-form-field class="fuse-mat-no-subscript fuse-mat-rounded fuse-mat-bold w-full max-w-70 sm:max-w-90 mt-6 md:mt-14">
+                <input style="font-size: 17px;"
+                    matInput [formControl]="srchValue"
+                    (keyup)="valueChange($event)" mask="0000-0000000||00000-0000000-0" autocomplete="false"
+                    [placeholder]="'Enter CNIC/Mobile number'">
+                <mat-icon
+                    matPrefix
+                    [svgIcon]="'heroicons_outline:search'"></mat-icon>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="flex flex-col items-center pb-6 px-6 sm:pb-10 sm:px-10">
+        <!-- Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 md:gap-y-5 md:gap-x-5 w-full max-w-sm md:max-w-5xl -mt-16 sm:-mt-24">
+
+            <!-- voter card -->
+            <div *ngFor="let item of votersList;" class="relative flex flex-col rounded-2xl shadow hover:shadow-lg overflow-hidden bg-card transform transition-shadow ease-in-out duration-150 mb-6 md:mb-0 body-background-2">
+                <div class="flex flex-col flex-auto px-5 pt-6 pb-1">
+                    <div class="md:max-w-100 font-semibold text-center text-xl">{{item.vtr_cnic | cnic}}</div>
+                </div>
+                <div class="flex flex-col flex-auto px-5 pt-1 pb-4">
+                    <table style="direction: rtl;">
+                        <tr>
+                            <td style="width: 88px;" class="urdu text-xl font-semibold text-right text-secondary">ووٹر کا نام</td>
+                            <td>
+                                <ng-container *ngIf="(item.vtr_nameUrdu != false);else noname_image">
+                                    <p class="urdu text-xl font-bold">{{item.vtr_nameUrdu}}</p>
+                                </ng-container>
+                                <ng-template #noname_image>
+                                    <ng-container *ngIf="(item.vtr_nameUrl != false); else noname_alt">
+                                        <img src="{{storageUrl}}{{item.vtr_nameUrl}}" style="float: right; height: 36px; width: auto; margin-top: -6px; margin-bottom: -2px;"/>
+                                    </ng-container>
+                                </ng-template>
+                                <ng-template #noname_alt>
+                                    <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + item.vtr_nameBlob}}" style="float: right; height: 36px; width: auto; margin-top: -6px; margin-bottom: -2px;"/>
+                                </ng-template>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="urdu text-xl font-semibold text-right text-secondary">والد/ شوہر کا نام</td>
+                            <td>
+                                <ng-container *ngIf="(item.vtr_fatherUrdu != false);else nofather_image">
+                                    <p class="urdu text-xl font-bold">{{item.vtr_fatherUrdu}}</p>
+                                </ng-container>
+                                <ng-template #nofather_image>
+                                    <ng-container *ngIf="(item.vtr_fatherUrl != false); else nofather_alt">
+                                        <img src="{{storageUrl}}{{item.vtr_fatherUrl}}" style="float: right; height: 36px; width: auto; margin-top: -6px; margin-bottom: -2px;"/>
+                                    </ng-container>
+                                </ng-template>
+                                <ng-template #nofather_alt>
+                                    <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + item.vtr_fatherBlob}}" style="float: right; height: 36px; width: auto; margin-top: -6px; margin-bottom: -2px;"/>
+                                </ng-template>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="urdu text-xl font-semibold text-right text-secondary">سلسلہ نمبر</td>
+                            <td>
+                                <!--<p class="text-md py-2 pt-2 font-semibold" style="font-size: 0.865rem !important;">{{item.vtr_silsila}}</p>-->
+                                <ng-container *ngIf="(item.vtr_silsilaUrl != false); else nosilsila_alt">
+                                    <img src="{{storageUrl}}{{item.vtr_silsilaUrl}}" style="float: right; height: 38px; width: auto; margin-top: -8px; margin-bottom: -2px;"/>
+                                </ng-container>
+                                <ng-template #nosilsila_alt>
+                                    <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + item.vtr_silsilaBlob}}" style="float: right; height: 38px; width: auto; margin-top: -8px; margin-bottom: -2px;"/>
+                                </ng-template>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="urdu text-xl font-semibold text-right text-secondary">گھرانہ نمبر</td>
+                            <td>
+                                <!--<p class="text-md py-2 pt-2 font-semibold" style="font-size: 0.865rem !important;">{{item.vtr_girana}}</p>-->
+                                <ng-container *ngIf="(item.vtr_giranaUrl != false); else nogirana_alt">
+                                    <img src="{{storageUrl}}{{item.vtr_giranaUrl}}" style="float: right; height: 38px; width: auto; margin-top: -8px; margin-bottom: -2px;"/>
+                                </ng-container>
+                                <ng-template #nogirana_alt>
+                                    <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + item.vtr_giranaBlob}}" style="float: right; height: 38px; width: auto; margin-top: -8px; margin-bottom: -2px;"/>
+                                </ng-template>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="urdu text-xl font-semibold text-right text-secondary" style="padding-top: 6px; vertical-align: top;">موبائل نمبر</td>
+                            <td class="text-md py-1 pt-2 font-semibold" style="font-size: 0.86rem !important;">
+                                <div style="display: block; width: 120px;">
+                                    <ng-container *ngIf="(item.vtr_mobile || item.vtr_mobile_2 || item.vtr_mobile_3);else nophone_message">
+                                        {{(item.vtr_mobile | mobile)}} {{(item.vtr_mobile_2 | mobile)}} {{(item.vtr_mobile_3 | mobile)}}
+                                    </ng-container>
+                                    <ng-template #nophone_message>---</ng-template>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="urdu text-xl font-semibold text-right text-secondary" style="padding-top: 6px;">واٹس ایپ نمبر</td>
+                            <td class="text-md py-1 pt-2 font-semibold" style="font-size: 0.86rem !important;">
+                                <ng-container *ngIf="(item.vtr_whatsApp);else nowhatsapp_message">
+                                    {{(item.vtr_whatsApp | mobile)}}
+                                </ng-container>
+                                <ng-template #nowhatsapp_message>---</ng-template>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="urdu text-xl font-semibold text-right text-secondary" style="padding-top: 6px; padding-bottom: 7px;">گھر کا پتہ</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <ng-container *ngIf="(item.vtr_addressUrdu != false);else noaddress_image">
+                                    <p class="urdu text-xl font-bold">{{item.vtr_addressUrdu}}</p>
+                                </ng-container>
+                                <ng-template #noaddress_image>
+                                    <ng-container *ngIf="(item.vtr_addressUrl != false); else noaddress_alt">
+                                        <img class="w-full" src="{{storageUrl}}{{item.vtr_addressUrl}}" style="height: auto; width: 108% !important; margin-top: -6px; margin-right: -2%; max-width: unset; overflow: hidden;"/>
+                                    </ng-container>
+                                </ng-template>
+                                <ng-template #noaddress_alt>
+                                    <img class="row_urdu_blob w-full" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + item.vtr_addressBlob}}" style="height: auto; width: 108% !important; margin-top: -6px; margin-right: -2%; max-width: unset; overflow: hidden;"/>
+                                </ng-template>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 88px;" class="urdu text-xl font-semibold text-right text-secondary" style="padding-top: 6px;">بلاک کوڈ نمبر</td>
+                            <td class="text-md py-2 pt-2 font-semibold" style="font-size: 0.86rem !important;">{{item.vtr_blockCode}}</td>
+                        </tr>
+                        <tr>
+                            <td class="urdu text-xl font-semibold text-right text-secondary" style="padding-top: 6px;">پولنگ اسٹیشن</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
+
+                    <ng-container *ngIf="(item.vtr_pollingStation != false && item.vtr_pollingStation != '---')">
+                        <table style="direction: rtl;">
+                            <tr>
+                                <td colspan="2" class="max-w-100 urdu text-xl pt-1 font-semibold">{{item.vtr_pollingStation}}</td>
+                            </tr>
+                        </table>
+                    </ng-container>
+                </div>
+                <!-- Footer -->
+                <div class="flex flex-col w-full mt-auto">
+                    <!-- Course launch button -->
+                    <div class="px-6 py-3 pb-4 text-right bg-gray-50 dark:bg-transparent" #listItem>
+                        <button name="btn-update" ngDefaultControl
+                            style="min-height: 32px !important; height: 32px !important;"
+                            mat-stroked-button
+                            (click)="updateVoterDetails(item, listItem)"
+                            [routerLink]="[item.id]">
+                            <span class="inline-flex items-center">
+                                <mat-icon
+                                    class="mr-1.5 icon-size-4"
+                                    [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
+                                <span class="text-md">Update</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
