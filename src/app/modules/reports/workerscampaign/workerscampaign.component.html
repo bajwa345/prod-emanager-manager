@@ -1,0 +1,190 @@
+<div class="relative flex flex-col flex-auto min-w-0 overflow-hidden">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pt-6 pb-1 sm:px-12 dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
+                    Workers Campaign Report
+
+                    <div class="top-button-container" style="display: block; float: right;">
+                        <!--<button class="hidden sm:inline-flex ml-3" mat-stroked-button>
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:view-boards'"></mat-icon>
+                            <span id="view-toggle-btn" class="ml-2">List View</span>
+                        </button>-->
+                        <!--<button class="hidden sm:inline-flex ml-3" mat-stroked-button
+                            (click)="printReport()">
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:download'"></mat-icon>
+                            <span class="ml-2">Download</span>
+                        </button>-->
+                    </div>
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Body -->
+    <div class="relative pt-4 pb-12 sm:pt-4 sm:pb-16 px-2 sm:px-10 overflow-hidden">
+
+        <form class="flex flex-col mt-4 pb-4 overflow-hidden">
+            <div class="grid grid-cols-8 lg:grid-cols-9 t-xs:flex-row dir-rtl">
+                <mat-form-field class="flex-auto col-span-8 md:col-span-4 lg:col-span-2 gt-xs:pr-3 text-sm mr-2 ml-2">
+                    <input class="urdu text-lg text-right" matInput [formControl]="startDate" [matDatepicker]="spicker" [placeholder]="'آغاز تاریخ'">
+                        <mat-datepicker-toggle matSuffix [for]="spicker"></mat-datepicker-toggle>
+                        <mat-datepicker #spicker></mat-datepicker>
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto col-span-8 md:col-span-4 lg:col-span-2 gt-xs:pr-3 text-sm mr-2 ml-2">
+                    <input class="urdu text-lg text-right" matInput [formControl]="endDate" [matDatepicker]="epicker" [placeholder]="'آخری تاریخ'">
+                        <mat-datepicker-toggle matSuffix [for]="epicker"></mat-datepicker-toggle>
+                        <mat-datepicker #epicker></mat-datepicker>
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
+                </mat-form-field>
+                <div class="flex col-span-9 mr-1 justify-end">
+                    <button class="px-8 mr-2 ml-2"
+                        mat-flat-button
+                        name="btn-clear" ngDefaultControl
+                        (click)="clear()"
+                        [color]="'accent'" type="button">
+                        Clear
+                    </button>
+                    <button class="px-8 mr-2 ml-2"
+                        mat-flat-button
+                        name="btn-search" ngDefaultControl
+                        (click)="search()"
+                        [color]="'primary'" type="button">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <mat-divider class="mt-2 mb-8 mx-2"></mat-divider>
+
+        <div *ngIf="total_did_searches != null" class="grid grid-cols-1 sm:grid-cols-2 mb-2 md:grid-cols-4 gap-4 w-full min-w-0">
+            <!-- total_did_searches -->
+            <div class="flex flex-col flex-auto p-4 bg-card shadow rounded-2xl overflow-hidden dir-rtl">
+                <div class="flex items-start justify-between">
+                    <div class="urdu text-xl font-bold tracking-tight leading-5 px-2 truncate">ٹوٹل سرچز</div>
+                </div>
+                <div class="flex flex-col items-center mt-3 mb-4">
+                    <div class="text-5xl sm:text-6xl font-bold tracking-tight leading-none text-blue-500">{{total_did_searches? total_did_searches.toLocaleString() : 0}}</div>
+                </div>
+            </div>
+            <!-- total_updated_phones -->
+            <div class="flex flex-col flex-auto p-4 bg-card shadow rounded-2xl overflow-hidden dir-rtl">
+                <div class="flex items-start justify-between">
+                    <div class="urdu text-xl font-bold tracking-tight leading-5 px-2 truncate">ٹوٹل تفصیلات اپڈیٹس</div>
+                </div>
+                <div class="flex flex-col items-center mt-3 mb-4">
+                    <div class="text-5xl sm:text-6xl font-bold tracking-tight leading-none text-red-500">{{total_updated_phones? total_updated_phones.toLocaleString() : 0}}</div>
+                </div>
+            </div>
+            <!-- total_updated_locations -->
+            <div class="flex flex-col flex-auto p-4 bg-card shadow rounded-2xl overflow-hidden dir-rtl">
+                <div class="flex items-start justify-between">
+                    <div class="urdu text-xl font-bold tracking-tight leading-5 px-2 truncate">ٹوٹل لوکیشن اپڈیٹس</div>
+                </div>
+                <div class="flex flex-col items-center mt-3 mb-4">
+                    <div class="text-5xl sm:text-6xl font-bold tracking-tight leading-none text-amber-500">{{total_updated_locations? total_updated_locations.toLocaleString() : 0}}</div>
+                </div>
+            </div>
+            <!-- total_nonvoter_requests -->
+            <div class="flex flex-col flex-auto p-4 bg-card shadow rounded-2xl overflow-hidden dir-rtl">
+                <div class="flex items-start justify-between">
+                    <div class="urdu text-xl font-bold tracking-tight leading-5 px-2 truncate">ٹوٹل درخواستیں</div>
+                </div>
+                <div class="flex flex-col items-center mt-3 mb-4">
+                    <div class="text-5xl sm:text-6xl font-bold tracking-tight leading-none text-green-500">{{total_nonvoter_requests? total_nonvoter_requests.toLocaleString() : 0}}</div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="sm:col-span-6 flex flex-col mt-4 flex-auto bg-card shadow rounded-2xl overflow-hidden">
+
+            <div class="flex flex-col flex-auto overflow-x-auto">
+                <table dir="rtl"
+                    class="min-w-240 min-h-30 overflow-y-visible"
+                    mat-table [dataSource]="dataSource" matSort matSortActive=""
+                    matSortDisableClear matSortDirection="desc">
+
+                    <ng-container matColumnDef="rownumber">
+                        <th mat-header-cell *matHeaderCellDef class="text-center">#</th>
+                        <td mat-cell *matCellDef="let element; let i = index" class="text-center">
+                            {{this.paginator.pageIndex == 0 ? i + 1 : 1 + i + this.paginator.pageIndex * this.paginator.pageSize}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="aur_userName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="urdu text-lg pr-6">لاگ ان</th>
+                        <td mat-cell *matCellDef="let row" class="font-semibold">{{row.aur_userName}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="aur_fullName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="urdu text-lg pr-6">پورا نام</th>
+                        <td mat-cell *matCellDef="let row"
+                            [class.urdu]="this._sharedService.isEnglishString(row.aur_fullName) == false"
+                            [class.text-lg]="this._sharedService.isEnglishString(row.aur_fullName) == false"
+                            [class.font-semibold]="this._sharedService.isEnglishString(row.aur_fullName) == false">{{row.aur_fullName}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="aur_signUpTime">
+                        <th mat-header-cell *matHeaderCellDef class="urdu text-lg pr-6 min-w-30">تاریخ رجسٹریشن</th>
+                        <td style="width: 160px; direction: ltr; text-align: center;" mat-cell *matCellDef="let row">{{row.aur_signUpTime | date: 'mediumDate'}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="did_searches">
+                        <th mat-header-cell *matHeaderCellDef class="urdu text-lg pr-2 min-w-18">سرچز</th>
+                        <td mat-cell *matCellDef="let row">{{row.did_searches? row.did_searches.toLocaleString() : 0}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="updated_phones">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="urdu text-lg pr-2 min-w-24">تفصیلات اپڈیٹس</th>
+                        <td mat-cell *matCellDef="let row">{{row.updated_phones? row.updated_phones.toLocaleString() : 0}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="updated_locations">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="urdu text-lg pr-2 min-w-26">لوکیشن اپڈیٹس</th>
+                        <td mat-cell *matCellDef="let row">{{row.updated_locations? row.updated_locations.toLocaleString() : 0}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nonvoter_requests">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="urdu text-lg  pr-2 min-w-24" title="Transfer Vote/New CNIC Requests">درخواستیں</th>
+                        <td mat-cell *matCellDef="let row">{{row.nonvoter_requests? row.nonvoter_requests.toLocaleString() : 0}}</td>
+                    </ng-container>                   
+
+                    <ng-container matColumnDef="noData">
+                        <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length" class="text-center text-md p-9 dir-ltr">
+                          No records found.
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="loading">
+                        <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length" class="text-center text-md p-9 dir-ltr">
+                          Loading, please wait...
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr mat-footer-row *matFooterRowDef="['loading']" [hidden]="isLoading == false && dataSource !== undefined"></tr>
+                    <tr mat-footer-row *matFooterRowDef="['noData']" [hidden]="isLoading == true || (dataSource && dataSource.data.length > 0)"></tr>
+                </table>
+
+                <div *ngIf="isLoading" class="py-14"
+                    style="display: block; position: absolute; width: 100%; padding-left: 43% !important; margin-top: 16px !important;">
+                    <mat-progress-spinner
+                        diameter="60"
+                        mode="indeterminate">
+                    </mat-progress-spinner>
+                </div>
+
+            </div>
+            <mat-paginator [length]="resultsLength" [pageSize]="25" aria-label="Select page of search results">
+            </mat-paginator>
+        </div>
+
+    </div>
+
+</div>

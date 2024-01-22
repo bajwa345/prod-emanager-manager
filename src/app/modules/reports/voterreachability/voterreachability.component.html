@@ -1,0 +1,80 @@
+<div class="relative flex flex-col flex-auto min-w-0 overflow-hidden">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pt-6 pb-1 sm:px-12 dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
+                    Voter Reachability Report
+
+                    <div class="top-button-container" style="display: block; float: right;">
+                        <!--<button class="hidden sm:inline-flex ml-3" mat-stroked-button
+                            (click)="printReport()">
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:download'"></mat-icon>
+                            <span class="ml-2">Download</span>
+                        </button>-->
+                    </div>
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="relative pt-4 pb-12 sm:pt-4 sm:pb-16 sm:px-10 overflow-hidden">
+        <div class="sm:col-span-6 flex flex-col mt-4 flex-auto bg-card shadow rounded-2xl overflow-hidden">
+
+            <div class="flex flex-col flex-auto overflow-x-auto">
+                <table dir="rtl" class="min-w-240 min-h-30 overflow-y-visible static-table">
+                    <tr class="st-header-row">
+                        <th class="st-header-cell text-center px-4">#</th>
+                        <th class="st-header-cell urdu text-lg pr-2">پولنگ لوکیشن</th>
+                        <th class="st-header-cell urdu text-lg pr-2 min-w-16">فیملیز</th>
+                        <th class="st-header-cell urdu text-lg pr-2 min-w-16">ووٹرز</th>
+                        <th class="st-header-cell urdu text-lg pr-1 min-w-18">فون ووٹر</th>
+                        <th class="st-header-cell urdu text-lg pr-1 min-w-18">فون فیملیز</th>
+                        <th class="st-header-cell urdu text-lg pr-1 min-w-18">لوکیشن ووٹر</th>
+                        <th class="st-header-cell urdu text-lg pr-1 min-w-18">لوکیشن فیملیز</th>
+                        <th class="st-header-cell urdu text-lg pr-1 min-w-26">فون فیملیز</th>
+                        <th class="st-header-cell urdu text-lg pr-1 min-w-26">لوکیشن فیملیز</th>
+                    </tr>
+
+                    <ng-container *ngIf="isLoading">
+                        <tr class="st-row"><td colspan="10" class="st-cell text-center text-primary dir-ltr">Loading data ...</td></tr>
+                    </ng-container>
+
+                    <ng-container *ngFor="let item of data.items; let i = index;">
+                    <tr class="st-row">
+                        <td class="st-cell text-center">{{(i+1)}}</td>
+                        <td class="st-cell font-semibold"
+                        [class.urdu]="this._sharedService.isUrduString(item.plc_name) == true"
+                        [class.text-lg]="this._sharedService.isUrduString(item.plc_name) == true"
+                        [class.text-md]="this._sharedService.isUrduString(item.plc_name) == false">{{item.plc_name}}</td>
+                        <td class="st-cell">{{item.families_count? item.families_count.toLocaleString() : 0}}</td>
+                        <td class="st-cell">{{item.voters_count? item.voters_count.toLocaleString() : 0}}</td>
+                        <td class="st-cell">{{item.callable_voters_count? item.callable_voters_count.toLocaleString() : 0}}</td>
+                        <td class="st-cell">{{item.callable_families_count? item.callable_families_count.toLocaleString() : 0}}</td>
+                        <td class="st-cell">{{item.localable_voters_count? item.localable_voters_count.toLocaleString() : 0}}</td>
+                        <td class="st-cell">{{item.localable_families_count? item.localable_families_count.toLocaleString() : 0}}</td>
+                        <td class="st-cell dir-ltr">{{item.families_count != 0 ? ((item.callable_families_count/item.families_count)*100).toFixed(2) : 0}} %</td>
+                        <td class="st-cell dir-ltr">{{item.families_count != 0 ? ((item.localable_families_count/item.families_count)*100).toFixed(2) : 0}} %</td>
+                    </tr>
+                    </ng-container>
+
+                    <tr class="st-row">
+                        <td colspan="2"></td>
+                        <td class="st-cell font-semibold">{{total_families? total_families.toLocaleString() : 0}}</td>
+                        <td class="st-cell font-semibold">{{total_voters? total_voters.toLocaleString() : 0}}</td>
+                        <td class="st-cell font-semibold">{{total_callable_voters? total_callable_voters.toLocaleString() : 0}}</td>
+                        <td class="st-cell font-semibold">{{total_callable_families? total_callable_families.toLocaleString() : 0}}</td>
+                        <td class="st-cell font-semibold">{{total_localable_voters? total_localable_voters.toLocaleString() : 0}}</td>
+                        <td class="st-cell font-semibold">{{total_localable_families? total_localable_families.toLocaleString() : 0}}</td>
+                        <td class="st-cell font-semibold dir-ltr">{{total_families > 0 ? ((total_callable_families/total_families)*100).toFixed(2) : 0}} %</td>
+                        <td class="st-cell font-semibold dir-ltr">{{total_families > 0 ? ((total_localable_families/total_families)*100).toFixed(2) : 0}} %</td>
+                    </tr>
+                </table>
+            </div>
+
+    </div>
+
+</div>
