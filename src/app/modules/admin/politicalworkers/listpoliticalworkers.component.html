@@ -1,0 +1,247 @@
+<div class="relative flex flex-col flex-auto min-w-0 overflow-hidden">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pt-6 pb-1 sm:px-12 dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
+                    Political Workers
+
+                    <div class="top-button-container mt-5 md:mt-0" style="display: block; float: right;">
+                        <button mat-flat-button disabled class="text-primary-800 bg-primary-200 dark:text-primary-50 dark:bg-primary-400 ml-2" aria-label="Sync with Raabta App">
+                            <mat-icon
+                            class="icon-size-5 mr-1"
+                            [svgIcon]="'heroicons_solid:refresh'"></mat-icon>Sync</button>
+                        <!--<button mat-flat-button class="text-primary-800 bg-primary-200 dark:text-primary-50 dark:bg-primary-400 ml-2" aria-label="Download List">
+                            <mat-icon
+                            class="icon-size-5 mr-1"
+                            [svgIcon]="'heroicons_solid:view-boards'"></mat-icon>Download</button>-->
+                        <button mat-flat-button class="text-primary-800 bg-primary-200 dark:text-primary-50 dark:bg-primary-400 ml-2" aria-label="New Political Worker"
+                            (click)="newDetails()">
+                            <mat-icon
+                            class="icon-size-5 mr-1"
+                            [svgIcon]="'heroicons_solid:plus'"></mat-icon>New Worker</button>
+                    </div>
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Body -->
+    <div class="relative pt-4 pb-12 sm:pt-4 sm:pb-16 px-2 sm:px-10 overflow-hidden">
+
+        <form class="flex flex-col mt-4 pb-4 overflow-hidden">
+            <div class="grid grid-cols-8 lg:grid-cols-9 t-xs:flex-row dir-rtl">
+                <!--<mat-form-field class="flex-auto col-span-2 gt-xs:pr-3 text-sm mr-2 ml-2">
+                    <mat-select class="urdu text-lg" [formControl]="paConstituency" (selectionChange)="populatePollingLocationsDD()" [placeholder]="'صوبائی اسمبلی حلقہ'">
+                        <mat-option class="text-right">------</mat-option>
+                        <mat-option class="text-right text-md" *ngFor="let dd of ddPaConstituencies" [value]="dd.id">{{dd.description}}</mat-option>
+                    </mat-select>
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:globe'"></mat-icon>
+                </mat-form-field>-->
+                <!--<mat-form-field class="flex-auto col-span-4 gt-xs:pr-3 text-sm mr-2 ml-2">
+                    <mat-select class="urdu text-lg" [formControl]="pollingLocation" [placeholder]="'پولنگ لوکیشن'">
+                        <mat-option class="text-right">------</mat-option>
+                        <mat-option class="fulltext text-right urdu text-lg" *ngFor="let dd of ddPollingLocations" [value]="dd.id">{{dd.description}}</mat-option>
+                    </mat-select>
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:library'"></mat-icon>
+                </mat-form-field>-->
+                <mat-form-field class="flex-auto col-span-8 md:col-span-4 lg:col-span-2 gt-xs:pr-3 text-sm mr-2 ml-2">
+                    <mat-select class="urdu text-lg" [formControl]="electoralArea" (selectionChange)="populateElectoralAreasDD()" [placeholder]="'انتخابی علاقہ'">
+                        <mat-option class="text-right">------</mat-option>
+                        <mat-option class="fulltext text-right urdu text-lg" *ngFor="let dd of ddElectoralAreas" [value]="dd.id">{{dd.description}}</mat-option>
+                    </mat-select>
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto col-span-8 md:col-span-4 lg:col-span-2 text-sm gt-xs:pr-3 mr-2 ml-2 text-right">
+                    <input class="urdu text-lg dir-ltr" matInput [formControl]="cnicNumber" mask='00000-0000000-0' [placeholder]="'شناختی کارڈ نمبر'">
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:identification'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto col-span-8 md:col-span-4 lg:col-span-2 text-sm gt-xs:pr-3 mr-2 ml-2 text-right">
+                    <input class="urdu text-lg dir-ltr" matInput [formControl]="mobileNumber" mask='00000000000' [placeholder]="'رابطہ نمبر'">
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:phone'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto col-span-8 md:col-span-4 lg:col-span-3 text-sm gt-xs:pr-3 mr-2 ml-2 text-right">
+                    <input class="urdu text-lg dir-ltr" matInput [formControl]="name" [placeholder]="'نام / والد کا نام / پتہ'">
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:user'"></mat-icon>
+                </mat-form-field>
+                <!--<mat-form-field class="flex-auto col-span-2 text-sm gt-xs:pr-3 mr-2 ml-2 text-right">
+                    <mat-select class="urdu text-lg" [formControl]="userStatus" [placeholder]="'خصوصیات'">
+                        <mat-option class="text-right">------</mat-option>
+                        <mat-option value="1" class="text-right text-md">Available Workers</mat-option>
+                        <mat-option value="0" class="text-right text-md">Assigned Workers</mat-option>
+                    </mat-select>
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:star'"></mat-icon>
+                </mat-form-field>-->
+                <div class="flex col-span-9 mr-1 justify-end">
+                    <button class="px-8 mr-2 ml-2"
+                        mat-flat-button
+                        name="btn-clear" ngDefaultControl
+                        (click)="clear()"
+                        [color]="'accent'" type="button">
+                        Clear
+                    </button>
+                    <button class="px-8 mr-2 ml-2"
+                        mat-flat-button
+                        name="btn-search" ngDefaultControl
+                        (click)="search()"
+                        [color]="'primary'" type="button">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <mat-divider class="mt-2 mb-12 mx-2"></mat-divider>
+
+        <!-- Workers -->
+        <ng-container *ngIf="this.workers.length; else noObjects">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6 sm:mt-8">
+                <ng-container *ngFor="let worker of workers; trackBy: trackByFn;">
+                    <!-- Worker -->
+                    <div class="flex flex-col h-104 shadow rounded-2xl overflow-hidden bg-card">
+                        <div class="flex flex-col p-5">
+                            <div class="flex items-start">
+                                <div class="flex flex-col w-full">
+                                    <div class="text-md font-semibold text-primary">{{worker.plw_name}}</div>
+                                    <div class="mt-0.5 text-md font-semibold text-secondary">S/D/W {{worker.plw_fatherHusband}}</div>
+                                    <div class="mt-1 text-md text-secondary">{{worker.plw_address}}</div>
+                                </div>
+                                <div class="relative flex flex-0 items-center justify-center w-18 h-18 float-right">
+                                    <div class="absolute bottom-0 bg- right-0 flex-0 w-3 h-3 -ml-2 rounded-full ring-2 ring-bg-card dark:ring-gray-900 ng-star-inserted"
+                                    [class.bg-green-500]="worker.status == 'available'"
+                                    [class.bg-red-400]="worker.status == 'unavailable'"
+                                    [class.bg-amber-500]="worker.status == 'assigned'"
+                                    ></div>
+                                    <img title="{{worker.status}}" class="w-full h-full rounded-full object-cover ng-star-inserted" src="{{(worker.plw_image ? worker.plw_image : (worker.plw_gender == 'M' ? 'assets/images/avatars/male.png' : 'assets/images/avatars/female.png'))}}">
+                                </div>
+                            </div>
+                            <div class="w-12 h-1 my-3 border-t-2"></div>
+                            <!-- Mobile # -->
+                            <div class="flex items-center leading-5 text-md text-secondary">
+                                <mat-icon
+                                    class="icon-size-5 text-hint"
+                                    [svgIcon]="'heroicons_solid:chevron-double-right'"></mat-icon>
+                                <div class="ml-1.5">Mobile # &nbsp;{{(worker.plw_mobile | mobile)}}</div>
+                            </div>
+                            <!-- Cnic # -->
+                            <div class="flex items-center mt-1 leading-5 text-md text-secondary">
+                                <mat-icon
+                                    class="icon-size-5 text-hint"
+                                    [svgIcon]="'heroicons_solid:chevron-double-right'"></mat-icon>
+                                <div class="ml-1.5">CNIC # &nbsp;{{(worker.plw_cnic | cnic)}}</div>
+                            </div>
+                            <!-- Gender -->
+                            <!--<div class="flex items-center mt-1 leading-5 text-md text-secondary">
+                                <mat-icon
+                                    class="icon-size-5 text-hint"
+                                    [svgIcon]="'heroicons_solid:chevron-double-right'"></mat-icon>
+                                <div class="ml-1.5">Gender &nbsp;{{worker.gender}}</div>
+                            </div> -->
+                            <!-- Age -->
+                            <div class="flex items-center mt-1 leading-5 text-md text-secondary">
+                                <mat-icon
+                                    class="icon-size-5 text-hint"
+                                    [svgIcon]="'heroicons_solid:chevron-double-right'"></mat-icon>
+                                <div class="ml-1.5">Age &nbsp;{{worker.plw_age}} years</div>
+                            </div>
+                            <!-- Electoral Area -->
+                            <div class="flex items-center mt-1 leading-5 text-md text-secondary">
+                                <mat-icon
+                                    class="icon-size-5 text-hint"
+                                    [svgIcon]="'heroicons_solid:chevron-double-right'"></mat-icon>
+                                <div class="ml-1.5">Electoral Area &nbsp;{{(worker.electoral_area ? worker.electoral_area : '---')}} {{(worker.union_council ? ' ('+worker.union_council+')' : '')}}</div>
+                            </div>
+                            <!-- Provincial Constituency --
+                            <div class="flex items-center mt-1 leading-5 text-md text-secondary">
+                                <mat-icon
+                                    class="icon-size-5 text-hint"
+                                    [svgIcon]="'heroicons_solid:chevron-double-right'"></mat-icon>
+                                <div class="ml-1.5">Provincial Contituency &nbsp;{{worker.pa_constituency}}</div>
+                            </div> -->
+                            <!-- Religion/Sect -->
+                            <!--<div class="flex items-center mt-1 leading-5 text-md text-secondary">
+                                <mat-icon
+                                    class="icon-size-5 text-hint"
+                                    [svgIcon]="'heroicons_solid:chevron-double-right'"></mat-icon>
+                                <div class="ml-1.5">Religion/Sect &nbsp;Islam Sunni</div>
+                            </div> -->
+                            <!-- Caste -->
+                            <!--<div class="flex items-center mt-1 leading-5 text-md text-secondary">
+                                <mat-icon
+                                    class="icon-size-5 text-hint"
+                                    [svgIcon]="'heroicons_solid:chevron-double-right'"></mat-icon>
+                                <div class="ml-1.5">Caste &nbsp;Buzdar</div>
+                            </div> -->
+                            <!-- Interested -->
+                            <!--<div class="flex items-center mt-1 leading-5 text-md text-secondary">
+                                <mat-icon
+                                    class="icon-size-5 text-hint"
+                                    [svgIcon]="'heroicons_solid:chevron-double-right'"></mat-icon>
+                                <div class="ml-1.5">Interested as &nbsp;Political Agent</div>
+                            </div> -->
+                            <!-- Member Since -->
+                            <div class="flex items-center mt-1 leading-5 text-md text-secondary">
+                                <mat-icon
+                                    class="icon-size-5 text-hint"
+                                    [svgIcon]="'heroicons_solid:chevron-double-right'"></mat-icon>
+                                <div class="ml-1.5">Member Since &nbsp;{{(worker.plw_insertTime | date)}}</div>
+                            </div>
+                            <!-- Source -->
+                            <!--<div class="flex items-center mt-1 leading-5 text-md text-secondary">
+                                <mat-icon
+                                    class="icon-size-5 text-hint"
+                                    [svgIcon]="'heroicons_solid:chevron-double-right'"></mat-icon>
+                                <div class="ml-1.5">Source &nbsp;Raabta App</div>
+                            </div>-->
+                        </div>
+                        <!-- Footer -->
+                        <div class="flex flex-col w-full mt-auto">
+                            <!-- Course launch button -->
+                            <div class="px-6 py-3 pb-4 text-right bg-gray-50 dark:bg-transparent" #listItem>
+                                <button name="btn-update" ngDefaultControl
+                                    style="min-height: 32px !important; height: 32px !important;"
+                                    mat-stroked-button
+                                    (click)="updateDetails(worker, listItem)"
+                                    [routerLink]="[worker.id]">
+                                    <span class="inline-flex items-center">
+                                        <mat-icon
+                                            class="mr-1.5 icon-size-4"
+                                            [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
+                                        <span class="text-md">Update</span>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </ng-container>
+
+        <!-- No objets -->
+        <ng-template #noObjects>
+            <ng-container *ngIf="isLoading; else noData">
+                <div class="flex flex-auto flex-col items-center justify-center h-full">
+                    <mat-icon
+                        class="icon-size-20"
+                        [svgIcon]="'iconsmind:loading'"></mat-icon>
+                    <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary dir-ltr">Loading ...</div>
+                </div>
+            </ng-container>
+            <ng-template #noData>
+                <div class="flex flex-auto flex-col items-center justify-center bg-gray-100 dark:bg-transparent">
+                    <mat-icon
+                        class="icon-size-18"
+                        [svgIcon]="'iconsmind:file_search'"></mat-icon>
+                    <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">No Worker found!</div>
+                </div>
+            </ng-template>
+        </ng-template>
+
+        <div class="mt-2">
+            <mat-paginator style="background: #ffffff00; float: right;" [length]="resultsLength" [pageSize]="12" aria-label="Select page of search results">
+            </mat-paginator>
+        </div>
+    </div>
+</div>

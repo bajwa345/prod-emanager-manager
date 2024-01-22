@@ -1,0 +1,75 @@
+<div class="w-full max-w-3xl">
+
+    <!-- Form -->
+    <form [formGroup]="whatsAppForm">
+
+        <!-- Section -->
+        <div class="w-full text-xl">Messages</div>
+        <div class="grid grid-cols-1 gap-6 w-full mt-8">
+            <!-- Communication -->
+            <div class="flex items-center justify-between">
+                <div
+                    class="flex-auto cursor-pointer"
+                    (click)="sendNewPollingAgentInstructions.toggle()">
+                    <div class="leading-6 font-medium">Polling Agent</div>
+                    <div class="text-md text-secondary">Send necessary Instructions and required documents to Polling Agents.</div>
+                </div>
+                <mat-slide-toggle
+                    class="ml-2"
+                    [color]="'primary'"
+                    [formControlName]="'send_new_polling_agent_instructions'"
+                    #sendNewPollingAgentInstructions>
+                </mat-slide-toggle>
+            </div>
+            <!-- Security -->
+            <div class="flex items-center justify-between">
+                <div
+                    class="flex-auto cursor-pointer"
+                    (click)="sendNewUserManual.toggle()">
+                    <div class="leading-6 font-medium">Mobile User</div>
+                    <div class="text-md text-secondary">Send User Manual document to newly added Mobile Application users.</div>
+                </div>
+                <mat-slide-toggle
+                    class="ml-2"
+                    [color]="'primary'"
+                    [formControlName]="'send_new_user_manual'"
+                    #sendNewUserManual>
+                </mat-slide-toggle>
+            </div>
+            <!-- Meetups -->
+            <div class="flex items-center justify-between">
+                <div
+                    class="flex-auto cursor-pointer"
+                    (click)="sendNewLocationInchargeInstructions.toggle()">
+                    <div class="leading-6 font-medium">Location Incharge</div>
+                    <div class="text-md text-secondary">Send necessary Instructions and tutorials to Polling Location Incharges.</div>
+                </div>
+                <mat-slide-toggle
+                    class="ml-2"
+                    [color]="'primary'"
+                    [formControlName]="'send_new_location_incharge_instructions'"
+                    #sendNewLocationInchargeInstructions>
+                </mat-slide-toggle>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="my-10 border-t"></div>
+
+        <!-- Actions -->
+        <div class="flex items-center justify-end">
+            <button
+                mat-stroked-button
+                type="button">
+                Cancel
+            </button>
+            <button
+                class="ml-4"
+                mat-flat-button
+                type="button" [disabled]="true"
+                [color]="'primary'">Save
+            </button>
+        </div>
+    </form>
+
+</div>

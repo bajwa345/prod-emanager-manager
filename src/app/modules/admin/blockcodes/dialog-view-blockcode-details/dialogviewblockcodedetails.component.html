@@ -1,0 +1,107 @@
+<div class="relative flex flex-col w-full h-full">
+    <button mat-icon-button class="close-button mat-icon-close-button" (click)="closeDialog()">
+        <mat-icon class="close-icon" matPrefix [svgIcon]="'heroicons_solid:x'">X</mat-icon>
+    </button>
+
+    <h2 mat-dialog-title class="text-4xl text-center urdu mt-2 font-bold text-blue-500">بلاک کوڈ کی تفصیل</h2>
+    <div class="dailog-body py-1 pt-2 px-4">
+        <div class="grid md:grid-cols-10 t-xs:flex-row dir-rtl">
+            <div class="flex-auto" [ngClass]="kmlUrl != null ? 'md:col-span-6' : 'md:col-span-12' " >
+                <div class="grid gap-x-4 gap-y-1 sm:grid-cols-4 w-full">
+                    <div class="sm:col-span-4">
+                        <div class="flex mb-2">
+                            <div class="w-1/3 sm:w-1/6">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1 pl-2">بلاک کوڈ نمبر</mat-label>
+                            </div>              
+                            <div class="w-2/3 sm:w-5/6 font-semibold pr-2">
+                                <p class="font-bold">{{model.blc_code}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-4">
+                        <div class="flex mb-2">
+                            <div class="w-1/3 sm:w-1/6">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1 pl-2">انتخابی علاقہ</mat-label>
+                            </div>              
+                            <div class="w-2/3 sm:w-5/6 font-semibold pr-2">
+                                <p class="urdu text-lg font-bold">{{model.ela_name}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-4">
+                        <div class="flex mb-2">
+                            <div class="w-1/3 sm:w-1/6">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1 pl-2">پولنگ اسٹیشنز</mat-label>
+                            </div>              
+                            <div class="w-2/3 sm:w-5/6 font-semibold pr-2">
+                                <ng-container *ngFor="let item of model.pollingStations?.split(',')">
+                                    <span class="urdu text-lg font-bold leading-8">{{item.trim()}}</span><br/>
+                                </ng-container>
+                                <ng-template [ngIf]="model.pollingStations == null">
+                                    <span class="tbl-inner-span pb-2 font-semibold"> --- </span>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center mb-2">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1 pl-2"> ٹوٹل ووٹر</mat-label>
+                            </div>              
+                            <div class="w-2/3 font-semibold pr-2">{{model.blc_votersCount}}</div>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center mb-2">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1 pl-2"> مرد ووٹر</mat-label>
+                            </div>              
+                            <div class="w-2/3 font-semibold pr-2">{{model.blc_maleVotersCount}}</div>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center mb-2">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1 pl-2"> خواتین ووٹر</mat-label>
+                            </div>              
+                            <div class="w-2/3 font-semibold pr-2">{{model.blc_femaleVotersCount}}</div>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">                
+                        <ng-template *ngIf="(model.blc_familiesCount == 0)">
+                            <div class="flex items-center mb-2">
+                                <div class="w-1/3">
+                                    <mat-label class="urdu text-lg font-bold text-secondary pr-1 pl-2">ٹوٹل خاندان</mat-label>
+                                </div>              
+                                <div class="w-2/3 font-semibold pr-2">
+                                    <p class="font-bold">{{model.blc_familiesCount}}</p>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+            <div [ngClass]="kmlUrl != null ? 'md:col-span-4 md:inline-block' : 'md:hidden'" class="flex-auto hidden">
+                <div class="loc-container bc-container w-full">
+                    <ng-container *ngIf="(lat && lng);else noloc_message">
+                        <div class="agmap cmap">
+                            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="true">
+                                <agm-kml-layer [url]="kmlUrl"></agm-kml-layer>
+                            </agm-map>
+                        </div>
+                    </ng-container>
+                    <ng-template #noloc_message>map not found</ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions class="flex items-center justify-center mt-1 mb-2 px-4 space-x-2 ng-star-inserted">
+    <button mat-flat-button class="btn-md bg-blue-400 text-white text-md ml-1" (click)="DownloadVoterParchi(model.blc_code, model.blc_parchiUrl)">Download Voter Parchi</button>
+    <!--<button mat-flat-button class="btn-md bg-blue-400 text-white text-md ml-1" (click)="DownloadVoterList(model.blc_code)">Download Voter List</button>-->
+    <!--<button mat-flat-button class="btn-md bg-blue-400 text-white text-md ml-1" (click)="DownloadFamilyWiseList(model.blc_code)">Download Family-wise List</button>-->
+</div>

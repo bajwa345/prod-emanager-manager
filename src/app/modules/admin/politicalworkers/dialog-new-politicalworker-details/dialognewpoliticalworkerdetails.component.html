@@ -1,0 +1,84 @@
+<div class="relative flex flex-col w-full h-full">
+    <button mat-icon-button class="close-button mat-icon-close-button" (click)="closeDialog()">
+        <mat-icon class="close-icon" matPrefix [svgIcon]="'heroicons_solid:x'">X</mat-icon>
+    </button>
+
+    <h2 mat-dialog-title class="text-xl sm:text-2xl text-center pt-2 text-semibold text-primary-500">New Political Worker</h2>
+
+    <div id="div-message" class="px-6 mb-2" #messageDiv></div>
+
+    <div class="dailog-body px-6 pt-2 pb-2" id="form-container" #formContainer>
+
+        <form [formGroup]="form">
+            <div class="grid gap-x-6 gap-y-1 sm:grid-cols-4 w-full">
+
+                <div class="sm:col-span-2">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>Worker Name <span class="text-red-400 mr-1">*</span></mat-label>
+                        <input
+                            [formControlName]="'name'" placeholder="Worker Name"
+                            matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>Father/Husband Name <span class="text-red-400 mr-1">*</span></mat-label>
+                        <input
+                            [formControlName]="'fatherName'" placeholder="Father/Husband Name"
+                            matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>Age <span class="text-red-400 mr-1">*</span></mat-label>
+                        <input type="number"
+                            [formControlName]="'age'" placeholder="Age"
+                            matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>Gender <span class="text-red-400 mr-1">*</span></mat-label>
+                        <mat-select [formControlName]="'gender'" [placeholder]="'Gender'">
+                            <mat-option [value]="'M'">Male</mat-option>
+                            <mat-option [value]="'F'">Female</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-4">
+                    <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript w-full">
+                        <mat-label>Address <span class="text-red-400 mr-1">*</span></mat-label>
+                        <textarea
+                            matInput
+                            [formControlName]="'address'" placeholder="Address"
+                            matTextareaAutosize
+                            [matAutosizeMinRows]="2"></textarea>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>CNIC <span class="text-red-400 mr-1">*</span></mat-label>
+                        <input matInput formControlName="cnic" mask='00000-0000000-0' placeholder="CNIC" autocomplete="off">
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>Mobile # <span class="text-red-400 mr-1">*</span></mat-label>
+                        <input matInput formControlName="mobileNumber" mask='0000-0000000' placeholder="Mobile #" autocomplete="off">
+                    </mat-form-field>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+<div mat-dialog-actions class="flex items-center justify-center sm:justify-end px-12 py-4 pb-5 space-x-3 bg-gray-50 dark:bg-black dark:bg-opacity-10 ng-star-inserted" style="margin-left: -24px; margin-right: -24px; overflow: hidden;">
+    <button mat-flat-button class="bg-primary-400 text-white text-md" (click)="onSubmit()">Submit</button>
+</div>

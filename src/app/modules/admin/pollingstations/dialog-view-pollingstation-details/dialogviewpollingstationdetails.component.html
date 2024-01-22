@@ -1,0 +1,104 @@
+<div class="relative flex flex-col w-full h-full">
+    <button mat-icon-button class="close-button mat-icon-close-button" (click)="closeDialog()">
+        <mat-icon class="close-icon" matPrefix [svgIcon]="'heroicons_solid:x'">X</mat-icon>
+    </button>
+
+    <h2 mat-dialog-title class="text-4xl text-center urdu mt-2 mb-4 font-bold text-blue-500">پولنگ اسٹیشن کی تفصیل</h2>
+    <div class="dailog-body px-6 pb-4 pt-3 dir-rtl">
+
+        <div class="grid gap-x-6 gap-y-1 sm:grid-cols-4 w-full">
+            <div class="sm:col-span-4">
+                <div class="flex mb-2">
+                    <div class="w-1/3 sm:w-1/6">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">پولنگ اسٹیشن</mat-label>
+                    </div>              
+                    <div class="w-2/3 sm:w-5/6 font-semibold">
+                        <p class="urdu text-lg font-bold">{{model.pls_name}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <ng-container *ngIf="(model.pls_details)">
+                <div class="sm:col-span-4">
+                    <div class="flex items-center mb-2">
+                        <div class="w-1/3 sm:w-1/6">
+                            <mat-label class="urdu text-lg font-bold text-secondary pr-1">&nbsp;</mat-label>
+                        </div>              
+                        <div class="w-2/3 sm:w-5/6 font-semibold">
+                            <p class="urdu text-lg font-bold">{{model.pls_details}}</p>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+            <div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">ٹوٹل ووٹر</mat-label>
+                    </div>              
+                    <div class="w-2/3 font-semibold">{{model.pls_votersCount ? model.pls_votersCount.toLocaleString() : 0}}</div>
+                </div>
+            </div>
+            <div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">ٹوٹل بوتھ</mat-label>
+                    </div>              
+                    <div class="w-2/3 font-semibold">{{model.pls_boothsCount ? model.pls_boothsCount.toLocaleString() : 0}}</div>
+                </div>
+            </div>
+
+            <div class="sm:col-span-4">
+                <div class="flex mb-2">
+                    <div class="w-1/3 sm:w-1/6">
+                        <span class="urdu text-lg font-bold text-secondary pr-1">بلاک کوڈز</span>
+                    </div>
+                    <div class="w-2/3 sm:w-2/6 font-semibold">
+                        <ng-container *ngFor="let item of model.pls_blockcodes?.split(', ')">
+                            <span class="tbl-inner-row leading-7 block">{{ item.trim() }}</span>
+                        </ng-container>
+                        <ng-template [ngIf]="model.pls_blockcodes == null">
+                            <span> --- </span>
+                        </ng-template>
+                    </div>
+                    <div class="sm:w-3/6 font-semibold">
+                        <ng-container *ngFor="let item of model.pls_electoralareas?.split(', ')">
+                            <span class="tbl-inner-row leading-7 urdu text-lg font-bold hidden md:block">({{ item.trim() }})</span>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+
+
+
+
+        <table class="details-inner-tbl">
+            
+            <tr *ngIf="model.pls_inchargeCnic">
+                <td colspan="4" class="py-2">
+                    <mat-divider class="mt-6 mb-4 px-4"></mat-divider>
+                </td>
+            </tr>
+            <tr *ngIf="model.pls_inchargeCnic"><td class="urdu text-lg font-bold">انچارج شناختی کارڈ</td>
+                <td class="font-bold">{{model.pls_inchargeCnic | cnic}}</td>
+                <td class="urdu text-lg font-bold">انچارج نام</td>
+                <td>
+                    <p class="urdu text-lg font-bold">{{model.pls_inchargeNameText}}</p>
+                    <div *ngIf="!model.pls_inchargeNameText">
+                        <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + model.vtr_nameBlob}}" />
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="model.pls_inchargeCnic"><td class="urdu text-lg font-bold">انچارج موبائل نمبر</td>
+                <td colspan="3">
+                    <ng-container *ngIf="(model.pls_inchargeMobile && model.pls_inchargeMobile != '' && model.pls_inchargeMobile != 'null');else nophone_message">
+                        {{model.pls_inchargeMobile | mobile}}
+                    </ng-container>
+                    <ng-template #nophone_message>---</ng-template>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,449 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div class="bg-card dashboard-head">
+        <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+            <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-6 sm:my-9 dir-rtl">
+                <!-- Avatar and name -->
+                <div class="flex flex-auto items-center min-w-0">
+                    <div class="flex-0 w-28 h-28 rounded-full overflow-hidden">
+                        <img class="w-full h-full object-cover" onerror='this.style.display = "none"' src="{{user.avatar}}">
+                    </div>
+                    <div class="flex flex-col min-w-0 mr-4">
+                        <ng-container>
+                            <div class="urdu text-5xl md:text-8xl font-semibold tracking-tight leading-12 md:leading-snug truncate">{{user.candidate}}</div>
+                        </ng-container>
+                        <div class="flex items-center">
+                            <div class="mt-1 ml-1.5 leading-6 text-2xl text-secondary urdu"> {{user.candidatedetail}} <span class="px-2"></span> {{user.candidatedetailarea}} </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Actions -->
+                <div class="flex items-center hidden md:flex -mt-20 md:mt-6 ml-3 md:ml-1 space-x-3 dir-ltr">
+                    <div class="flex-0 h-18 pb-2 md:pb-0 md:h-26 overflow-hidden mr-3 md:mr-8">
+                        <img class="h-18 md:h-26 object-cover" onerror='this.style.display = "none"' src="{{(user.symbol.startsWith('http')) ? user.symbol : 'assets/images/party-symbols/'+user.symbol+'.png'">
+                    </div>
+
+                    <button
+                        class="fuse-mat-button-rounded bg-primary-400 hidden lg:inline-block"
+                        mat-flat-button
+                        [color]="'primary'"
+                        (click)="settings()">
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'heroicons_solid:cog'"></mat-icon>
+                        <span class="ml-2">Settings</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto border-t -mt-px pt-4 sm:pt-6 dashboard-body">
+        <div class="w-full max-w-screen-xl mx-auto">
+            <!-- Tabs -->
+            <mat-tab-group
+                class="sm:px-2"
+                [animationDuration]="'0'">
+
+                <!-- General Statistics -->
+                <mat-tab label="General Statistics">
+                    <ng-template matTabContent>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6 w-full min-w-0">
+                            <div class="flex flex-col flex-auto p-7 bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="flex flex-col items-center">
+                                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">{{data.stats? data.stats.st_block_codes : '--'}}</div>
+                                    <div class="text-lg font-medium text-red-600 dark:text-red-500">Block codes</div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col flex-auto p-7 bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="flex flex-col items-center">
+                                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">{{data.stats? data.stats.st_polling_stations : '--'}}</div>
+                                    <div class="text-lg font-medium text-blue-600 dark:text-blue-500">Polling Stations</div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col flex-auto p-7 bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="flex flex-col items-center">
+                                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-amber-500">{{data.stats? data.stats.st_polling_agents : '--'}}</div>
+                                    <div class="text-lg font-medium text-amber-600 dark:text-amber-500">Polling Agents</div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col flex-auto p-7 bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="flex flex-col items-center">
+                                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-600">{{data.stats? data.stats.st_app_users : '--'}}</div>
+                                    <div class="text-lg font-medium text-green-700 dark:text-green-600">App Users</div>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="col-span-3 sm:col-span-1 items-center justify-center py-8 px-1 bg-green-500 text-white dark:bg-white dark:bg-opacity-5">
+                                    <div class="text-5xl font-semibold leading-none text-center tracking-tight">{{data.stats && data.stats.st_total_voters ? data.stats.st_total_voters.toLocaleString() : '--'}}</div>
+                                    <div class="mt-1 text-md font-medium text-center">Total Voters</div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="col-span-3 sm:col-span-1 items-center justify-center py-8 px-1 bg-orange-500 text-white dark:bg-white dark:bg-opacity-5">
+                                    <div class="text-5xl font-semibold leading-none text-center tracking-tight">{{data.stats && data.stats.st_total_families ? data.stats.st_total_families.toLocaleString() : '--'}}</div>
+                                    <div class="mt-1 text-md font-medium text-center">Total Families</div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="col-span-3 sm:col-span-1 items-center justify-center py-8 px-1 bg-blue-500 text-white dark:bg-white dark:bg-opacity-5">
+                                    <div class="text-5xl font-semibold leading-none text-center tracking-tight">{{data.stats && data.stats.st_male_voters ? data.stats.st_male_voters.toLocaleString() : '--'}}</div>
+                                    <div class="mt-1 text-md font-medium text-center">Male Voters</div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="col-span-3 sm:col-span-1 items-center justify-center py-8 px-1 bg-amber-500 text-white dark:bg-white dark:bg-opacity-5">
+                                    <div class="text-5xl font-semibold leading-none text-center tracking-tight">{{data.stats && data.stats.st_female_voters ? data.stats.st_female_voters.toLocaleString() : '--'}}</div>
+                                    <div class="mt-1 text-md font-medium text-center">Female Voters</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Blockcodes Map -->
+                        <div class="hidden sm:inline-block sm:col-span-6 mt-6 flex flex-col flex-auto p-2 bg-card shadow rounded-2xl overflow-hidden" style="width: 100%; height: 680px;">
+                            
+                            <div class="agmap bmap" style="position: relative">
+                                <agm-map [latitude]="mapLatitude" [longitude]="mapLongitude" [zoom]="mapZoom" [fitBounds]="mapBounds">
+                                    <ng-template [ngIf]="data != null && data.pollingStations != null">
+                                        <agm-marker
+                                            *ngFor="let p of data.pollingStations"
+                                            [agmFitBounds]="true"
+                                            [latitude]="p.pls_locLat"
+                                            [longitude]="p.pls_locLong"
+                                            [iconAnchorX]="10"
+                                            [iconAnchorY]="10"
+                                            [iconHeight]="20"
+                                            [iconWidth]="20"
+                                            [iconUrl]="'https://maps.google.com/mapfiles/kml/pal3/icon21.png'">
+
+                                            <agm-info-window>
+                                                <div class="dir-rtl" dir="rtl">
+                                                    <strong class="urdu text-xl text-indigo-500">{{p.pls_nameUrdu}}</strong><br/>
+                                                    <strong><span class="urdu text-md">ٹوٹل ووٹر</span> : {{p.pls_votersCount | number:'1.0':'en-US'}}</strong><br/>
+                                                    <strong><span class="urdu text-md">ٹوٹل بوتھ</span> : {{p.pls_boothsCount}}</strong><br/>
+                                                </div>
+                                            </agm-info-window>
+                                        </agm-marker>
+                                    </ng-template>
+                                    <agm-data-layer [geoJson]="geoJsonData" (layerClick)="layerClick($event)" [clickable]="true" 
+                                        [style]="styleFunc">
+                                    </agm-data-layer>
+                                </agm-map>
+                                <div *ngIf="selectedFeature.blockcode" class="map-layer-details">
+                                    <h2>Blockcode : {{selectedFeature.blockcode}}</h2>
+                                    <ng-template [ngIf]="selectedFeature.totalvoters">
+                                        <span>Total Voters : {{selectedFeature.totalvoters | number}}</span><br/>
+                                    </ng-template>
+                                    <ng-template [ngIf]="selectedFeature.malevoters">
+                                        <span>Male Voters : {{selectedFeature.malevoters | number}}</span><br/>
+                                    </ng-template>
+                                    <ng-template [ngIf]="selectedFeature.femalevoters">
+                                        <span>Female Voters : {{selectedFeature.femalevoters | number}}</span><br/>
+                                    </ng-template>
+                                    <ng-template [ngIf]="selectedFeature.population">
+                                        <span>Population : {{selectedFeature.population | number}}</span><br/>
+                                    </ng-template>
+                                    <ng-template [ngIf]="selectedFeature.household">
+                                        <span>Household : {{selectedFeature.household | number}}</span><br/>
+                                    </ng-template>
+									<span>Tehsil : {{selectedFeature.tehsil | titlecase}}</span><br/>
+									<span>District : {{selectedFeature.district | titlecase}}</span><br/>
+                                </div>
+
+                            </div>
+                        </div>
+                    </ng-template>
+                </mat-tab>
+
+                <!-- Campaign Progress -->
+                <mat-tab label="Campaign Progress">
+                    <ng-template matTabContent>
+                        <!-- Campaign Summary -->
+                        <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                            <div class="flex flex-col sm:flex-row items-start justify-between">
+                                <div class="text-lg font-medium tracking-tight leading-6 truncate">Campaign Progress (This Week)</div>
+                                <div class="mt-3 sm:mt-0 sm:ml-2">
+                                    <mat-button-toggle-group
+                                        value="voter-stats"
+                                        #reachabilityStatsWeekSelector="matButtonToggleGroup">
+                                        <mat-button-toggle value="nonvoter-stats">New/Transfer Requests</mat-button-toggle>
+                                        <mat-button-toggle value="voter-stats">Voter Detail Updates</mat-button-toggle>
+                                    </mat-button-toggle-group>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 lg:grid-cols-3 grid-flow-row gap-6 w-full mt-8 sm:mt-4">
+                                <div class="flex flex-col flex-auto col-span-3 lg:col-span-2">
+                                    <div class="flex flex-col flex-auto">
+                                        <apx-chart
+                                            class="flex-auto w-full h-80"
+                                            [chart]="reachabilityChart.chart"
+                                            [colors]="reachabilityChart.colors"
+                                            [dataLabels]="reachabilityChart.dataLabels"
+                                            [grid]="reachabilityChart.grid"
+                                            [labels]="reachabilityChart.labels"
+                                            [legend]="reachabilityChart.legend"
+                                            [plotOptions]="reachabilityChart.plotOptions"
+                                            [series]="reachabilityChart.series[reachabilityStatsWeekSelector.value]"
+                                            [states]="reachabilityChart.states"
+                                            [stroke]="reachabilityChart.stroke"
+                                            [tooltip]="reachabilityChart.tooltip"
+                                            [xaxis]="reachabilityChart.xaxis"
+                                            [yaxis]="reachabilityChart.yaxis"></apx-chart>
+                                    </div>
+                                </div>
+                                <!-- Overview -->
+                                <div class="flex flex-col col-span-3 lg:col-span-1">
+                                    <div class="flex-auto grid grid-cols-2 gap-4 mt-6">
+                                        <div class="col-span-2 flex flex-col items-center justify-center py-6 px-1 rounded-2xl bg-green-50 text-green-800 dark:bg-white dark:bg-opacity-5 dark:text-green-500">
+                                            <div class="text-5xl sm:text-7xl font-semibold leading-none tracking-tight">
+                                                {{data.reachabilityStats.overview[reachabilityStatsWeekSelector.value]['first']}}
+                                            </div>
+                                            <div class="mt-1 text-sm sm:text-md font-medium">{{data.reachabilityStats.overview[reachabilityStatsWeekSelector.value]['first_title']}}</div>
+                                        </div>
+                                        <div class="col-span-2 flex flex-col items-center justify-center py-6 px-1 rounded-2xl bg-gray-100 text-secondary dark:bg-white dark:bg-opacity-5">
+                                            <div class="text-5xl sm:text-7xl font-semibold leading-none tracking-tight">
+                                                {{data.reachabilityStats.overview[reachabilityStatsWeekSelector.value]['second']}}
+                                            </div>
+                                            <div class="mt-1 text-sm sm:text-md font-medium">{{data.reachabilityStats.overview[reachabilityStatsWeekSelector.value]['second_title']}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Searches overview -->
+                        <div class="sm:col-span-2 lg:col-span-3 mt-6 mb-6 dark flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                            <div class="flex items-center justify-between mt-10 ml-10 mr-6 sm:mr-10">
+                                <div class="flex flex-col">
+                                    <div class="mr-4 text-2xl md:text-3xl font-semibold tracking-tight leading-7">Searches Overview</div>
+                                    <div class="font-medium text-secondary">Number of Searches done on App</div>
+                                </div>
+                                <div class="ml-2">
+                                    <mat-button-toggle-group
+                                        class="hidden sm:inline-flex border-none space-x-1"
+                                        value="today"
+                                        #visitorsYearSelector="matButtonToggleGroup">
+                                        <mat-button-toggle
+                                            class="px-1.5 rounded-full overflow-hidden border-none font-medium"
+                                            value="this-week">This Week
+                                        </mat-button-toggle>
+                                        <mat-button-toggle
+                                            class="px-1.5 rounded-full overflow-hidden border-none font-medium"
+                                            value="today">Today
+                                        </mat-button-toggle>
+                                    </mat-button-toggle-group>
+                                    <div class="sm:hidden">
+                                        <button
+                                            mat-icon-button
+                                            [matMenuTriggerFor]="visitorsMenu">
+                                            <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
+                                        </button>
+                                        <mat-menu #visitorsMenu="matMenu">
+                                            <button mat-menu-item>Today</button>
+                                            <button mat-menu-item>This Week</button>
+                                        </mat-menu>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col flex-auto h-80">
+                                <apx-chart
+                                    class="flex-auto w-full h-full"
+                                    [chart]="visitorsChart.chart"
+                                    [colors]="visitorsChart.colors"
+                                    [dataLabels]="visitorsChart.dataLabels"
+                                    [fill]="visitorsChart.fill"
+                                    [grid]="visitorsChart.grid"
+                                    [series]="visitorsChart.series[visitorsYearSelector.value]"
+                                    [stroke]="visitorsChart.stroke"
+                                    [tooltip]="visitorsChart.tooltip"
+                                    [xaxis]="visitorsChart.xaxis"
+                                    [yaxis]="visitorsChart.yaxis"></apx-chart>
+                            </div>
+                        </div>
+                    </ng-template>
+                </mat-tab>
+
+                <!-- Reported Complaints -->
+                <mat-tab label="Reported Complaints">
+                    <ng-template matTabContent>
+                        <div class="grid grid-cols-1 sm:grid-cols-6 gap-6 w-full min-w-0">
+                            <!-- Complaints distribution -->
+                            <div class="sm:col-span-6 flex flex-col flex-auto p-2 bg-card shadow rounded-2xl overflow-hidden" style="width: 100%; height: 480px;">
+                                <div class="agmap imap">
+                                    <agm-map [latitude]="lat" [longitude]="lng" [fitBounds]="true">
+                                        <ng-template [ngIf]="data != null && data.complainDetails != null">
+                                            <agm-marker
+                                                *ngFor="let m of data.complainDetails.rows; let i = index"
+                                                [agmFitBounds]="true"
+                                                (markerClick)="clickedMarker(m.id, i)"
+                                                [latitude]="m.loc_lat"
+                                                [longitude]="m.loc_long">
+
+                                                <agm-info-window>
+                                                    <strong class="urdu text-xl"
+                                                    [ngClass]="{'text-blue-500': m.type_id === 1,
+                                                    'text-red-500': m.type_id === 2,
+                                                    'text-green-500': m.type_id === 3,
+                                                    'text-amber-500': m.type_id === 4,
+                                                    'text-indigo-500': m.type_id === 5}">{{m.type}}</strong><br/>
+                                                    <strong>Reported By : {{m.complainent}}{{m.mobile ? ' (0'+m.mobile+')' : ''}}</strong><br/>
+                                                    <ng-container *ngIf="(m.details)">
+                                                        <strong>Description : {{m.details}}</strong><br/>
+                                                    </ng-container>
+                                                    <strong>Report Time : {{m.report_time | date:'medium'}}</strong><br/>
+                                                    <strong>Complaint Status : {{m.status}}
+                                                        <ng-container *ngIf="(m.status=='resolved')">
+                                                            ({{m.resolve_time | date:'medium'}})
+                                                        </ng-container>
+                                                    </strong><br/>
+                                                </agm-info-window>
+                                            </agm-marker>
+                                        </ng-template>
+                                    </agm-map>
+                                </div>
+                            </div>
+
+                            <ng-container *ngIf="(data != null && data.complainDetails != null && data.complainDetails.rows.length > 0);else nodata">
+                                <!-- Complaints details -->
+                                <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Reported Complaints</div>
+                                    <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
+                                        <table
+                                            class="min-w-120 overflow-y-visible"
+                                            mat-table
+                                            [dataSource]="data.complainDetails.rows">
+
+                                            <!-- report time -->
+                                            <ng-container matColumnDef="report_time">
+                                                <th class="px-3 min-w-30" mat-header-cell *matHeaderCellDef>
+                                                    Report Time
+                                                </th>
+                                                <td mat-cell *matCellDef="let complaint" class="px-3 min-w-30">
+                                                    {{complaint.report_time | date: 'medium'}}
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- type -->
+                                            <ng-container matColumnDef="type">
+                                                <th class="px-3 min-w-40" mat-header-cell *matHeaderCellDef>
+                                                    Type
+                                                </th>
+                                                <td mat-cell *matCellDef="let complaint" class="px-3 min-w-40">
+                                                    <span class="flex items-center">
+                                                        <span
+                                                            class="w-2 h-2 rounded-full"
+                                                            [ngClass]="{'bg-blue-500': complaint.type_id === 1,
+                                                                        'bg-red-500': complaint.type_id === 2,
+                                                                        'bg-green-500': complaint.type_id === 3,
+                                                                        'bg-amber-500': complaint.type_id === 4,
+                                                                        'bg-indigo-500': complaint.type_id === 5}"></span>
+                                                        <span class="ml-3 leading-7 urdu font-semibold text-xl">{{complaint.type}}</span>
+                                                    </span>
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- area -->
+                                            <ng-container matColumnDef="area">
+                                                <th class="px-3 min-w-30" mat-header-cell *matHeaderCellDef>
+                                                    Area
+                                                </th>
+                                                <td mat-cell *matCellDef="let complaint" class="px-3 min-w-30"
+                                                    [class.urdu]="this._sharedService.isEnglishString(complaint.area) == false"
+                                                    [class.text-lg]="this._sharedService.isEnglishString(complaint.area) == false"
+                                                    [class.font-semibold]="this._sharedService.isEnglishString(complaint.area) == false">
+                                                    {{complaint.area}}
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- complaint -->
+                                            <ng-container matColumnDef="complainent">
+                                                <th class="px-3 min-w-30" mat-header-cell *matHeaderCellDef>
+                                                    Complainant
+                                                </th>
+                                                <td mat-cell *matCellDef="let complaint" class="px-3 min-w-30">
+                                                    {{complaint.complainent}}
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- mobile number -->
+                                            <ng-container matColumnDef="mobile">
+                                                <th class="px-3 min-w-32" mat-header-cell *matHeaderCellDef>
+                                                    Contact #
+                                                </th>
+                                                <td mat-cell *matCellDef="let complaint" class="px-3 min-w-32">
+                                                    {{complaint.mobile | mobile}}
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- status -->
+                                            <ng-container matColumnDef="status">
+                                                <th class="px-3" mat-header-cell *matHeaderCellDef>
+                                                    Status
+                                                </th>
+                                                <td mat-cell *matCellDef="let complaint" class="px-3">
+                                                    <span class="flex items-center">
+                                                        <span>
+                                                            <!-- Low -->
+                                                            <span
+                                                                class="flex items-end w-1 h-6 bg-red-200 rounded overflow-hidden"
+                                                                *ngIf="complaint.status == 'unresolved'">
+                                                                <span class="flex w-full h-1/3 bg-red-600"></span>
+                                                            </span>
+                                                            <!-- Mid -->
+                                                            <span
+                                                                class="flex items-end w-1 h-6 bg-orange-200 rounded overflow-hidden"
+                                                                *ngIf="complaint.status == 'processing'">
+                                                                <span class="flex w-full h-2/3 bg-orange-500"></span>
+                                                            </span>
+                                                            <!-- High -->
+                                                            <span
+                                                                class="flex items-end w-1 h-6 bg-green-100 rounded overflow-hidden"
+                                                                *ngIf="complaint.status == 'resolved'">
+                                                                <span class="flex w-full h-full bg-green-400"></span>
+                                                            </span>
+                                                        </span>
+                                                        <span class="ml-3 leading-7">{{complaint.status}}</span>
+                                                    </span>
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- actions -->
+                                            <ng-container matColumnDef="actions">
+                                                <th
+                                                    mat-header-cell
+                                                    *matHeaderCellDef></th>
+                                                <td
+                                                    mat-cell
+                                                    *matCellDef="let complaint">
+                                                    <button class="px-1 py-3 mx-0.5 text-sm text-primary-800 dark:text-primary-50 list-btn"
+                                                    [ngClass]="{'bg-primary-100 dark:bg-primary-500': complaint.status == 'unresolved',
+                                                                        'bg-gray-200 dark:bg-gray-500': complaint.status == 'processing'}"
+                                                    mat-flat-button *ngIf="complaint.status != 'resolved'" (click)="updateStatus(complaint, $event)">{{complaint.status == 'unresolved' ? 'Start Processing' : 'Set Resolved'}}</button>
+                                                </td>
+                                            </ng-container>
+
+                                            <tr
+                                                mat-header-row
+                                                *matHeaderRowDef="this.data.complainDetails.columns"></tr>
+                                            <tr [ngClass]="{'bg-gray-50': selectedComplaintId == row.id}"
+                                                mat-row
+                                                *matRowDef="let row; columns: this.data.complainDetails.columns;"></tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <ng-template #nodata>
+                            </ng-template>
+
+                        </div>
+                    </ng-template>
+                </mat-tab>
+
+            </mat-tab-group>
+        </div>
+    </div>
+
+</div>

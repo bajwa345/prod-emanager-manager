@@ -1,0 +1,178 @@
+<div class="relative flex flex-col w-full h-full">
+    <button mat-icon-button class="close-button mat-icon-close-button" (click)="closeDialog()">
+        <mat-icon class="close-icon" matPrefix [svgIcon]="'heroicons_solid:x'">X</mat-icon>
+    </button>
+
+    <h2 mat-dialog-title class="text-4xl text-center urdu mt-3 font-bold text-blue-500">یوزر کی تفصیل</h2>
+    <div class="dailog-body px-6 pb-4 pt-3 dir-rtl">
+
+        <div class="grid gap-x-6 gap-y-1 sm:grid-cols-4 w-full">
+            <div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">لاگ ان</mat-label>
+                    </div>              
+                    <div class="w-2/3 font-semibold">{{model.aur_userName}}</div>
+                </div>
+            </div>
+            <div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">حالت</mat-label>
+                    </div>              
+                    <div class="w-2/3 font-semibold">
+                        <ng-template [ngIf]="model.aur_isActive == 1"><span class="text-blue-500">Active</span></ng-template>
+                        <ng-template [ngIf]="model.aur_isActive == 0"><span class="text-red-500">In-active</span></ng-template>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">پورا نام</mat-label>
+                    </div>
+                    <div class="w-2/3 font-semibold">{{model.aur_fullName}}</div>
+                </div>
+            </div>
+            <div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">شناختی کارڈ نمبر</mat-label>
+                    </div>
+                    <div class="w-2/3 font-semibold">{{model.aur_cnic | cnic}}</div>
+                </div>
+            </div>
+            
+            <div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">موبائل نمبر</mat-label>
+                    </div>
+                    <div class="w-2/3 font-semibold">{{model.aur_mobile | mobile}}</div>
+                </div>
+            </div>
+            <div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">واٹس ایپ نمبر</mat-label>
+                    </div>
+                    <div class="w-2/3 font-semibold">{{model.aur_whatsApp | mobile}}</div>
+                </div>
+            </div>
+            
+            <div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">پلیٹ فارم</mat-label>
+                    </div>
+                    <div class="w-2/3 font-semibold">{{model.aur_platformOs == 'A'? 'Android' : model.aur_platformOs == 'I'? 'IPhone' : '---'}}</div>
+                </div>
+            </div>
+            <div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">رسائی کی سطح</mat-label>
+                    </div>
+                    <div class="w-2/3 font-semibold">{{model.aur_accesslevel}}</div>
+                </div>
+            </div>
+
+            <ng-container *ngIf="(model.aur_accessLevelId == 2)">
+                <div class="sm:col-span-4">
+                    <div class="flex items-center mb-2">
+                        <div class="w-1/3 sm:w-1/6">
+                            <mat-label class="urdu text-lg font-bold text-secondary pr-1">انتخابی علاقہ</mat-label>
+                        </div>
+                        <div class="w-2/3 sm:w-5/6 font-semibold"
+                        [class.urdu]="this._sharedService.isEnglishString(model.aur_electoralArea) == false"
+                        [class.text-lg]="this._sharedService.isEnglishString(model.aur_electoralArea) == false">{{model.aur_electoralArea}}</div>
+                    </div>
+                </div>
+            </ng-container>
+            
+            <ng-container *ngIf="(model.aur_accessLevelId == 3)">
+                <div class="sm:col-span-4">
+                    <div class="flex items-center mb-2">
+                        <div class="w-1/3 sm:w-1/6">
+                            <mat-label class="urdu text-lg font-bold text-secondary pr-1">پولنگ لوکیشن</mat-label>
+                        </div>
+                        <div class="w-2/3 sm:w-5/6 font-semibold"
+                        [class.urdu]="this._sharedService.isEnglishString(model.aur_pollingLocation) == false"
+                        [class.text-lg]="this._sharedService.isEnglishString(model.aur_pollingLocation) == false">{{model.aur_pollingLocation}}</div>
+                    </div>
+                </div>
+            </ng-container>
+
+            <div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">ٹائم رجسٹریشن</mat-label>
+                    </div>
+                    <div class="w-2/3 font-semibold">{{model.aur_signUpTime? (model.aur_signUpTime | date: 'short') : '---'}}</div>
+                </div>
+            </div>
+            <div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">ٹائم لاسٹ سنک</mat-label>
+                    </div>
+                    <div class="w-2/3 font-semibold">{{model.aur_lastSyncTime? (model.aur_lastSyncTime | date: 'short') : '---'}}</div>
+                </div>
+            </div>
+
+            <div class="hidden sm:inline-block sm:col-span-4 w-full"><mat-divider class="mt-4 mb-4 px-4"></mat-divider></div>
+
+            <div class="hidden sm:inline-block sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">فون نمبر اپڈیٹس</mat-label>
+                    </div>
+                    <div class="w-2/3 font-semibold">{{model.aur_phoneUpdatesCount? model.aur_phoneUpdatesCount : '---'}}</div>
+                </div>
+            </div>
+            <div class="hidden sm:inline-block sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">لوکیشن اپڈیٹس</mat-label>
+                    </div>
+                    <div class="w-2/3 font-semibold">{{model.aur_locationUpdatesCount? model.aur_locationUpdatesCount : '---'}}</div>
+                </div>
+            </div>
+
+            <div class="hidden sm:inline-block sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">ایس ایم ایس</mat-label>
+                    </div>
+                    <div class="w-2/3 font-semibold">{{model.aur_smsCount? model.aur_smsCount : '---'}}</div>
+                </div>
+            </div>
+            <div class="hidden sm:inline-block sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">ووٹر سرچز</mat-label>
+                    </div>
+                    <div class="w-2/3 font-semibold">{{model.aur_voterSearchesCount? model.aur_voterSearchesCount : '---'}}</div>
+                </div>
+            </div>
+
+            <!--<div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">فون کالز</mat-label>
+                    </div>
+                    <div class="w-2/3 font-semibold">{{model.aur_phoneCallsCount? model.aur_phoneCallsCount : '---'}}</div>
+                </div>
+            </div>
+            <div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">ووٹر لوکیشنز</mat-label>
+                    </div>
+                    <div class="w-2/3 font-semibold">{{model.aur_voterLocationsCount? model.aur_voterLocationsCount : '---'}}</div>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>

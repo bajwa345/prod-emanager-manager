@@ -1,0 +1,227 @@
+<div class="relative flex flex-auto w-full bg-card dark:bg-transparent">
+
+    <mat-drawer-container
+        class="flex-auto h-full"
+        dir="rtl"
+        [hasBackdrop]="false">
+
+        <!-- Drawer content -->
+        <mat-drawer-content class="flex overflow-hidden">
+
+            <!-- Records list -->
+            <ng-container *ngIf="records && records.length > 0; else noRecords">
+                <div class="relative flex flex-auto flex-col w-full min-w-0 lg:min-w-90 lg:max-w-90 bg-card dark:bg-transparent">
+
+                    <!-- Header -->
+                    <div class="flex flex-col flex-0 py-4 px-8 border-b bg-gray-50 dark:bg-transparent">
+                        <!-- Search -->
+                        <div class="mt-2">
+                            <mat-form-field
+                                class="fuse-mat-no-subscript fuse-mat-rounded fuse-mat-dense w-full"
+                                [floatLabel]="'always'">
+                                <mat-icon
+                                    matPrefix
+                                    class="icon-size-5 mr-1 ml-3"
+                                    [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                                <input
+                                    matInput
+                                    class="urdu text-lg font-semibold py-0"
+                                    [autocomplete]="'off'"
+                                    [placeholder]="'پولنگ لوکیشن'"
+                                    (input)="filterRecords(searchField.value)"
+                                    #searchField>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <!-- Records -->
+                    <div dir="ltr" style="max-height: calc(100vh - 190px); overflow: hidden;" fuseScrollbar [fuseScrollbarOptions]="{wheelPropagation: true, suppressScrollX: true}" class="flex-auto">
+                        <ng-container *ngIf="filteredRecords.length > 0; else noRecords">
+                            <ng-container *ngFor="let record of filteredRecords; trackBy: trackByFn">
+                                <div id="aid_{{record.id}}" style="cursor: pointer;" dir="rtl"
+                                    class="z-20 flex items-center py-3 px-6 cursor-pointer border-b"
+                                    [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover': !selectedRecord || !selectedRecord.pollinglocation.plc_id || selectedRecord.pollinglocation.plc_id !== record.id,
+                                                'bg-primary-50 dark:bg-hover': selectedRecord && selectedRecord.pollinglocation && selectedRecord.pollinglocation.plc_id === record.id}"
+                                    routerLink="/list-pollinglocations/{{_btoa(record.id)}}"
+                                    (click)="updateDetailsPanel(_btoa(record.id), $event)">
+                                    <div style="display: block !important; line-height: 100%;" class="relative flex flex-0 items-center justify-center w-10 h-10">
+                                        <mat-icon style="vertical-align: top;" class="icon-size-5 ml-2" matPrefix [svgIcon]="'heroicons_solid:library'"></mat-icon>
+                                    </div>
+                                    <div class="min-w-0 ml-2 w-90">
+                                        <div class="font-medium font-semibold leading-5 text-md"
+                                        [class.text-blue-600]="!this._sharedService.isUrduString(record.name)"
+                                        [class.leading-7]="this._sharedService.isUrduString(record.name)"
+                                        [class.urdu]="this._sharedService.isUrduString(record.name)"
+                                        [class.text-xl]="this._sharedService.isUrduString(record.name)" >{{record.name}}</div>
+                                        <div
+                                            class="leading-5 truncate text-secondary urdu text-md font-semibold mt-3">
+                                            <span>ٹوٹل ووٹر <span class="english pr-1">{{record.votersCount ? record.votersCount.toLocaleString() : '-'}}</span></span>
+                                            <span class="mr-8">ٹوٹل بوتھ<span class="english pr-1">{{record.boothsCount ? record.boothsCount.toLocaleString() : '-'}}</span></span>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-end self-start ml-auto pr-2 hidden">
+                                        <ng-container>
+                                            <a href="javascript:void(0)" (click)="updateDetails(record, null)">
+                                            <mat-icon
+                                                class="icon-size-6 text-hint"
+                                                title="Update Incharge Details"
+                                                [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
+                                            </a>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+
+                </div>
+
+            </ng-container>
+
+            <!-- No Records template -->
+            <ng-template #noRecords>
+                <ng-container *ngIf="isLoading; else noData">
+                    <div class="flex flex-auto flex-col items-center justify-center h-full">
+                        <mat-icon
+                            class="icon-size-20"
+                            [svgIcon]="'iconsmind:loading'"></mat-icon>
+                        <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary dir-ltr">Loading ...</div>
+                    </div>
+                </ng-container>
+                <ng-template #noData>
+                    <div class="flex flex-auto flex-col items-center justify-center bg-gray-100 dark:bg-transparent">
+                        <mat-icon
+                            class="icon-size-18"
+                            [svgIcon]="'iconsmind:file_search'"></mat-icon>
+                        <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">No Data found!</div>
+                    </div>
+                </ng-template>
+            </ng-template>
+
+            <!-- Details Panel -->
+            <ng-container *ngIf="records && records.length > 0 && selectedRecord">
+            <div dir="ltr"
+                class="flex-auto border-l" style="max-height: calc(100vh - 105px);"
+                fuseScrollbar [fuseScrollbarOptions]="{wheelPropagation: true, suppressScrollX: true}"
+                [ngClass]="{'z-20 absolute inset-0 lg:static lg:inset-auto flex': selectedRecord && selectedRecord.id,
+                                'hidden lg:flex': !selectedRecord || !selectedRecord.id}"
+                >
+
+                <!-- Main -->
+                <div dir="rtl"  class="flex-auto p-6 sm:p-10">
+                    <div class="h-min-100 border-2 border-dashed border-gray-300 rounded-2xl py-3">
+
+                        <h2 mat-dialog-title class="text-center mt-3 font-bold text-blue-600">
+                            <span class="mx-1"
+                            [class.english]="plNameLang == 'eng' ? true : false"
+                            [class.text-2xl]="plNameLang == 'eng' ? true : false"
+                            [class.urdu]="plNameLang == 'urdu' ? true : false"
+                            [class.text-3xl]="plNameLang == 'urdu' ? true : false">{{selectedRecord.pollinglocation.plc_name}}</span></h2>
+
+                        <table class="details-inner-tbl m-6">
+                            <tr><td class="urdu text-xl font-bold p-1" style="width: 20%;">ٹوٹل ووٹر کی تعداد</td>
+                                <td class="font-semibold text-lg pl-3" style="width: 30%; min-width: 200px;">{{totalVoters ? totalVoters.toLocaleString() : '-'}}</td>
+                                <td class="urdu text-xl font-bold p-1" style="width: 20%;">مرد ووٹر کی تعداد</td>
+                                <td class="font-semibold text-lg pl-3" style="width: 30%;">{{totalMaleVoters ? totalMaleVoters.toLocaleString() : '-'}}</td>
+                            </tr>
+                            <tr><td class="urdu text-xl font-bold p-1">خواتین ووٹر کی تعداد</td>
+                                <td class="font-semibold text-lg pl-3">{{totalFemaleVoters ? totalFemaleVoters.toLocaleString() : '-'}}</td>
+                                <td class="urdu text-xl font-bold p-1"></td>
+                                <td class="font-bold text-lg pl-3"></td>
+                            </tr>
+                            <tr><td colspan="4" class="pt-7 pb-4">
+                                <mat-divider style="width: 40%; display: inline-block;"></mat-divider>
+                                <span class="urdu font-semibold text-secondary px-3">انچارج پولنگ لوکیشن</span>
+                                <mat-divider style="width: 40%; display: inline-block;"></mat-divider>
+                            </td></tr>
+                            <tr><td colspan="4">
+                                <ng-container>
+                                    <a style="position: absolute; top: 270px; left: 90px;"
+                                    href="javascript:void(0)"
+                                    (click)="updateDetails(selectedRecord, null)">
+                                    <mat-icon
+                                        class="icon-size-6 text-hint"
+                                        title="Update Incharge Details"
+                                        [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                                    </a>
+                                </ng-container>
+                            </td></tr>
+                            <tr *ngIf="!selectedRecord.pollinglocation.plc_inchargeCnic"><td colspan="4" class="urdu text-xl font-bold p-2 text-red-500">کوئی انچارج نہیں</td></tr>
+                            <tr *ngIf="selectedRecord.pollinglocation.plc_inchargeCnic">
+                                <td class="urdu text-xl font-bold p-1">انچارج شناختی کارڈ</td>
+                                <td class="font-semibold text-lg pl-3">{{selectedRecord.pollinglocation.plc_inchargeCnic ? (selectedRecord.pollinglocation.plc_inchargeCnic | cnic) : '-'}}</td>
+                                <td class="urdu text-xl font-bold p-1">انچارج نام</td>
+                                <td class="pl-3">
+                                    <ng-container *ngIf="(selectedRecord.pollinglocation.plc_inchargeNameText);else noname_image">
+                                        <p class="urdu text-xl font-bold">{{selectedRecord.pollinglocation.plc_inchargeNameText}}</p>
+                                    </ng-container>
+                                    <ng-template #noname_image>
+                                        <ng-container *ngIf="(selectedRecord.pollinglocation.vtr_nameUrl); else noname_alt">
+                                            <img src="{{storageUrl}}{{selectedRecord.pollinglocation.vtr_nameUrl}}" style="height: 46px; width: auto;"/>
+                                        </ng-container>
+                                    </ng-template>
+                                    <ng-template #noname_alt>
+                                        <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + selectedRecord.pollinglocation.vtr_nameBlob}}" style="height: 46px; width: auto;"/>
+                                    </ng-template>
+                                </td>
+                            </tr>
+                            <tr *ngIf="selectedRecord.pollinglocation.plc_inchargeCnic">
+                                <td class="urdu text-xl font-bold p-1">انچارج موبائل نمبر</td>
+                                <td colspan="3" class="font-semibold text-lg pl-3">
+                                    <ng-container *ngIf="(selectedRecord.pollinglocation.plc_inchargeMobile);else nophone_message">
+                                        {{(selectedRecord.pollinglocation.plc_inchargeMobile | mobile)}}
+                                    </ng-container>
+                                    <ng-template #nophone_message>---</ng-template>
+                                </td>
+                            </tr>
+                            <tr><td colspan="4" class="pt-7 pb-4">
+                                <mat-divider style="width: 41.5%; display: inline-block;"></mat-divider>
+                                <span class="urdu font-semibold text-secondary px-3">پولنگ اسٹیشن</span>
+                                <mat-divider style="width: 41.5%; display: inline-block;"></mat-divider>
+                            </td></tr>
+                            <ng-container *ngFor="let ps of selectedRecord.pollingstations; let i = index;">
+                                <tr>
+                                    <td colspan="4" class="urdu text-xl py-3"><span class="english text-lg text-blue-600 font-bold">{{ps.pls_number}} - </span><span class="text-blue-600 font-bold">{{ps.pls_name}}</span></td>
+                                </tr>
+                                <tr><td class="urdu text-xl font-bold p-1" style="width: 20%;">ٹوٹل ووٹر کی تعداد</td>
+                                    <td class="font-semibold text-lg pl-3" style="width: 30%; min-width: 200px;">{{ps.pls_votersCount ? ps.pls_votersCount.toLocaleString() : '-'}}</td>
+                                    <td class="urdu text-xl font-bold p-1" style="width: 20%;">مرد ووٹر کی تعداد</td>
+                                    <td class="font-semibold text-lg pl-3" style="width: 30%;">{{ps.pls_maleVotersCount ? ps.pls_maleVotersCount.toLocaleString() : '-'}}</td>
+                                </tr>
+                                <tr><td class="urdu text-xl font-bold p-1">خواتین ووٹر کی تعداد</td>
+                                    <td class="font-semibold text-lg pl-3">{{ps.pls_femaleVotersCount ? ps.pls_femaleVotersCount.toLocaleString() : '-'}}</td>
+                                    <td class="urdu text-xl font-bold p-1"></td>
+                                    <td class="font-bold text-lg pl-3"></td>
+                                </tr>
+                                <tr><td class="urdu text-xl font-bold va-top p-1">بلاک کوڈز</td>
+                                    <td class="py-1 pl-3">
+                                        <ng-container *ngFor="let item of ps.pls_blockcodes?.split(', ')">
+                                            <span class="tbl-inner-row text-lg leading-6 font-semibold">{{item}}</span>
+                                        </ng-container>
+                                        <ng-template [ngIf]="ps.pls_blockcodes == null">
+                                            <span class="tbl-inner-span text-lg pb-2 font-semibold"> --- </span>
+                                        </ng-template>
+                                    </td>
+                                    <td colspan="2" class="font-bold text-lg py-1 pl-3">
+                                        <ng-container *ngFor="let item of ps.pls_electoralareas?.split(', ')">
+                                            <span class="tbl-inner-row urdu text-xl leading-6 font-bold">{{item}}</span>
+                                        </ng-container>
+                                        <ng-template [ngIf]="ps.pls_electoralareas == null">
+                                            <span class="tbl-inner-span text-lg pb-2 font-bold"> --- </span>
+                                        </ng-template>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="i < selectedRecord.pollingstations.length - 1"><td colspan="4" class="pt-2 pb-3 text-center">
+                                    <mat-divider style="width: 60%; display: inline-block;"></mat-divider>
+                                </td></tr>
+                            </ng-container>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </ng-container>
+
+        </mat-drawer-content>
+    </mat-drawer-container>
+
+</div>

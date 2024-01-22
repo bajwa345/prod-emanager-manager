@@ -1,0 +1,191 @@
+<div class="w-full max-w-3xl">
+
+    <!-- Form -->
+    <form [formGroup]="accountForm">
+
+        <!-- Section -->
+        <div class="w-full">
+            <div class="text-xl">Profile</div>
+            <div class="text-secondary">Following is the basic information about this Voogle account</div>
+        </div>
+        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+            <!-- Username -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript fuse-mat-emphasized-affix w-full">
+                    <mat-label>Username</mat-label>
+                    <div
+                        class="text-secondary"
+                        matPrefix>
+                        voogleapp.com/
+                    </div>
+                    <input
+                        [formControlName]="'username'" class="text-secondary"
+                        readonly matInput>
+                </mat-form-field>
+            </div>
+            <!-- Full Name -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Full Name</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:user'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'fullname'" class="text-secondary"
+                        readonly matInput>
+                </mat-form-field>
+            </div>
+            <!-- Cnic -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>CNIC #</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:identification'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'cnic'" class="text-secondary"
+                        readonly matInput>
+                </mat-form-field>
+            </div>
+            <!-- Email -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Active Since</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:calendar'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'signuptime'" class="text-secondary"
+                        readonly matInput>
+                </mat-form-field>
+            </div>
+            <!-- Mobile -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Mobile #</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:phone'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'mobile'" class="text-secondary"
+                        readonly matInput>
+                </mat-form-field>
+            </div>
+            <!-- WhatsApp -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>WhatsApp #</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:chat'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'whatsapp'" class="text-secondary"
+                        readonly matInput>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="my-10 border-t"></div>
+
+        <!-- Section -->
+        <div class="w-full">
+            <div class="text-xl">Candidate Information</div>
+            <div class="text-secondary">Below are the details of the associated Candidate.</div>
+        </div>
+        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+            <!-- Candidate Name -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Candidate Name</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'c_name'" class="text-secondary"
+                        matInput>
+                </mat-form-field>
+                <!-- Political Party -->
+                <mat-form-field class="fuse-mat-no-subscript w-full mt-6">
+                    <mat-label>Political Party</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:speakerphone'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'c_party'" class="text-secondary"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!-- Candidate Image -->
+            <div class="sm:col-span-2">
+                <div class="sm:-mt-4 pr-14 items-center rounded-full float-right">
+                    <img
+                        class="w-44 h-44 rounded-full ring-4 ring-bg-card"
+                        src="{{user.avatar}}"
+                        alt="Candidate">
+                </div>
+            </div>
+            <!-- Electoral Symbol -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Electoral Symbol</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:bell'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'c_symbol'" class="text-secondary"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!-- Details -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Constituency Type</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:newspaper'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'c_constype'" class="text-secondary"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!-- Constituency -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Constituency Name</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:location-marker'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'c_constname'" class="text-secondary"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!-- License Code -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>License Code</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:globe-alt'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'c_licensecode'" class="text-secondary"
+                        matInput>
+                </mat-form-field>
+            </div>
+        </div>
+
+    </form>
+
+</div>

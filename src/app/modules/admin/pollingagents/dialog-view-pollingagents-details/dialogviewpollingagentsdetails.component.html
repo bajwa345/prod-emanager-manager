@@ -1,0 +1,156 @@
+<div class="relative flex flex-col w-full h-full">
+    <button mat-icon-button class="close-button mat-icon-close-button" (click)="closeDialog()">
+        <mat-icon class="close-icon" matPrefix [svgIcon]="'heroicons_solid:x'">X</mat-icon>
+    </button>
+
+    <h2 mat-dialog-title class="text-4xl text-center urdu mt-2 mb-1 font-bold text-blue-500">پولنگ ایجنٹس کی تفصیل</h2>
+    <div class="dailog-body px-6 pb-2 pt-5 dir-rtl">
+
+        <div class="grid gap-x-6 gap-y-1 sm:grid-cols-4 w-full">
+            <div class="sm:col-span-4">
+                <div class="flex mb-2">
+                    <div class="w-1/3 sm:w-1/6">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">پولنگ اسٹیشن</mat-label>
+                    </div>              
+                    <div class="w-2/3 sm:w-5/6 font-semibold">
+                        <p class="urdu text-lg font-bold">{{model.pls_name}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">ٹوٹل ووٹر</mat-label>
+                    </div>              
+                    <div class="w-2/3 font-semibold">{{model.pls_votersCount ? model.pls_votersCount.toLocaleString() : 0}}</div>
+                </div>
+            </div>
+            <div class="sm:col-span-2">
+                <div class="flex items-center mb-2">
+                    <div class="w-1/3">
+                        <mat-label class="urdu text-lg font-bold text-secondary pr-1">ٹوٹل بوتھ</mat-label>
+                    </div>              
+                    <div class="w-2/3 font-semibold">{{model.pls_boothsCount ? model.pls_boothsCount.toLocaleString() : 0}}</div>
+                </div>
+            </div>
+
+            <div *ngIf="model.items != null" class="sm:col-span-4 w-full pb-3"><mat-divider class="mt-4 mb-2 px-4"></mat-divider></div>
+
+            <ng-container *ngFor="let item of model.items; let i = index">
+                <ng-container *ngIf="i > 0">
+                    <br/><br/>
+                </ng-container>
+
+                <div class="sm:col-span-4">
+                    <p class="font-bold text-blue-500"><span class="urdu text-lg ml-4">پولنگ ایجنٹ</span> <span style="direction: ltr; unicode-bidi: bidi-override;">({{item.vtr_cnic | cnic}})</span></p>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <div class="flex items-center mb-2">
+                        <div class="w-1/3">
+                            <mat-label class="urdu text-lg font-bold text-secondary pr-1">پولنگ ایجنٹ نام</mat-label>
+                        </div>              
+                        <div class="w-2/3">
+                            <ng-container *ngIf="(item.vtr_nameUrdu);else noname_image">
+                                <p class="urdu text-lg font-bold">{{item.vtr_nameUrdu}}</p>
+                            </ng-container>
+                            <ng-template #noname_image>
+                                <ng-container *ngIf="(item.vtr_nameUrl); else noname_alt">
+                                    <img src="{{storageUrl}}{{item.vtr_nameUrl}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                                </ng-container>
+                            </ng-template>
+                            <ng-template #noname_alt>
+                                <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + item.vtr_nameBlob}}" />
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+                
+                <ng-container *ngIf="(model.items.length <= 3); else agents4">
+
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center mb-2">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">والد/ شوہر کا نام</mat-label>
+                            </div>              
+                            <div class="w-2/3">
+                                <ng-container *ngIf="(item.vtr_fatherUrdu);else nofather_image">
+                                    <p class="urdu text-lg font-bold">{{item.vtr_fatherUrdu}}</p>
+                                </ng-container>
+                                <ng-template #nofather_image>
+                                    <ng-container *ngIf="(item.vtr_fatherUrl); else nofather_alt">
+                                        <img src="{{storageUrl}}{{item.vtr_fatherUrl}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                                    </ng-container>
+                                </ng-template>
+                                <ng-template #nofather_alt>
+                                    <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + item.vtr_fatherBlob}}" />
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-template #agents4>
+                    <div class="sm:col-span-4">
+                        <div class="flex items-center mb-2">
+                            <div class="sm:w-1/6">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">ایجنٹ موبائل نمبر</mat-label>
+                            </div>              
+                            <div class="sm:w-5/6 font-semibold pr-3 sm:pr-0">
+                                <ng-container *ngIf="(item.vtr_mobile || item.vtr_mobile2 || item.vtr_mobile3);else nophone_message">
+                                    {{(item.vtr_mobile | mobile)}} &nbsp; {{(item.vtr_mobile2 | mobile)}} &nbsp; {{(item.vtr_mobile3 | mobile)}}
+                                </ng-container>
+                                <ng-template #nophone_message>
+                                    <span>---</span>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-container *ngIf="model.items.length < 3">
+                    <div class="w-full sm:col-span-4">
+                        <div class="sm:flex mb-2">
+                            <div class="w-full sm:w-1/6">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">گھر کا پتہ</mat-label>
+                            </div>              
+                            <div class="w-full sm:w-5/6">
+                                <ng-container *ngIf="(item.vtr_addressUrdu);else noaddress_image">
+                                    <p class="urdu text-xl font-bold">{{item.vtr_addressUrdu}}</p>
+                                </ng-container>
+                                <ng-template #noaddress_image>
+                                    <ng-container *ngIf="(item.vtr_addressUrl); else noaddress_alt">
+                                        <img src="{{storageUrl}}{{item.vtr_addressUrl}}" style="height: 38px; width: auto; margin-top: -8px;"/>
+                                    </ng-container>
+                                </ng-template>
+                                <ng-template #noaddress_alt>
+                                    <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + item.vtr_addressBlob}}" />
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="model.items.length <= 3">
+                    <div class="sm:col-span-4">
+                        <div class="flex items-center mb-2">
+                            <div class="sm:w-1/6">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">ایجنٹ موبائل نمبر</mat-label>
+                            </div>              
+                            <div class="sm:w-5/6 font-semibold pr-3 sm:pr-0">
+                                <ng-container *ngIf="(item.vtr_mobile || item.vtr_mobile2 || item.vtr_mobile3);else nophone_message">
+                                    {{(item.vtr_mobile | mobile)}} &nbsp; {{(item.vtr_mobile2 | mobile)}} &nbsp; {{(item.vtr_mobile3 | mobile)}}
+                                </ng-container>
+                                <ng-template #nophone_message>
+                                    <span>---</span>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+            <ng-template [ngIf]="model.items == null">
+                <div class="sm:col-span-4"><p class="urdu text-lg font-bold text-red-500">کوئی پولنگ ایجنٹ نہیں بنایا گیا</p></div>
+            </ng-template>
+
+        </div>
+    </div>
+</div>

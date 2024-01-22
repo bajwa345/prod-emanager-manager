@@ -1,0 +1,162 @@
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-4 grid-flow-row w-full mt-6 mb-6 sm:mt-4">
+    <!-- New vs. Closed -->
+    <div class="flex flex-col col-span-2"></div>
+    <!-- Overview -->
+    <div class="flex flex-col col-span-3">
+        <div class="flex-auto grid grid-cols-4 gap-4">
+            <!-- New issues -->
+            <div class="col-span-2 flex flex-col items-center justify-center py-4 px-6 rounded-2xl bg-indigo-100 text-indigo-800 dark:bg-white dark:bg-opacity-5 dark:text-indigo-400">
+                <div class="text-3xl sm:text-3xl font-semibold leading-none tracking-tight">
+                    {{totalSms | number}}
+                </div>
+                <div class="mt-1 text-xs sm:text-md font-small">Total Assigned</div>
+            </div>
+            <!-- Closed -->
+            <div class="col-span-2 flex flex-col items-center justify-center py-4 px-6 rounded-2xl bg-blue-100 text-blue-800 dark:bg-white dark:bg-opacity-5 dark:text-blue-500">
+                <div class="text-3xl sm:text-3xl font-semibold leading-none tracking-tight">
+                    {{remainingSms | number}}
+                </div>
+                <div class="mt-1 text-xs sm:text-md font-small">Remaining</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="w-full max-w-3xl">
+
+    <!-- Form -->
+    <form [formGroup]="smsForm">
+
+        <!-- Section -->
+        <div class="w-full text-xl">Alerts</div>
+        <div class="grid grid-cols-1 gap-6 w-full mt-8">
+            <!-- Communication -->
+            <div class="flex items-center justify-between">
+                <div
+                    class="flex-auto cursor-pointer"
+                    (click)="smsPoliticalWorkerWelcome.toggle()">
+                    <div class="leading-6 font-medium">Welcome Notifications</div>
+                    <div class="text-md text-secondary">Send welcome message for every new worker Sign-up.</div>
+                </div>
+                <mat-slide-toggle
+                    class="ml-2"
+                    [color]="'primary'"
+                    [formControlName]="'sms_political_worker_welcome'"
+                    #smsPoliticalWorkerWelcome>
+                </mat-slide-toggle>
+            </div>
+            <!-- Meetups -->
+            <div class="flex items-center justify-between">
+                <div
+                    class="flex-auto cursor-pointer"
+                    (click)="smsPollingAgentWelcome.toggle()">
+                    <div class="leading-6 font-medium">Polling Agents Notification</div>
+                    <div class="text-md text-secondary">
+                        Send auto message to Assigned Polling agents with welcome note and duty details.
+                    </div>
+                </div>
+                <mat-slide-toggle
+                    class="ml-2"
+                    [color]="'primary'"
+                    [formControlName]="'sms_polling_agent_welcome'"
+                    #smsPollingAgentWelcome>
+                </mat-slide-toggle>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="my-8 border-t"></div>
+
+        <!-- Actions -->
+        <div class="flex items-center justify-end">
+            <button
+                mat-stroked-button
+                type="button">
+                Cancel
+            </button>
+            <button
+                class="ml-4"
+                mat-flat-button
+                type="button" [disabled]="true"
+                [color]="'primary'">Save
+            </button>
+        </div>
+
+
+        <!-- Section -->
+        <div class="w-full mt-20">
+            <div class="text-xl">Send SMS Message</div>
+            <div class="text-secondary">Broadcast SMS message to all the members of the selected category</div>
+        </div>
+        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+            <!-- Card holder -->
+            <div class="sm:col-span-4">
+                <mat-form-field class="fuse-mat-no-subscript fuse-mat-emphasized-affix w-full">
+                    <mat-label>Receipt</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:star'"
+                        matPrefix></mat-icon>
+                    <mat-select matInput [formControlName]="'searchType'" [placeholder]="'Select Receipt Category'">
+                        <mat-option>--- Select Receipt Category ---</mat-option>
+                        <mat-option value="1">All Reachable Voters (with Mobile Phones)</mat-option>
+                        <mat-option value="2">All Polling Agents</mat-option>
+                        <mat-option value="3">All Polling Station Incharges</mat-option>
+                        <mat-option value="4">All Political Workers</mat-option>
+                        <!--<mat-option value="5">Reachable Voters of polling Station</mat-option>
+                        <mat-option value="6">Polling Agents of polling Station</mat-option>-->
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="sm:col-span-4 hidden">
+                <mat-form-field class="fuse-mat-no-subscript fuse-mat-emphasized-affix w-full">
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:star'"
+                        matPrefix></mat-icon>
+                    <mat-select matInput [formControlName]="'pollingStation'" [placeholder]="'Type'">
+                        <mat-option class="text-right">--- all ---</mat-option>
+                        <mat-option value="1" class="text-right">With Complete Polling Agents</mat-option>
+                        <mat-option value="2" class="text-right">With Incomplete Polling Agents</mat-option>
+                        <mat-option value="3" class="text-right">Without Any Polling Agents</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <!-- Card number -->
+            <div class="sm:col-span-4">
+                <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript w-full flex-auto">
+                    <mat-label>Message</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:mail'"
+                        matPrefix></mat-icon>
+                    <textarea
+                        matInput
+                        [formControlName]="'messageTxt'"
+                        matTextareaAutosize
+                        [matAutosizeMinRows]="5"></textarea>
+                </mat-form-field>
+                <div class="mt-1 text-md text-hint">Write short message in Urdu or English.</div>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="my-8 border-t"></div>
+
+        <!-- Actions -->
+        <div class="flex items-center justify-end">
+            <button
+                mat-stroked-button
+                type="button">
+                Reset
+            </button>
+            <button
+                class="ml-4"
+                mat-flat-button
+                type="button" [disabled]="true"
+                [color]="'primary'">Send
+            </button>
+        </div>
+    </form>
+
+</div>

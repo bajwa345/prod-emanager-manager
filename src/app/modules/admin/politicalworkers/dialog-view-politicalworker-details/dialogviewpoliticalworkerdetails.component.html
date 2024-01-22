@@ -1,0 +1,30 @@
+<div class="relative flex flex-col w-full h-full">
+    <button mat-icon-button class="close-button mat-icon-close-button" (click)="closeDialog()">
+        <mat-icon class="close-icon" matPrefix [svgIcon]="'heroicons_solid:x'">X</mat-icon>
+    </button>
+
+    <h2 mat-dialog-title class="text-4xl text-center urdu mt-2 font-bold text-blue-500">ایپ یوزر کی تفصیل</h2>
+    <div class="dailog-body px-6 pb-6 pt-3 dir-rtl">
+        <table class="details-inner-tbl">
+            <tr>
+                <td class="urdu text-lg font-bold" style="width: 20%;">بلاک کوڈ نمبر</td>
+                <td class="font-bold" style="width: 30%;">{{model.blc_code}}</td>
+                <td class="urdu text-lg font-bold" style="width: 20%;"></td>
+                <td style="width: 30%;"></td>
+            </tr>
+            <tr><td class="urdu text-lg font-bold">پولنگ اسٹیشن</td>
+                <td colspan="3" class="urdu text-lg font-bold">{{model.blc_psNameUrdu}}</td>
+            </tr>
+            <tr><td class="urdu text-lg font-bold">ٹوٹل ووٹر کی تعداد</td>
+                <td class="font-bold">{{model.blc_population}}</td>
+                <td class="urdu text-lg font-bold">مرد ووٹر کی تعداد</td>
+                <td class="font-bold">{{model.blc_populationMale}}</td>
+            </tr>
+            <tr><td class="urdu text-lg font-bold">خواتین ووٹر کی تعداد</td>
+                <td class="font-bold">{{model.blc_populationFemale}}</td>
+                <td class="urdu text-lg font-bold">خاندان کی تعداد</td>
+                <td class="font-bold">{{model.blc_familiesCount}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

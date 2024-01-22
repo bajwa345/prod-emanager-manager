@@ -1,0 +1,41 @@
+<div class="w-full max-w-3xl">
+
+    <!-- Section -->
+    <div class="w-full">
+        <div class="text-secondary">If you need any assistance in operations or encounter any problem,<br/> Feel free to contact us;</div>
+    </div>
+
+    <!-- Contact US -->
+    <div class="flex flex-col mt-8 divide-y border-t border-b">
+        <ng-container *ngFor="let member of members; trackBy: trackByFn;">
+            <div class="flex flex-col sm:flex-row sm:items-center py-4">
+                <div class="flex items-center">
+                    <div class="flex flex-0 items-center justify-center w-12 h-12 rounded-full overflow-hidden">
+                        <ng-container *ngIf="member.avatar">
+                            <img
+                                class="object-cover w-full h-full"
+                                [src]="member.avatar"
+                                alt="{{member.name}}"/>
+                        </ng-container>
+                        <ng-container *ngIf="!member.avatar">
+                            <div class="flex items-center justify-center w-full h-full rounded-full text-3xl font-bold uppercase bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">
+                                {{member.name.charAt(0)}}
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="ml-5">
+                        <div class="text-lg font-medium">{{member.name}}</div>
+                        <div class="text-secondary">{{member.mobile}}</div>
+                        <ng-container *ngIf="member.mobile2">
+                            <div class="text-secondary">{{member.mobile2}}</div>
+                        </ng-container>
+                        <ng-container *ngIf="member.email">
+                            <div class="text-secondary">{{member.email}}</div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
+</div>
