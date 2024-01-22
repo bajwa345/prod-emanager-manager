@@ -1,0 +1,81 @@
+<div class="relative flex flex-col flex-auto min-w-0 overflow-hidden">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pt-6 pb-1 sm:px-12 dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
+                    Food Incharge Report (Election Day)
+
+                    <div class="top-button-container" style="display: block; float: right;">
+                        <button class="hidden sm:inline-flex ml-3" mat-stroked-button
+                            (click)="downloadReport(null)">
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:download'"></mat-icon>
+                            <span class="ml-2">Download</span>
+                        </button>
+                    </div>
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="relative pt-4 pb-12 sm:pt-4 sm:pb-16 sm:px-10 overflow-hidden">
+        <div class="sm:col-span-6 flex flex-col mt-4 flex-auto bg-card shadow rounded-2xl overflow-hidden">
+
+            <div class="flex flex-col flex-auto overflow-x-auto">
+                <table dir="rtl" class="min-w-240 min-h-30 overflow-y-visible static-table">
+                    <tr class="st-header-row">
+                        <th class="st-header-cell text-center">#</th>
+                        <th class="st-header-cell urdu text-lg px-2">پولنگ لوکیشن</th>
+                        <th class="st-header-cell urdu text-lg px-2">انچارج</th>
+                        <th class="st-header-cell urdu text-lg px-2 min-w-30">موبائل نمبر</th>
+                        <th class="st-header-cell urdu text-lg px-2 min-w-40">کھانے کی تفصیل (افراد)</th>
+                        <th class="st-header-cell urdu min-w-20"></th>
+                    </tr>
+
+                    <ng-container *ngIf="isLoading">
+                        <tr class="st-row"><td colspan="6" class="st-cell text-center text-primary dir-ltr">Loading data ...</td></tr>
+                    </ng-container>
+
+                    <ng-container *ngFor="let item of data.items; let i = index;">
+                        <tr class="st-row">
+                            <td class="st-cell text-center">{{(i+1)}}</td>
+                            <td class="st-cell urdu text-lg font-semibold">{{item.plc_name}}</td>
+                            <td class="st-cell p-0 image-cell">
+                                <ng-container *ngIf="(item.pli_inchargeName && item.pli_inchargeName != '');else noname_image">
+                                    <p class="urdu text-xl font-bold">{{item.pli_inchargeName}}</p>
+                                </ng-container>
+                                <ng-template #noname_image>
+                                    <ng-container *ngIf="(item.pli_inchargeNameUrl); else noname_alt">
+                                        <img class="row_urdu_blob" src="{{storageUrl}}{{item.pli_inchargeNameUrl}}"/>
+                                    </ng-container>
+                                </ng-template>
+                                <ng-template #noname_alt>
+                                    <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + item.pli_inchargeNameBlob}}"/>
+                                </ng-template>
+                            </td>
+                            <td class="st-cell font-semibold">{{item.pli_inchargeMobile ? (item.pli_inchargeMobile | mobile) : (item.pli_inchargeName || item.pli_inchargeNameUrl ? '---' : '')}}</td>
+                            <td class="st-cell urdu text-lg font-semibold">
+                                <ng-container *ngIf="item.food_required"><span class="english"> {{item.food_required}} </span>افراد کا کھانا</ng-container>
+                            </td>
+                            <td class="st-cell">
+                                <div #listItem>
+                                    <button class="px-1 py-2 mx-0.5 text-sm text-blue-400 bg-blue-50 dark:text-blue-50 dark:bg-blue-500 list-btn"
+                                        mat-flat-button (click)="updateDetails(item, listItem)">Update</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-container>
+
+                    <tr class="st-row">
+                        <td class="st-cell" colspan="4"></td>
+                        <td class="st-cell urdu text-lg font-semibold" colspan="2"><span class="english"> {{total_food_required}} </span>افراد کا کھانا ٹوٹل</td>
+                    </tr>
+                </table>
+            </div>
+
+    </div>
+
+</div>

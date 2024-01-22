@@ -1,0 +1,98 @@
+<div class="relative flex flex-col w-full h-full">
+    <button mat-icon-button class="close-button mat-icon-close-button" (click)="closeDialog()">
+        <mat-icon class="close-icon" matPrefix [svgIcon]="'heroicons_solid:x'">X</mat-icon>
+    </button>
+
+    <h2 mat-dialog-title class="text-4xl urdu text-center pt-2 pb-2 font-bold text-blue-500">رپورٹ کی ترمیم</h2>
+
+    <div id="div-message" #messageDiv></div>
+
+    <div class="dailog-body px-6 pt-2 dir-rtl" id="form-container" #formContainer>
+
+        <form [formGroup]="form"  class="w-full max-w-sm">
+            <div class="md:flex md:items-center mb-3">
+                <div class="md:w-1/3 pb-1">
+                    <mat-label class="urdu text-lg font-bold pr-1">رپورٹ کی قسم <span class="text-red-400 mr-1">*</span></mat-label>
+                </div>              
+                <div class="md:w-2/3">
+                    <mat-form-field class="flex-auto text-sm gt-xs:pr-3 text-right w-full md:w-50">
+                        <mat-select formControlName="requestType" [placeholder]="'قسم'">
+                            <mat-option value="transfer vote" class="text-right">Transfer Vote</mat-option>
+                            <mat-option value="new cnic" class="text-right">New CNIC</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="md:flex md:items-center mb-3">
+                <div class="md:w-1/3 pb-1">
+                    <mat-label class="urdu text-lg font-bold pr-1">شناختی کارڈ نمبر </mat-label>
+                </div>              
+                <div class="md:w-2/3">
+                    <mat-form-field class="flex-auto text-sm gt-xs:pr-3 text-right w-full md:w-50">
+                        <input matInput formControlName="cnicNumber" mask='00000-0000000-0' placeholder="XXXXX-XXXXXXX-X" autocomplete="off" class="dir-ltr">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="md:flex md:items-center mb-3">
+                <div class="md:w-1/3 pb-1">
+                    <mat-label class="urdu text-lg font-bold pr-1">موبائل نمبر <span class="text-red-400 mr-1">*</span></mat-label>
+                </div>              
+                <div class="md:w-2/3">
+                    <mat-form-field class="flex-auto text-sm gt-xs:pr-3 text-right w-full md:w-50">
+                        <input matInput formControlName="mobileNumber" mask='0000-0000000' placeholder="03XX-XXXXXXX" autocomplete="off" class="dir-ltr">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="md:flex md:items-center mb-3">
+                <div class="md:w-1/3 pb-1">
+                    <mat-label class="urdu text-lg font-bold pr-1">درخواست گزار کا نام <span class="text-red-400 mr-1">*</span></mat-label>
+                </div>              
+                <div class="md:w-2/3">
+                    <mat-form-field class="flex-auto text-sm gt-xs:pr-3 text-right w-full md:w-50">
+                        <input matInput formControlName="fullName" placeholder="Full Name" autocomplete="off" class="dir-ltr">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="md:flex md:items-center mb-3">
+                <div class="md:w-1/3 pb-1">
+                    <mat-label class="urdu text-lg font-bold pr-1">پارٹی سے وابستگی</mat-label>
+                </div>              
+                <div class="md:w-2/3">
+                    <mat-form-field class="flex-auto text-sm gt-xs:pr-3 text-right w-full md:w-50">
+                        <mat-select formControlName="partyAffiliation" [placeholder]="'پارٹی سے وابستگی'">
+                            <mat-option value="pti" class="text-left text-red-500">PTI</mat-option>
+                            <mat-option value="other" class="text-left  text-blue-500">Other</mat-option>
+                            <mat-option value="no answer" class="text-left text-green-500">No Answer</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="md:flex md:items-center mb-3">
+                <div class="md:w-1/3 pb-1">
+                    <mat-label class="urdu text-lg font-bold pr-1">رضاکار بننا چاہتے ہیں؟</mat-label>
+                </div>              
+                <div class="md:w-2/3">
+                    <mat-form-field class="flex-auto text-sm gt-xs:pr-3 text-right w-full md:w-50">
+                        <mat-select formControlName="readyVolunteer" [placeholder]="'رضاکار بننا چاہتے ہیں؟'">
+                            <mat-option value="1" class="text-left text-red-500">Yes</mat-option>
+                            <mat-option value="0" class="text-left  text-blue-500">No</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="hidden md:flex md:items-center mb-3">
+                <div class="md:w-1/3 pb-1">
+                    <mat-label class="urdu text-lg font-bold pr-1">تفصیلات</mat-label>
+                </div>              
+                <div class="md:w-2/3">
+                    <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript flex-auto text-sm gt-xs:pr-3 text-right w-full md:w-50">
+                        <textarea matInput formControlName="details" matTextareaAutosize [matAutosizeMinRows]="2" class="dir-ltr"></textarea>                           
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div mat-dialog-actions class="flex items-right mt-1 mb-1 px-4 space-x-2 ng-star-inserted">
+    <button mat-flat-button class="bg-blue-400 text-white text-md" (click)="onSubmit()">Update Request</button>
+</div>

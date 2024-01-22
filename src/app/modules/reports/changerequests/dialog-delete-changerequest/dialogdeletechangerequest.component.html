@@ -1,0 +1,17 @@
+<div class="relative flex flex-col w-full h-full">
+    <button mat-icon-button class="close-button mat-icon-close-button" (click)="closeDialog()">
+        <mat-icon class="close-icon" matPrefix [svgIcon]="'heroicons_solid:x'">X</mat-icon>
+    </button>
+
+    <h2 mat-dialog-title class="text-4xl urdu text-center pt-3 font-bold text-blue-500">ڈیلیٹ یوزر</h2>
+
+    <div id="div-message" #messageDiv></div>
+
+    <div class="dailog-body px-6 pt-3" id="form-container" #formContainer>
+        <p class="urdu font-semibold text-3xl">کیا آپ واقعی ایپلیکیشن صارف کو ڈیلیٹ کرنا چاہتے ہیں؟</p>
+    </div>
+</div>
+<div mat-dialog-actions class="flex mb-1 px-4 space-x-2 ng-star-inserted">
+    <button mat-flat-button class="bg-blue-400 text-white text-md" (click)="onSubmit()">Confirm</button>
+</div>
+

@@ -1,0 +1,193 @@
+<div class="relative flex flex-col flex-auto min-w-0 overflow-hidden">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pt-6 pb-1 sm:px-12 dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
+                    New CNIC/Transfer Vote Requests
+
+                    <div class="top-button-container mt-5 md:mt-0" style="display: block; float: right;">
+                        <button (click)="newRequest()" mat-flat-button class="text-primary-900 bg-primary-200 dark:text-primary-50 dark:bg-primary-400" aria-label="New Mobile Application User">
+                            <mat-icon class="icon-size-5 mr-1" [svgIcon]="'heroicons_solid:plus'"></mat-icon>New Request
+                        </button>
+                    </div>
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Body -->
+    <div class="relative pt-4 pb-12 sm:pt-4 sm:pb-16 px-2 sm:px-10 overflow-hidden">
+
+        <form class="flex flex-col mt-4 pb-4 overflow-hidden">
+            <div class="grid grid-cols-8 lg:grid-cols-9 t-xs:flex-row dir-rtl">
+                <mat-form-field class="flex-auto col-span-8 md:col-span-4 lg:col-span-2 gt-xs:pr-3 text-sm mr-2 ml-2">
+                    <input class="urdu text-lg text-right" matInput [formControl]="startDate" [matDatepicker]="spicker" [placeholder]="'آغاز تاریخ'">
+                        <mat-datepicker-toggle matSuffix [for]="spicker"></mat-datepicker-toggle>
+                        <mat-datepicker #spicker></mat-datepicker>
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto col-span-8 md:col-span-4 lg:col-span-2 gt-xs:pr-3 text-sm mr-2 ml-2">
+                    <input class="urdu text-lg text-right" matInput [formControl]="endDate" [matDatepicker]="epicker" [placeholder]="'آخری تاریخ'">
+                        <mat-datepicker-toggle matSuffix [for]="epicker"></mat-datepicker-toggle>
+                        <mat-datepicker #epicker></mat-datepicker>
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto hidden md:block col-span-4 lg:col-span-3 text-sm gt-xs:pr-3 mr-2 ml-2 text-right">
+                    <input class="urdu text-lg dir-ltr" matInput [formControl]="name" [placeholder]="'درخواست گزار کا نام'">
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:user'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto col-span-8 md:col-span-4 lg:col-span-2 text-sm gt-xs:pr-3 mr-2 ml-2 text-right">
+                    <input class="urdu text-lg dir-ltr" matInput [formControl]="cnicNumber" mask='00000-0000000-0' [placeholder]="'شناختی کارڈ نمبر'">
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:identification'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto col-span-8 md:col-span-4 lg:col-span-2 text-sm gt-xs:pr-3 mr-2 ml-2 text-right">
+                    <input class="urdu text-lg dir-ltr" matInput [formControl]="mobileNumber" mask='0000-0000000' [placeholder]="'رابطہ نمبر'">
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:phone'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto col-span-8 md:col-span-4 lg:col-span-3 gt-xs:pr-3 text-sm mr-2 ml-2">
+                    <mat-select class="urdu text-lg" [formControl]="appUser" [placeholder]="'ایپ صارف'">
+                        <mat-option class="text-right">------</mat-option>
+                        <mat-option class="text-right text-md" *ngFor="let dd of ddAppUsers" [value]="dd.id">{{dd.description}}</mat-option>
+                    </mat-select>
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto hidden md:block col-span-4 lg:col-span-2 text-sm gt-xs:pr-3 mr-2 ml-2 text-right">
+                    <mat-select class="urdu text-lg" [formControl]="requestType" [placeholder]="'قسم'">
+                        <mat-option class="text-right text-md">------</mat-option>
+                        <mat-option value="new cnic" class="text-right text-md">New CNIC</mat-option>
+                        <mat-option value="transfer vote" class="text-right text-md">Transfer Vote</mat-option>
+                    </mat-select>
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:adjustments'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto col-span-8 md:col-span-4 lg:col-span-2 text-sm gt-xs:pr-3 mr-2 ml-2 text-right">
+                    <mat-select class="urdu text-lg" [formControl]="requestStatus" [placeholder]="'حالت'">
+                        <mat-option class="text-right text-md">------</mat-option>
+                        <mat-option value="new" class="text-right text-md">New Requests</mat-option>
+                        <mat-option value="processing" class="text-right text-md">Processing</mat-option>
+                        <mat-option value="done" class="text-right text-md">Done</mat-option>
+                    </mat-select>
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:star'"></mat-icon>
+                </mat-form-field>
+                <div class="flex col-span-9 mr-1 justify-end">
+                    <button class="px-8 mr-2 ml-2"
+                        mat-flat-button
+                        name="btn-clear" ngDefaultControl
+                        (click)="clear()"
+                        [color]="'accent'" type="button">
+                        Clear
+                    </button>
+                    <button class="px-8 mr-2 ml-2"
+                        mat-flat-button
+                        name="btn-search" ngDefaultControl
+                        (click)="search()"
+                        [color]="'primary'" type="button">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <mat-divider class="mt-2 mb-12 mx-2"></mat-divider>
+
+        <div class="sm:col-span-6 flex flex-col mx-2 mt-4 flex-auto bg-card shadow rounded-2xl overflow-hidden">
+
+            <div class="flex flex-col flex-auto overflow-x-auto">
+                <table dir="rtl"
+                    class="min-w-240 min-h-30 overflow-y-visible"
+                    mat-table [dataSource]="dataSource" matSort matSortActive=""
+                    matSortDisableClear matSortDirection="desc">
+
+                    <ng-container matColumnDef="rownumber">
+                        <th mat-header-cell *matHeaderCellDef class="text-center">#</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">{{row.rownumber}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nvr_requestType">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="urdu text-lg pr-6">قسم</th>
+                        <td mat-cell *matCellDef="let row" class="font-semibold">{{row.nvr_requestType}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nvr_name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="urdu text-lg pr-6">نام</th>
+                        <td mat-cell *matCellDef="let row"
+                            [class.urdu]="this._sharedService.isEnglishString(row.nvr_name) == false"
+                            [class.text-lg]="this._sharedService.isEnglishString(row.nvr_name) == false"
+                            [class.font-semibold]="this._sharedService.isEnglishString(row.nvr_name) == false">{{row.nvr_name}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nvr_mobile">
+                        <th mat-header-cell *matHeaderCellDef class="urdu text-lg pr-2">موبائل فون نمبر</th>
+                        <td mat-cell *matCellDef="let row">{{row.nvr_mobile | mobile}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nvr_cnic">
+                        <th mat-header-cell *matHeaderCellDef class="urdu text-lg pr-2">شناختی کارڈ نمبر</th>
+                        <td mat-cell *matCellDef="let row">{{row.nvr_cnic | cnic}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nvr_reportTime">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="urdu text-lg">رپورٹ کا وقت</th>
+                        <td style="width: 160px; direction: ltr; text-align: center;" mat-cell *matCellDef="let row">{{row.nvr_reportTime | date:'short'}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nvr_status">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="urdu text-lg">حالت</th>
+                        <td mat-cell *matCellDef="let row">
+                            <ng-template [ngIf]="row.nvr_status == 'new'"><span class="text-red-500">New</span></ng-template>
+                            <ng-template [ngIf]="row.nvr_status == 'processing'"><span class="text-blue-500">Processing</span></ng-template>
+                            <ng-template [ngIf]="row.nvr_status == 'done'"><span class="text-green-500">Done</span></ng-template>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef disableClear></th>
+                        <td mat-cell style="width: 220px;" *matCellDef="let row">
+                            <div #listItem>
+                                <button name="btn-details" ngDefaultControl class="px-1 py-3 mx-0.5 text-sm text-amber-800 bg-amber-100 dark:text-amber-50 dark:bg-amber-500 list-btn"
+                                    mat-flat-button (click)="viewDetails(row, listItem)">Details</button>
+                                <!--<button name="btn-progress" ngDefaultControl class="px-1 py-3 mx-0.5 text-sm text-gray-600 bg-gray-200 dark:text-gray-100 dark:bg-gray-500 list-btn"
+                                    mat-flat-button (click)="progress(row, listItem)">Progress</button>-->
+                                <button name="btn-update" ngDefaultControl class="px-1 py-3 mx-0.5 text-sm text-gray-600 bg-gray-200 dark:text-gray-100 dark:bg-gray-500 list-btn"
+                                    mat-flat-button (click)="updateDetails(row, listItem)">Update</button>
+                                 <!--<button name="btn-delete" ngDefaultControl class="px-1 py-3 mx-0.5 text-sm text-amber-800 bg-red-100 dark:text-red-50 dark:bg-red-500 list-btn"
+                                    mat-flat-button (click)="deleteRequest(row, listItem)">Delete</button>-->
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="noData">
+                        <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length" class="text-center text-md p-9 dir-ltr">
+                          No records found.
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="loading">
+                        <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length" class="text-center text-md p-9 dir-ltr">
+                          Loading, please wait...
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr mat-footer-row *matFooterRowDef="['loading']" [hidden]="isLoading == false && dataSource !== undefined"></tr>
+                    <tr mat-footer-row *matFooterRowDef="['noData']" [hidden]="isLoading == true || (dataSource && dataSource.data.length > 0)"></tr>
+                </table>
+
+                <div *ngIf="isLoading" class="py-14"
+                    style="display: block; position: absolute; width: 100%; padding-left: 43% !important; margin-top: 16px !important;">
+                    <mat-progress-spinner
+                        diameter="60"
+                        mode="indeterminate">
+                    </mat-progress-spinner>
+                </div>
+
+            </div>
+            <mat-paginator [length]="resultsLength" [pageSize]="25" aria-label="Select page of search results">
+            </mat-paginator>
+        </div>
+
+    </div>
+</div>

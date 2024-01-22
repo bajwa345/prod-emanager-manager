@@ -1,0 +1,41 @@
+<div class="relative flex flex-col w-full h-full">
+    <button mat-icon-button class="close-button mat-icon-close-button" (click)="closeDialog()">
+        <mat-icon class="close-icon" matPrefix [svgIcon]="'heroicons_solid:x'">X</mat-icon>
+    </button>
+
+    <h2 mat-dialog-title class="text-4xl urdu text-center pb-2 font-bold text-blue-500">اپڈیٹ ریکارڈ</h2>
+
+    <div id="div-message" #messageDiv></div>
+
+    <div class="dailog-body px-5 pt-3 pb-1 dir-rtl" id="form-container" #formContainer>
+
+        <form [formGroup]="form" class="w-full">
+            <div class="md:flex md:items-center mb-3">
+                <div class="md:w-1/4 pb-1">
+                    <mat-label class="urdu text-lg font-bold text-secondary pr-1">پولنگ لوکیشن <span class="text-red-400 mr-1">*</span></mat-label>
+                </div>              
+                <div class="md:w-3/4">
+                    <mat-form-field class="flex-auto text-sm lg-select gt-xs:pr-3 fuse-mat-textarea text-right w-full">
+                        <mat-select [formControlName]="'plcId'" [disabled]="'true'" [placeholder]="'پولنگ لوکیشن'">
+                            <mat-option class="fulltext text-right" *ngFor="let dd of ddPollingLocations" [value]="dd.id">{{dd.description}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="md:flex md:items-center mb-3">
+                <div class="md:w-1/4 pb-1">
+                    <mat-label class="urdu text-lg font-bold text-secondary pr-1">افراد کا کھانا <span class="text-red-400 mr-1">*</span></mat-label>
+                </div>              
+                <div class="md:w-3/4">
+                    <mat-form-field class="flex-auto text-sm gt-xs:pr-3 text-right w-30">
+                        <input matInput type="number" formControlName="demand" placeholder="" autocomplete="off" class="dir-ltr">
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div mat-dialog-actions class="flex items-right mb-1 px-4 space-x-2 ng-star-inserted">
+    <button mat-flat-button class="bg-blue-400 text-white text-md" (click)="onSubmit()">Update Details</button>
+</div>

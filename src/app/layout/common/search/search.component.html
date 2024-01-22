@@ -1,0 +1,314 @@
+<!-- Bar search -->
+<ng-container *ngIf="appearance === 'bar'">
+    <button
+        mat-icon-button
+        *ngIf="!opened"
+        (click)="open()">
+        <mat-icon [svgIcon]="'heroicons_outline:search'"></mat-icon>
+    </button>
+    <div
+        class="absolute inset-0 flex items-center flex-shrink-0 z-99 bg-card"
+        *ngIf="opened"
+        @slideInTop
+        @slideOutTop>
+        <mat-icon
+            class="absolute ml-6 sm:ml-8"
+            [svgIcon]="'heroicons_outline:search'"></mat-icon>
+        <input
+            class="w-full h-full px-16 sm:px-18" maxlength="13"
+            [formControl]="searchControl"
+            [matAutocomplete]="matAutocomplete"
+            [placeholder]="'Enter CNIC/Mobile Number'"
+            (keyup)="onKeyup($event)"
+            (keydown)="onKeydown($event)"
+            #barSearchInput>
+        <mat-autocomplete
+            class="max-h-128 sm:px-2 border-t rounded-b shadow-md"
+            [disableRipple]="true"
+            #matAutocomplete="matAutocomplete">
+            <mat-option
+                class="py-0 px-6 text-md pointer-events-none text-secondary bg-transparent"
+                *ngIf="resultSets && !resultSets.length">
+                No results found!
+            </mat-option>
+            <ng-container *ngFor="let resultSet of resultSets; trackBy: trackByFn">
+                <mat-optgroup class="flex items-center mt-2 px-2">
+                    <span class="text-sm font-semibold tracking-wider text-secondary">{{resultSet.label.toUpperCase()}}</span>
+                </mat-optgroup>
+                <ng-container *ngFor="let result of resultSet.results; trackBy: trackByFn">
+                    <mat-option
+                        class="group relative mb-1 py-0 px-6 text-md rounded-md hover:bg-gray-100 dark:hover:bg-hover" style="height: unset; background-color: #f7f7f7;"
+                        [routerLink]="result.link">
+                        <!-- cnic_matches -->
+                        <ng-container *ngIf="resultSet.id === 'cnic_matches'">
+                            <ng-container *ngTemplateOutlet="cnicResult; context: {$implicit: result}"></ng-container>
+                        </ng-container>
+                        <!-- mobile_matches -->
+                        <ng-container *ngIf="resultSet.id === 'mobile_matches'">
+                            <ng-container *ngTemplateOutlet="mobileResult; context: {$implicit: result}"></ng-container>
+                        </ng-container>
+                    </mat-option>
+                </ng-container>
+            </ng-container>
+        </mat-autocomplete>
+        <button
+            class="absolute top-1/2 right-5 sm:right-7 flex-shrink-0 w-10 h-10 -mt-5"
+            mat-icon-button
+            (click)="close()">
+            <mat-icon [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+</ng-container>
+
+<!-- Basic search -->
+<ng-container *ngIf="appearance === 'basic'">
+    <div class="w-full sm:min-w-80">
+        <mat-form-field class="fuse-mat-no-subscript w-full">
+            <mat-icon
+                matPrefix
+                [svgIcon]="'heroicons_outline:search'"></mat-icon>
+            <input
+                matInput
+                [formControl]="searchControl"
+                [matAutocomplete]="matAutocomplete"
+                [placeholder]="'Enter CNIC/Mobile Number'"
+                (keydown)="onKeydown($event)">
+        </mat-form-field>
+        <mat-autocomplete
+            class="max-h-128 mt-1 rounded"
+            [disableRipple]="true"
+            #matAutocomplete="matAutocomplete">
+            <mat-option
+                class="py-0 px-6 text-md pointer-events-none text-secondary bg-transparent"
+                *ngIf="resultSets && !resultSets.length">
+                No results found!
+            </mat-option>
+            <ng-container *ngFor="let resultSet of resultSets; trackBy: trackByFn">
+                <mat-optgroup class="flex items-center mt-2 px-2">
+                    <span class="text-sm font-semibold tracking-wider text-secondary">{{resultSet.label.toUpperCase()}}</span>
+                </mat-optgroup>
+                <ng-container *ngFor="let result of resultSet.results; trackBy: trackByFn">
+                    <mat-option
+                        class="group relative mb-1 py-0 px-6 text-md rounded-md hover:bg-gray-100 dark:hover:bg-hover">
+                        <!-- cnic_matches -->
+                        <ng-container *ngIf="resultSet.id === 'cnic_matches'">
+                            <ng-container *ngTemplateOutlet="cnicResult; context: {$implicit: result}"></ng-container>
+                        </ng-container>
+                        <!-- mobile_matches -->
+                        <ng-container *ngIf="resultSet.id === 'mobile_matches'">
+                            <ng-container *ngTemplateOutlet="mobileResult; context: {$implicit: result}"></ng-container>
+                        </ng-container>
+                    </mat-option>
+                </ng-container>
+            </ng-container>
+        </mat-autocomplete>
+    </div>
+</ng-container>
+
+<!-- Cnic result template -->
+<ng-template
+    #cnicResult
+    let-result>
+    <a class="flex items-center" style="height: auto; min-height: 48px;" [routerLink]="['/search-voter', result.vtr_cnic]">
+        <div class="flex flex-shrink-0 items-center justify-center w-8 h-8 rounded-full overflow-hidden bg-primary-100 dark:bg-primary-800">
+            <mat-icon
+                class="m-0 icon-size-5 text-primary dark:text-primary-400"
+                [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-2 gap-y-0 w-full ml-2 d-rtl">
+            <div class="flex flex-row">
+                <span class="urdu text-lg px-3 font-bold">نام</span>
+                <ng-container *ngIf="(result.vtr_nameUrdu);else noname_image">
+                    <span class="urdu text-xl font-bold">{{result.vtr_nameUrdu}}</span>
+                </ng-container>
+                <ng-template #noname_image>
+                    <ng-container *ngIf="(result.vtr_nameUrl); else noname_alt">
+                        <img class="row_urdu_blob w-fitcontent" src="{{storageUrl}}{{result.vtr_nameUrl}}"/>
+                    </ng-container>
+                </ng-template>
+                <ng-template #noname_alt>
+                    <img class="row_urdu_blob w-fitcontent" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + result.vtr_nameBlob}}"/>
+                </ng-template>
+            </div>            
+            <div class="flex flex-row">
+                <span class="urdu text-lg px-2 font-bold float-right">والد/ شوہر </span>
+                <ng-container *ngIf="(result.vtr_fatherUrdu);else nofather_image">
+                    <span class="urdu text-xl font-bold">{{result.vtr_fatherUrdu}}</span>
+                </ng-container>
+                <ng-template #nofather_image>
+                    <ng-container *ngIf="(result.vtr_fatherUrl); else nofather_alt">
+                        <img class="row_urdu_blob w-fitcontent" src="{{storageUrl}}{{result.vtr_fatherUrl}}"/>
+                    </ng-container>
+                </ng-template>
+                <ng-template #nofather_alt>
+                    <img class="row_urdu_blob w-fitcontent" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + result.vtr_fatherBlob}}"/>
+                </ng-template>
+            </div>
+            <div class="flex flex-row">
+                <span class="urdu text-lg px-3 font-bold float-right">سلسلہ نمبر</span>
+                <ng-container *ngIf="(result.vtr_silsilaUrl);else nosilsila_image">
+                    <img class="row_urdu_blob w-fitcontent" src="{{storageUrl}}{{result.vtr_silsilaUrl}}"/>
+                </ng-container>
+                <ng-template #nosilsila_image>
+                    <span class="text-md font-bold">{{result.vtr_silsila}}</span>
+                </ng-template>
+            </div>
+            <div class="flex flex-row">
+                <span class="urdu text-lg px-3 font-bold float-right">گھرانہ نمبر</span>
+                <ng-container *ngIf="(result.vtr_giranaUrl);else nogirana_image">
+                    <img class="row_urdu_blob w-fitcontent" src="{{storageUrl}}{{result.vtr_giranaUrl}}"/>
+                </ng-container>
+                <ng-template #nogirana_image>
+                    <span class="text-md font-bold">{{result.vtr_girana}}</span>
+                </ng-template>
+            </div>
+            <div class="flex flex-row">
+                <ng-container *ngIf="(result.vtr_cnicUrl);else nocnic_image">
+                    <img class="row_urdu_blob w-fitcontent flex" src="{{storageUrl}}{{result.vtr_cnicUrl}}"/>
+                </ng-container>
+                <ng-template #nocnic_image>
+                    <span [innerHTML]="result.vtr_cnic"></span>
+                </ng-template>
+            </div>            
+        </div>
+    </a>
+</ng-template>
+
+<!--
+<ng-template
+    #cnicResult
+    let-result>
+    <a class="flex items-center" [routerLink]="['/search-voter', result.vtr_cnic]">
+        <div class="flex flex-shrink-0 items-center justify-center w-8 h-8 rounded-full overflow-hidden bg-primary-100 dark:bg-primary-800">
+            <mat-icon
+                class="m-0 icon-size-5 text-primary dark:text-primary-400"
+                [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+        </div>
+        <div class="ml-2 truncate">
+            <ng-container *ngIf="(result.vtr_cnicUrl);else nocnic_image">
+                <img class="row_urdu_blob mt-0 min-w-20" src="{{storageUrl}}{{result.vtr_cnicUrl}}"/>
+            </ng-container>
+            <ng-template #nocnic_image>
+                <span [innerHTML]="result.vtr_cnic"></span>
+            </ng-template>
+        </div>
+        <div class="ml-8 pt-4 dir-rtl" dir="rtl">
+            <div class="ml-6 truncate inline-block">
+                <span class="urdu text-lg px-3 font-bold float-right">نام</span>
+                <ng-container *ngIf="(result.vtr_nameUrdu);else noname_image">
+                    <span class="urdu text-xl font-bold">{{result.vtr_nameUrdu}}</span>
+                </ng-container>
+                <ng-template #noname_image>
+                    <ng-container *ngIf="(result.vtr_nameUrl); else noname_alt">
+                        <img class="row_urdu_blob min-w-20" src="{{storageUrl}}{{result.vtr_nameUrl}}"/>
+                    </ng-container>
+                </ng-template>
+                <ng-template #noname_alt>
+                    <img class="row_urdu_blob min-w-20" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + result.vtr_nameBlob}}"/>
+                </ng-template>
+            </div>
+            <div class="ml-6 truncate inline-block">
+                <span class="urdu text-lg px-3 font-bold float-right">والد/ شوہر کا نام</span>
+                <ng-container *ngIf="(result.vtr_fatherUrdu);else nofather_image">
+                    <span class="urdu text-xl font-bold">{{result.vtr_fatherUrdu}}</span>
+                </ng-container>
+                <ng-template #nofather_image>
+                    <ng-container *ngIf="(result.vtr_fatherUrl); else nofather_alt">
+                        <img class="row_urdu_blob min-w-20" src="{{storageUrl}}{{result.vtr_fatherUrl}}"/>
+                    </ng-container>
+                </ng-template>
+                <ng-template #nofather_alt>
+                    <img class="row_urdu_blob min-w-20" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + result.vtr_fatherBlob}}"/>
+                </ng-template>
+            </div>
+            <div class="ml-6 truncate inline-block">
+                <span class="urdu text-lg px-3 font-bold float-right">سلسلہ نمبر</span>
+                <ng-container *ngIf="(result.vtr_silsilaUrl);else nosilsila_image">
+                    <img class="row_urdu_blob min-w-20" src="{{storageUrl}}{{result.vtr_silsilaUrl}}"/>
+                </ng-container>
+                <ng-template #nosilsila_image>
+                    <span>{{result.vtr_silsila}}</span>
+                </ng-template>
+            </div>
+            <div class="ml-6 truncate inline-block">
+                <span class="urdu text-lg px-3 font-bold float-right">گھرانہ نمبر</span>
+                <ng-container *ngIf="(result.vtr_giranaUrl);else nogirana_image">
+                    <img class="row_urdu_blob min-w-20" src="{{storageUrl}}{{result.vtr_giranaUrl}}"/>
+                </ng-container>
+                <ng-template #nogirana_image>
+                    <span>{{result.vtr_girana}}</span>
+                </ng-template>
+            </div>
+        </div>
+    </a>
+</ng-template>
+-->
+
+<!-- Mobile result template -->
+<ng-template
+    #mobileResult
+    let-result>
+    <a class="flex items-center" [routerLink]="['/search-voter', result.vtr_cnic]">
+        <div class="flex flex-shrink-0 items-center justify-center w-8 h-8 rounded-full overflow-hidden bg-primary-100 dark:bg-primary-800">
+            <mat-icon
+                class="m-0 icon-size-5 text-primary dark:text-primary-400"
+                [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+        </div>
+        <div class="ml-2 truncate">
+            <ng-container *ngIf="(result.vtr_cnicUrl);else nocnic_image">
+                <img class="row_urdu_blob mt-0" src="{{storageUrl}}{{result.vtr_cnicUrl}}"/>
+            </ng-container>
+            <ng-template #nocnic_image>
+                <span [innerHTML]="result.vtr_cnic"></span>
+            </ng-template>
+        </div>
+        <div class="ml-8 pt-4 dir-rtl" dir="rtl">
+            <div class="ml-6 truncate inline-block">
+                <span class="urdu text-lg px-3 font-bold float-right">نام</span>
+                <ng-container *ngIf="(result.vtr_nameUrdu);else noname_image">
+                    <span class="urdu text-xl font-bold">{{result.vtr_nameUrdu}}</span>
+                </ng-container>
+                <ng-template #noname_image>
+                    <ng-container *ngIf="(result.vtr_nameUrl); else noname_alt">
+                        <img class="row_urdu_blob" src="{{storageUrl}}{{result.vtr_nameUrl}}"/>
+                    </ng-container>
+                </ng-template>
+                <ng-template #noname_alt>
+                    <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + result.vtr_nameBlob}}"/>
+                </ng-template>
+            </div>
+            <div class="ml-6 truncate inline-block">
+                <span class="urdu text-lg px-3 font-bold float-right">والد/ شوہر کا نام</span>
+                <ng-container *ngIf="(result.vtr_fatherUrdu);else nofather_image">
+                    <span class="urdu text-xl font-bold">{{result.vtr_fatherUrdu}}</span>
+                </ng-container>
+                <ng-template #nofather_image>
+                    <ng-container *ngIf="(result.vtr_fatherUrl); else nofather_alt">
+                        <img class="row_urdu_blob" src="{{storageUrl}}{{result.vtr_fatherUrl}}"/>
+                    </ng-container>
+                </ng-template>
+                <ng-template #nofather_alt>
+                    <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + result.vtr_fatherBlob}}"/>
+                </ng-template>
+            </div>
+            <div class="ml-6 truncate inline-block">
+                <span class="urdu text-lg px-3 font-bold float-right">سلسلہ نمبر</span>
+                <ng-container *ngIf="(result.vtr_silsilaUrl);else nosilsila_image">
+                    <img class="row_urdu_blob" src="{{storageUrl}}{{result.vtr_silsilaUrl}}"/>
+                </ng-container>
+                <ng-template #nosilsila_image>
+                    <span>{{result.vtr_silsila}}</span>
+                </ng-template>
+            </div>
+            <div class="ml-6 truncate inline-block">
+                <span class="urdu text-lg px-3 font-bold float-right">گھرانہ نمبر</span>
+                <ng-container *ngIf="(result.vtr_giranaUrl);else nogirana_image">
+                    <img class="row_urdu_blob" src="{{storageUrl}}{{result.vtr_giranaUrl}}"/>
+                </ng-container>
+                <ng-template #nogirana_image>
+                    <span>{{result.vtr_girana}}</span>
+                </ng-template>
+            </div>
+        </div>
+    </a>
+</ng-template>

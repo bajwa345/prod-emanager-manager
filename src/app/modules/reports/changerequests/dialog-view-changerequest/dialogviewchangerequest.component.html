@@ -1,0 +1,107 @@
+<div class="relative flex flex-col w-full h-full">
+    <button mat-icon-button class="close-button mat-icon-close-button" (click)="closeDialog()">
+        <mat-icon class="close-icon" matPrefix [svgIcon]="'heroicons_solid:x'">X</mat-icon>
+    </button>
+
+    <h2 mat-dialog-title class="text-4xl text-center urdu mt-1 font-bold text-blue-500">رپورٹ کی تفصیل</h2>
+    <div class="dailog-body pt-2 pb-4 px-5">
+        <div class="grid md:grid-cols-10 t-xs:flex-row dir-rtl">
+            <div class="flex-auto md:col-span-5">
+                <div class="grid gap-x-4 gap-y-1 sm:grid-cols-2 w-full">
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center mb-2">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">رپورٹ کی قسم</mat-label>
+                            </div>              
+                            <div class="w-2/3 font-semibold">{{model.nvr_requestType}}</div>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center mb-2">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">رپورٹ کا وقت</mat-label>
+                            </div>              
+                            <div class="w-2/3 font-semibold">{{model.nvr_reportTime | date:'short'}}</div>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center mb-2">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">درخواست گزار کا نام</mat-label>
+                            </div>              
+                            <div class="w-2/3 font-semibold">{{model.nvr_name}}</div>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center mb-2">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">شناختی کارڈ نمبر</mat-label>
+                            </div>              
+                            <div class="w-2/3 font-semibold">{{model.nvr_cnic != "" ? (model.nvr_cnic | cnic)  : '---'}}</div>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center mb-2">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">موبائل نمبر</mat-label>
+                            </div>              
+                            <div class="w-2/3 font-semibold">{{model.nvr_mobile | mobile}}</div>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center mb-2">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">پارٹی وابستگی</mat-label>
+                            </div>              
+                            <div class="w-2/3 font-semibold">{{model.nvr_partyAffiliation | uppercase}}</div>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center mb-2">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">رضاکارانہ طور پر تیار</mat-label>
+                            </div>              
+                            <div class="w-2/3 font-semibold">{{model.nvr_readyVolunteer? 'YES' : 'NO'}}</div>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center mb-2">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">حالت</mat-label>
+                            </div>              
+                            <div class="w-2/3 font-semibold">
+                                <ng-template [ngIf]="model.nvr_status == 'new'"><span class="text-red-500">New</span></ng-template>
+                                <ng-template [ngIf]="model.nvr_status == 'processing'"><span class="text-blue-500">Processing</span></ng-template>
+                                <ng-template [ngIf]="model.nvr_status == 'done'"><span class="text-green-500">Done</span></ng-template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center mb-2">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">تکمیل کی تاریخ</mat-label>
+                            </div>              
+                            <div class="w-2/3 font-semibold">{{model.nvr_resolveTime? (model.nvr_resolveTime | date:'short') : '---'}}</div>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <div class="flex items-center mb-2">
+                            <div class="w-1/3">
+                                <mat-label class="urdu text-lg font-bold text-secondary pr-1">تفصیلات</mat-label>
+                            </div>              
+                            <div class="w-2/3 font-semibold dir-ltr text-right">{{model.nvr_details? model.nvr_details : '---'}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-auto md:col-span-5 pt-5 hidden md:inline-block">
+                <div class="loc-container w-full">
+                    <ng-container *ngIf="(lat && lng);else noloc_message">
+                        <iframe class="w-full" height="336" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" id="gmap_canvas" [src]='secureUrl'></iframe><script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=63dc609237ea4eac295db70898fd702268efb054'></script>
+                    </ng-container>
+                    <ng-template #noloc_message>location not taken</ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

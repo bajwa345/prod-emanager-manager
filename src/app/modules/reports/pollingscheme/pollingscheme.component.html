@@ -1,0 +1,20 @@
+<div class="relative flex flex-col flex-auto min-w-0 overflow-hidden">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pt-6 pb-1 sm:px-12 dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
+                    Polling Scheme
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="grid px-10 pt-8">
+        <ngx-extended-pdf-viewer style="height: calc(100vh - 214px);" *ngIf="filePath" [src]="filePath" [showRotateButton]="false" [showPropertiesButton]="false" [showOpenFileButton]="false" [enableDragAndDrop]="false" [useBrowserLocale]="false"></ngx-extended-pdf-viewer>
+    </div>
+
+</div>
