@@ -18,8 +18,8 @@ body fuse-splash-screen {
 }
 
 body fuse-splash-screen img {
-    width: 180px;/*120px;*/
-    max-width: 180px;
+    width: 140px;/*120px;*/
+    max-width: 140px;
 }
 
 body fuse-splash-screen .spinner {
@@ -27,12 +27,12 @@ body fuse-splash-screen .spinner {
     align-items: center;
     justify-content: space-between;
     margin-top: 40px;
-    width: 56px;
+    width: 52px;
 }
 
 body fuse-splash-screen .spinner > div {
-    width: 12px;
-    height: 12px;
+    width: 11px;
+    height: 11px;
     background-color: #4a7abd;
     border-radius: 100%;
     display: inline-block;
