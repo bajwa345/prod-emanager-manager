@@ -25,7 +25,7 @@ export class SearchComponent implements OnChanges, OnInit, OnDestroy
     storageUrl = environment.storageUrl;
     opened: boolean = false;
     resultSets: any[];
-    searchControl: FormControl = new FormControl('', [Validators.maxLength(13), this.validateInput]);
+    searchControl: FormControl = new FormControl('', [Validators.maxLength(15), this.validateInput]);
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -115,7 +115,7 @@ export class SearchComponent implements OnChanges, OnInit, OnDestroy
                 filter(value => value && value.length >= this.minLength)
             )
             .subscribe((value) => {
-                this._httpClient.post(backEndUrl + '/common/search', {query: value})
+                this._httpClient.post(backEndUrl + '/common/search', {query: value.replace(/-/g, '')})
                     .subscribe((resultSets: any) => {
 
                         // Store the result sets
