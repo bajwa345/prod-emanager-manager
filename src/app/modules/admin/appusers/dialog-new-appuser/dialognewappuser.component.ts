@@ -40,8 +40,8 @@ export class DialogNewAppUserComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.form = this.formBuilder.group({
             userName: ['', Validators.compose([Validators.required, Validators.minLength(11), Validators.maxLength(11)])],
-            cnicNumber: ['', Validators.compose([Validators.required, Validators.minLength(13), Validators.maxLength(13)])],
-            fullName: ['', Validators.compose([Validators.required, Validators.maxLength(32)])],
+            cnicNumber: [''],//, Validators.compose([Validators.required, Validators.minLength(13), Validators.maxLength(13)])],
+            fullName: ['', Validators.compose([Validators.maxLength(32)])],//Validators.required,
             accessLevel: ['1'],
             pollingLocation: [''],
             electoralArea: [''],
