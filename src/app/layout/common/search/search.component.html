@@ -21,6 +21,7 @@
             [placeholder]="'Enter CNIC/Mobile Number'"
             (keyup)="onKeyup($event)"
             (keydown)="onKeydown($event)"
+            (paste)="onPaste($event)"
             #barSearchInput>
         <mat-autocomplete
             class="max-h-128 sm:px-2 border-t rounded-b shadow-md"
@@ -146,7 +147,7 @@
             </div>
             <div class="flex flex-row">
                 <span class="urdu text-lg px-3 font-bold float-right">سلسلہ نمبر</span>
-                <ng-container *ngIf="(result.vtr_silsilaUrl);else nosilsila_image">
+                <ng-container *ngIf="(result.vtr_silsilaUrl !== null && result.vtr_silsilaUrl !== '');else nosilsila_image">
                     <img class="row_urdu_blob w-fitcontent" src="{{storageUrl}}{{result.vtr_silsilaUrl}}"/>
                 </ng-container>
                 <ng-template #nosilsila_image>
@@ -155,7 +156,7 @@
             </div>
             <div class="flex flex-row">
                 <span class="urdu text-lg px-3 font-bold float-right">گھرانہ نمبر</span>
-                <ng-container *ngIf="(result.vtr_giranaUrl);else nogirana_image">
+                <ng-container *ngIf="(result.vtr_giranaUrl !== null && result.vtr_giranaUrl !== '');else nogirana_image">
                     <img class="row_urdu_blob w-fitcontent" src="{{storageUrl}}{{result.vtr_giranaUrl}}"/>
                 </ng-container>
                 <ng-template #nogirana_image>
@@ -163,7 +164,7 @@
                 </ng-template>
             </div>
             <div class="flex flex-row">
-                <ng-container *ngIf="(result.vtr_cnicUrl);else nocnic_image">
+                <ng-container *ngIf="(result.vtr_cnicUrl !== null && result.vtr_cnicUrl !== '');else nocnic_image">
                     <img class="row_urdu_blob w-fitcontent flex" src="{{storageUrl}}{{result.vtr_cnicUrl}}"/>
                 </ng-container>
                 <ng-template #nocnic_image>
@@ -255,7 +256,7 @@
                 [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
         </div>
         <div class="ml-2 truncate">
-            <ng-container *ngIf="(result.vtr_cnicUrl);else nocnic_image">
+            <ng-container *ngIf="(result.vtr_cnicUrl !== null && result.vtr_cnicUrl !== '');else nocnic_image">
                 <img class="row_urdu_blob mt-0" src="{{storageUrl}}{{result.vtr_cnicUrl}}"/>
             </ng-container>
             <ng-template #nocnic_image>
@@ -293,7 +294,7 @@
             </div>
             <div class="ml-6 truncate inline-block">
                 <span class="urdu text-lg px-3 font-bold float-right">سلسلہ نمبر</span>
-                <ng-container *ngIf="(result.vtr_silsilaUrl);else nosilsila_image">
+                <ng-container *ngIf="(result.vtr_silsilaUrl !== null && result.vtr_silsilaUrl !== '');else nosilsila_image">
                     <img class="row_urdu_blob" src="{{storageUrl}}{{result.vtr_silsilaUrl}}"/>
                 </ng-container>
                 <ng-template #nosilsila_image>
@@ -302,7 +303,7 @@
             </div>
             <div class="ml-6 truncate inline-block">
                 <span class="urdu text-lg px-3 font-bold float-right">گھرانہ نمبر</span>
-                <ng-container *ngIf="(result.vtr_giranaUrl);else nogirana_image">
+                <ng-container *ngIf="(result.vtr_giranaUrl !== null && result.vtr_giranaUrl !== '');else nogirana_image">
                     <img class="row_urdu_blob" src="{{storageUrl}}{{result.vtr_giranaUrl}}"/>
                 </ng-container>
                 <ng-template #nogirana_image>
