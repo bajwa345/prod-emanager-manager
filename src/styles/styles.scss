@@ -28,9 +28,10 @@
     color: #FFFFFF;
 }
 .row_urdu_blob{
-    height: 40px;
-    width: auto;
-    margin: 3px 0 !important
+    max-height: 40px;
+    width: auto !important;
+    margin: 3px 0 !important;
+    max-width: 130px !important;
 }
 .dir-rtl .mat-form-field.mat-form-field-appearance-fill .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-prefix > .mat-icon{
     margin-left: 12px;
