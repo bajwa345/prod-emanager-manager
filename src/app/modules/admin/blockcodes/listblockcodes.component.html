@@ -129,10 +129,14 @@
                                     mat-flat-button (click)="viewBlockCodeDetails(row, listItem)">Details</button>
                                 <!--<button name="btn-download-voter-list" ngDefaultControl class="px-1 py-3 mx-0.5 text-sm text-blue-800 bg-blue-100 dark:text-blue-50 dark:bg-blue-500 list-btn"
                                     mat-flat-button (click)="DownloadVoterList(row, listItem)">Voter List</button>-->
-                                <button name="btn-view-voter-list" ngDefaultControl class="px-1 py-3 mx-0.5 text-sm text-blue-800 dark:text-blue-50 dark:bg-blue-500 list-btn"
+                                <!--<button name="btn-view-voter-list" ngDefaultControl class="px-1 py-3 mx-0.5 text-sm text-blue-800 dark:text-blue-50 dark:bg-blue-500 list-btn"
                                 [class.bg-blue-100]="row.blc_parchiUrl == null"
                                 [class.bg-gray-300]="row.blc_parchiUrl != null"
-                                mat-flat-button (click)="DownloadVoterParchi(row, listItem)">Voter Parchi</button>
+                                mat-flat-button (click)="DownloadVoterParchi(row, listItem)">Voter Parchi</button>-->
+                                <a name="btn-view-voter-list" class="px-1 py-3 mx-0.5 text-sm text-blue-800 dark:text-blue-50 dark:bg-blue-500 list-btn"
+                                [class.bg-blue-100]="row.blc_parchiUrl == null"
+                                [class.bg-gray-300]="row.blc_parchiUrl != null"
+                                mat-flat-button href="https://api.voogleapp.com/api/voters/get-pdf-voter-parchi/{{row.cn_id}}/{{row.blc_code}}" target='_blank'>Voter Parchi</a>
                             </div>
                         </td>
                     </ng-container>
