@@ -92,7 +92,12 @@
                                     <img src="{{storageUrl}}{{item.vtr_silsilaUrl}}" style="float: right; height: 38px; width: auto; margin-top: -8px; margin-bottom: -2px;"/>
                                 </ng-container>
                                 <ng-template #nosilsila_alt>
-                                    <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + item.vtr_silsilaBlob}}" style="float: right; height: 38px; width: auto; margin-top: -8px; margin-bottom: -2px;"/>
+                                    <div *ngIf="(item.vtr_silsila); else nosilsila_alt2">
+                                       <span>{{item.vtr_silsila}}</span>
+                                    </div>
+                                    <ng-template #nosilsila_alt2>
+                                       <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + item.vtr_silsilaBlob}}" style="float: right; height: 38px; width: auto; margin-top: -8px; margin-bottom: -2px;"/>
+                                    </ng-template>
                                 </ng-template>
                             </td>
                         </tr>
@@ -104,7 +109,12 @@
                                     <img src="{{storageUrl}}{{item.vtr_giranaUrl}}" style="float: right; height: 38px; width: auto; margin-top: -8px; margin-bottom: -2px;"/>
                                 </ng-container>
                                 <ng-template #nogirana_alt>
-                                    <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + item.vtr_giranaBlob}}" style="float: right; height: 38px; width: auto; margin-top: -8px; margin-bottom: -2px;"/>
+                                    <div *ngIf="(item.vtr_girana); else nogirana_alt2">
+                                       <span>{{item.vtr_girana}}</span>
+                                    </div>
+                                    <ng-template #nogirana_alt2>
+                                        <img class="row_urdu_blob" onerror='this.style.display = "none"' src="{{'data:image/png;base64,' + item.vtr_giranaBlob}}" style="float: right; height: 38px; width: auto; margin-top: -8px; margin-bottom: -2px;"/>
+                                    </ng-template>
                                 </ng-template>
                             </td>
                         </tr>
