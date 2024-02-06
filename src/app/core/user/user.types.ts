@@ -17,6 +17,7 @@ export interface User
     party?: string;
     symbol?: string;
     level?: string;
+    constituencyid?: number;
     constituency?: string;
     constituencyMapUrl: string;
     licensecode: string;
