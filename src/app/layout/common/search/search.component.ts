@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations/public-api';
+import { User } from 'app/core/user/user.types';
+import { UserService } from 'app/core/user/user.service';
 
 import { environment } from 'environments/environment';
 const backEndUrl = environment.apiUrl;
@@ -34,9 +36,15 @@ export class SearchComponent implements OnChanges, OnInit, OnDestroy
     constructor(
         private _elementRef: ElementRef,
         private _httpClient: HttpClient,
+        private _userService: UserService,
         private _renderer2: Renderer2
     )
     {
+        this._userService.user$
+            .pipe((takeUntil(this._unsubscribeAll)))
+            .subscribe((user: User) => {
+                this.user = user;
+            })
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -115,7 +123,7 @@ export class SearchComponent implements OnChanges, OnInit, OnDestroy
                 filter(value => value && value.length >= this.minLength)
             )
             .subscribe((value) => {
-                this._httpClient.post(backEndUrl + '/common/search', {query: value.replace(/-/g, '')})
+                this._httpClient.post(backEndUrl + '/common/search', {query: value.replace(/-/g, ''), ictype : this.user.level, icnumber : this.user.constituencyid.toString()})
                     .subscribe((resultSets: any) => {
 
                         // Store the result sets
