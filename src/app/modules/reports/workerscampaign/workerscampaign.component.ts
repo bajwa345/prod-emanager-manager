@@ -107,15 +107,15 @@ export class WorkersCampaignReportComponent implements OnInit, AfterViewInit, On
                 this.resultsLength = data.rows_count;
                 this.dataSource.data = data.items;
               }
-              this.isLoading = false;
-              this.cdRef.detectChanges();
-  
               this.total_did_searches = data.stats.total_did_searches;
               this.total_updated_phones = data.stats.total_updated_phones;
               this.total_updated_locations = data.stats.total_updated_locations;
               this.total_sent_sms = data.stats.total_sent_sms;
               this.total_nonvoter_requests = data.stats.total_nonvoter_requests;
               
+              this.isLoading = false;
+              this.cdRef.detectChanges();
+  
               return data;
             })
           ).subscribe(data => {
