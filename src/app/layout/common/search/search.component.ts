@@ -24,6 +24,7 @@ export class SearchComponent implements OnChanges, OnInit, OnDestroy
     @Input() minLength: number = 4;
     @Output() search: EventEmitter<any> = new EventEmitter<any>();
 
+    user: User;
     storageUrl = environment.storageUrl;
     opened: boolean = false;
     resultSets: any[];
