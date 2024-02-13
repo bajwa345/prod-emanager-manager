@@ -180,6 +180,14 @@ export class SearchComponent implements OnChanges, OnInit, OnDestroy
         var valu = event.target.value;
     }
 
+    onPaste(event: ClipboardEvent): void {
+        event.preventDefault();
+
+        const pastedText = event.clipboardData?.getData('text/plain') || '';
+        const textWithoutHyphens = pastedText.replace(/-/g, '');
+        this.searchControl.setValue(textWithoutHyphens);
+    }
+
     validateInput(c: FormControl) {
         let MOBILE_NO_REGEX = /^[0-9]{4}-[0-9]{7}$/;
         let NIC_REGEX = /^[0-9]{5}-[0-9]{7}-[0-9]$/;
