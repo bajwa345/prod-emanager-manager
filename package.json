@@ -1,7 +1,7 @@
 {
     "name": "@fuse/starter",
     "version": "1.0.0",
-    "description": "Voogle",
+    "description": "e-Manager",
     "author": "Usman Bajwa",
     "private": true,
     "scripts": {
@@ -10,6 +10,10 @@
         "build": "ng build --prod --configuration production --aot true",
         "test": "ng test",
         "lint": "ng lint"
+    },
+    "engines" : {
+        "node": "16.4.2",
+        "npm": "7.x"
     },
     "dependencies": {
         "@agm/core": "^1.1.0",
