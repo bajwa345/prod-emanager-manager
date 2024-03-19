@@ -5,7 +5,7 @@ FROM nginx:alpine
 COPY dist/fuse /usr/share/nginx/html
 
 # Expose port 80
-EXPOSE 4200
+EXPOSE 80
 
 # Command to start Nginx when the container starts
 CMD ["nginx", "-g", "daemon off;"]
