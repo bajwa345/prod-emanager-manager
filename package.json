@@ -7,7 +7,7 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "build": "ng build --prod --configuration production --aot true",
+        "build": "ng build --prod --configuration production --aot true && mv dist/fuse _static",
         "test": "ng test",
         "lint": "ng lint"
     },
