@@ -109,7 +109,7 @@
                     "options": {
                         "disableHostCheck": true
                     },
-                    "defaultConfiguration": "production"
+                    "defaultConfiguration": "development"
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
